@@ -89,6 +89,9 @@ module.exports = async (ctx: PluginContext) => {
   ctx.LPTE.on('state-league', 'live-game-loaded', () => {
     inGameState = new InGameState(namespace, ctx, config, statics)
   })
+  ctx.LPTE.on('lcu', 'lcu-end-of-game-create', () => {
+    inGameState = new InGameState(namespace, ctx, config, statics)
+  })
 
   ctx.LPTE.on(namespace, 'allgamedata', (e) => {
     if (inGameState === undefined) {
