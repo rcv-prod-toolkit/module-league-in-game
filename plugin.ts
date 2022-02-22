@@ -1,6 +1,6 @@
-import type { PluginContext } from 'league-prod-toolkit/core/modules/Module'
+import type { PluginContext } from 'rcv-prod-toolkit-types'
 import { InGameState } from './controller/InGameState';
-import { AllGameData } from './types/AllGameData';
+import type { AllGameData } from './types/AllGameData';
 import type { Config } from './types/Config'
 
 const namespace = 'league-in-game';
