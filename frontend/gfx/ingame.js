@@ -60,7 +60,7 @@ function inhibUpdate (e) {
   inhib.querySelector('p').innerText = convertSecsToTime(e.respawnIn)
 }
 
-const turretDiv = document.querySelector('#turrets')
+/* const turretDiv = document.querySelector('#turrets')
 const blueTurrets = turretDiv.querySelector('#blueTurrets')
 const redTurrets = turretDiv.querySelector('#redTurrets')
 
@@ -69,12 +69,12 @@ function towerUpdate (e) {
   const value = team.querySelector('.value')
   const newValue = (Number(value.innerText) || 0) + 1
   value.innerText = newValue
-}
+} */
 
 function setGameState (e) {
   const state = e.state
 
-  for (const [teamId, team] of Object.entries(state.towers)) {
+  /* for (const [teamId, team] of Object.entries(state.towers)) {
     for (const lane of Object.values(team)) {
       const teamDiv = teamId === '100' ? redTurrets : blueTurrets
       const value = teamDiv.querySelector('.value')
@@ -89,7 +89,7 @@ function setGameState (e) {
 
       value.textContent = (Number(value.innerText) || 0)
     }
-  }
+  } */
 
   for (const [teamId, team] of Object.entries(state.inhibitors)) {
     for (const [lane, data] of Object.entries(team)) {
@@ -132,7 +132,7 @@ LPTE.onready(async () => {
   LPTE.on(namespace, 'level-update', levelUpdate)
   LPTE.on(namespace, 'item-update', itemUpdate)
   LPTE.on(namespace, 'inhib-update', inhibUpdate)
-  LPTE.on(namespace, 'tower-update', towerUpdate)
+  /* LPTE.on(namespace, 'tower-update', towerUpdate) */
   LPTE.on(namespace, 'update', setGameState)
 
   LPTE.on(namespace, 'show-inhibs', (e) => {
