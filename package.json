@@ -1,6 +1,6 @@
 {
   "name": "module-league-in-game",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Module to display in-game information",
   "author": "RCVolus",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "needsBuild": true
   },
   "devDependencies": {
-    "rcv-prod-toolkit-types": "^1.0.1",
+    "@rcv-prod-toolkit/types": "github:rcv-prod-toolkit/types",
     "typescript": "^4.3.2"
   },
   "scripts": {

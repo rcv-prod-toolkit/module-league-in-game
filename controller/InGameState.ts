@@ -1,4 +1,4 @@
-import type { PluginContext } from 'rcv-prod-toolkit-types'
+import type { PluginContext } from '@rcv-prod-toolkit/types'
 import { AllGameData, Player, Event } from '../types/AllGameData'
 import { Config } from '../types/Config'
 import { ItemEpicness } from '../types/Items'

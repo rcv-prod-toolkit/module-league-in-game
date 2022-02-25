@@ -1,4 +1,4 @@
-import type { PluginContext } from 'rcv-prod-toolkit-types'
+import type { PluginContext } from '@rcv-prod-toolkit/types'
 import { InGameState } from './controller/InGameState';
 import type { AllGameData } from './types/AllGameData';
 import type { Config } from './types/Config'
