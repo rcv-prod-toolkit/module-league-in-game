@@ -120,7 +120,10 @@ module.exports = async (ctx: PluginContext) => {
   ctx.LPTE.on(namespace, 'show-inhibs', (e) => {
     if (inGameState === undefined) return
 
-    inGameState.gameState.showInhibitors = e.side
+    const side = parseInt(e.side) as any;
+    console.log(side);
+
+    inGameState.gameState.showInhibitors = side;
   })
 
   ctx.LPTE.on(namespace, 'hide-inhibs', (e) => {

@@ -54,7 +54,7 @@ const blueSide = inhibDiv.querySelector('#blueSide')
 const redSide = inhibDiv.querySelector('#redSide')
 
 function inhibUpdate (e) {
-  const team = e.team === 100 ? blueSide : redSide
+  const team = parseInt(e.team) === 100 ? blueSide : redSide
   const inhib = team.querySelector(`.${e.lane}`)
   inhib.style.setProperty('--percent', e.percent)
   inhib.querySelector('p').innerText = convertSecsToTime(e.respawnIn)
@@ -93,7 +93,7 @@ function setGameState (e) {
 
   for (const [teamId, team] of Object.entries(state.inhibitors)) {
     for (const [lane, data] of Object.entries(team)) {
-      const teamDiv = teamId === 100 ? blueSide : redSide
+      const teamDiv = parseInt(teamId) === 100 ? blueSide : redSide
       const div = teamDiv.querySelector(`.${lane}`)
 
       if (data.alive) {
@@ -138,7 +138,7 @@ LPTE.onready(async () => {
   LPTE.on(namespace, 'show-inhibs', (e) => {
     inhibDiv.classList.remove('hide')
 
-    if (e.side === 100) {
+    if (parseInt(e.side) === 100) {
       blueSide.classList.remove('hide')
       redSide.classList.add('hide')
     } else {
