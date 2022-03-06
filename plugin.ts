@@ -58,64 +58,54 @@ module.exports = async (ctx: PluginContext) => {
       frontend: 'frontend',
       id : 'op-league-in-game'
     }]
-  });  
-
-  // Emit event that we're ready to operate
-  ctx.LPTE.emit({
-    meta: {
-      type: 'plugin-status-change',
-      namespace: 'lpt',
-      version: 1
-    },
-    status: 'RUNNING'
   });
-
-  await ctx.LPTE.await('lpt', 'ready', 150000);
-
-  const staticsRes = await ctx.LPTE.request({
-    meta: {
-      type: 'request-constants',
-      namespace: 'static-league',
-      version: 1
-    }
-  })
-  if (staticsRes === undefined) {
-    return ctx.log.warn(`statics could not be loaded`)
-  }
-  const statics = staticsRes.constants;
 
   let inGameState : InGameState
 
-  ctx.LPTE.on('state-league', 'live-game-loaded', () => {
-    inGameState = new InGameState(namespace, ctx, config, statics)
-  })
-  ctx.LPTE.on('lcu', 'lcu-end-of-game-create', () => {
-    inGameState = new InGameState(namespace, ctx, config, statics)
-  })
-
-  ctx.LPTE.on(namespace, 'allgamedata', (e) => {
-    if (inGameState === undefined) {
-      inGameState = new InGameState(namespace, ctx, config, statics)
-    }
-
-    const data = e.data as AllGameData
-    inGameState.handelData(data)
-  });
-
-  ctx.LPTE.on(namespace, 'request', (e) => {
-    if (inGameState === undefined) {
-      inGameState = new InGameState(namespace, ctx, config, statics)
-    }
-
-    ctx.LPTE.emit({
+  ctx.LPTE.on('module-league-static', 'static-loaded', async () => {
+    const staticsRes = await ctx.LPTE.request({
       meta: {
-        type: e.meta.reply as string,
-        namespace: 'reply',
+        type: 'request-constants',
+        namespace: 'static-league',
         version: 1
-      },
-      state: inGameState.gameState
+      }
+    })
+    if (staticsRes === undefined) {
+      return ctx.log.warn(`statics could not be loaded`)
+    }
+    const statics = staticsRes.constants;
+
+    ctx.LPTE.on('state-league', 'live-game-loaded', () => {
+      inGameState = new InGameState(namespace, ctx, config, statics)
+    })
+    ctx.LPTE.on('lcu', 'lcu-end-of-game-create', () => {
+      inGameState = new InGameState(namespace, ctx, config, statics)
+    })
+
+    ctx.LPTE.on(namespace, 'allgamedata', (e) => {
+      if (inGameState === undefined) {
+        inGameState = new InGameState(namespace, ctx, config, statics)
+      }
+
+      const data = e.data as AllGameData
+      inGameState.handelData(data)
     });
-  });
+
+    ctx.LPTE.on(namespace, 'request', (e) => {
+      if (inGameState === undefined) {
+        inGameState = new InGameState(namespace, ctx, config, statics)
+      }
+
+      ctx.LPTE.emit({
+        meta: {
+          type: e.meta.reply as string,
+          namespace: 'reply',
+          version: 1
+        },
+        state: inGameState.gameState
+      });
+    });
+  })
 
   ctx.LPTE.on(namespace, 'show-inhibs', (e) => {
     if (inGameState === undefined) return
@@ -131,4 +121,14 @@ module.exports = async (ctx: PluginContext) => {
 
     inGameState.gameState.showInhibitors = null
   })
+
+  // Emit event that we're ready to operate
+  ctx.LPTE.emit({
+    meta: {
+      type: 'plugin-status-change',
+      namespace: 'lpt',
+      version: 1
+    },
+    status: 'RUNNING'
+  });
 };
