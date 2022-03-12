@@ -42,7 +42,7 @@ function itemUpdate (e) {
     }, 3000)
   }
 
-  levelContainer.src = `/serve/static-league/img/item/${e.item}.png`
+  levelContainer.src = `/serve/module-league-static/img/item/${e.item}.png`
   playerDiv.classList.add('itemBuy')
   setTimeout(() => {
     playerDiv.classList.remove('itemBuy')

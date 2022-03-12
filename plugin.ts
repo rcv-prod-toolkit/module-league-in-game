@@ -62,20 +62,10 @@ module.exports = async (ctx: PluginContext) => {
 
   let inGameState : InGameState
 
-  ctx.LPTE.on('module-league-static', 'static-loaded', async () => {
-    const staticsRes = await ctx.LPTE.request({
-      meta: {
-        type: 'request-constants',
-        namespace: 'static-league',
-        version: 1
-      }
-    })
-    if (staticsRes === undefined) {
-      return ctx.log.warn(`statics could not be loaded`)
-    }
-    const statics = staticsRes.constants;
+  ctx.LPTE.on('module-league-static', 'static-loaded', async (e) => {
+    const statics = e.constants;
 
-    ctx.LPTE.on('state-league', 'live-game-loaded', () => {
+    ctx.LPTE.on('module-league-state', 'live-game-loaded', () => {
       inGameState = new InGameState(namespace, ctx, config, statics)
     })
     ctx.LPTE.on('lcu', 'lcu-end-of-game-create', () => {
