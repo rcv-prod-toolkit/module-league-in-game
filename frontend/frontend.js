@@ -1,4 +1,4 @@
-$('#ingame-embed').val(`${location.href}/gfx/ingmae.html`);
+$('#ingame-embed').val(`${location.href}/gfx/ingame.html`);
 
 const namespace = 'league-in-game';
 
