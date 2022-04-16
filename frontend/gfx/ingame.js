@@ -1,4 +1,4 @@
-const namespace = 'league-in-game';
+const namespace = 'module-league-in-game';
 const blueTeam = document.querySelector('#blue')
 const redTeam = document.querySelector('#red')
 

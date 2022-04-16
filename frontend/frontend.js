@@ -1,6 +1,6 @@
-$('#ingame-embed').val(`${location.href}/gfx/ingame.html`);
+$('#ingame-embed').val(`${location.href}/gfx/ingame.html${window.apiKey !== null ? '?apikey' + window.apiKey : ''}`);
 
-const namespace = 'league-in-game';
+const namespace = 'module-league-in-game';
 
 $('#settings').on('submit', (e) => {
   e.preventDefault()

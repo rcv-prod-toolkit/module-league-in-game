@@ -3,13 +3,13 @@ import { InGameState } from './controller/InGameState';
 import type { AllGameData } from './types/AllGameData';
 import type { Config } from './types/Config'
 
-const namespace = 'league-in-game';
-
 module.exports = async (ctx: PluginContext) => {
+  const namespace = ctx.plugin.module.getName();
+
   const configRes = await ctx.LPTE.request({
     meta: {
       type: 'request',
-      namespace: 'config',
+      namespace: 'plugin-config',
       version: 1
     }
   });
@@ -25,7 +25,7 @@ module.exports = async (ctx: PluginContext) => {
     ctx.LPTE.emit({
       meta: {
         type: 'set',
-        namespace: 'config',
+        namespace: 'plugin-config',
         version: 1
       },
       config: {
@@ -54,9 +54,9 @@ module.exports = async (ctx: PluginContext) => {
       version: 1
     },
     pages: [{
-      name: 'OP: league-in-game',
+      name: 'LoL: In-Game',
       frontend: 'frontend',
-      id : 'op-league-in-game'
+      id : `op-${namespace}`
     }]
   });
 
