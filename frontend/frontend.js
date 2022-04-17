@@ -37,6 +37,28 @@ function hideInhibs () {
   })
 }
 
+function testLvl (team) {
+  LPTE.emit({
+    meta: {
+      namespace,
+      type: 'test-level-up',
+      version: 1
+    },
+    team,
+    level: $('#testLevel').val()
+  })
+}
+function testItem (team) {
+  LPTE.emit({
+    meta: {
+      namespace,
+      type: 'test-item',
+      version: 1
+    },
+    team,
+  })
+}
+
 function initSettings (settings) {
   $('#items').val(settings.items)
   $('#level').val(settings.level)
@@ -54,3 +76,4 @@ LPTE.onready(async () => {
 
   LPTE.on(namespace, 'set-settings', initSettings)
 })
+

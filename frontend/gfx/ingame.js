@@ -153,6 +153,54 @@ LPTE.onready(async () => {
     redSide.classList.add('hide')
   });
 
+  LPTE.on(namespace, 'test-level-up', (e) => {
+    if (e.team === 100) {
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          levelUpdate({
+            player: i,
+            level: e.level,
+            team: e.team
+          })
+        }, 2500 * i)
+      }
+    } else if (e.team === 200) {
+      for (let i = 5; i < 10; i++) {
+        setTimeout(() => {
+          levelUpdate({
+            player: i,
+            level: e.level,
+            team: e.team
+          })
+        }, 2500 * (i - 5))
+      }
+    }
+  });
+
+  LPTE.on(namespace, 'test-item', (e) => {
+    if (e.team === 100) {
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          itemUpdate({
+            player: i,
+            item: 3006,
+            team: e.team
+          })
+        }, 2500 * i)
+      }
+    } else if (e.team === 200) {
+      for (let i = 5; i < 10; i++) {
+        setTimeout(() => {
+          itemUpdate({
+            player: i,
+            item: 3006,
+            team: e.team
+          })
+        }, 2500 * (i - 5))
+      }
+    }
+  });
+
   const res = await LPTE.request({
     meta: {
       namespace,
