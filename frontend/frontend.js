@@ -1,4 +1,4 @@
-$('#ingame-embed').val(`${location.href}/gfx/ingame.html${window.apiKey !== null ? '?apikey' + window.apiKey : ''}`);
+$('#ingame-embed').val(`${location.href}/gfx/ingame.html${window.apiKey !== null ? '?apikey=' + window.apiKey : ''}`);
 
 const namespace = 'module-league-in-game';
 
