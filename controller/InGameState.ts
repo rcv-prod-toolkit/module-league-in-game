@@ -217,13 +217,10 @@ export class InGameState {
   }
 
   private handleInhibEvent (event: Event) {
-    console.log(event)
     const split = event.InhibKilled.split('_') as string[]
     const team = split[1] === 'T1' ? 100 : 200
     const lane = split[2] as 'L1' | 'C1' | 'R1'
     const respawnAt = Math.round(event.EventTime) + (60 * 5)
-
-    console.log(this.gameState.inhibitors[team][lane].alive)
 
     if (!this.gameState.inhibitors[team][lane].alive) return
 
@@ -271,13 +268,11 @@ export class InGameState {
   }
 
   private handleTowerEvent (event: Event) {
-    console.log(event)
     const split = event.TurretKilled.split('_') as string[]
     const team = split[1] === 'T1' ? 100 : 200
     const lane = split[2] as 'L' | 'C' | 'R'
     const turret = split[3]
 
-    console.log(this.gameState.towers[team][lane][turret])
     if (this.gameState.towers[team][lane][turret] === false) return
 
     this.gameState.towers[team][lane][turret] = false
