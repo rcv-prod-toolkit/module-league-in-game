@@ -101,7 +101,6 @@ module.exports = async (ctx: PluginContext) => {
     if (inGameState === undefined) return
 
     const side = parseInt(e.side) as any;
-    console.log(side);
 
     inGameState.gameState.showInhibitors = side;
   })

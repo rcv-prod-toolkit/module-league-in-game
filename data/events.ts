@@ -12,8 +12,6 @@ function findEvents (): void {
       }
     }
   }
-
-  console.log([...eventsMap.entries()])
 }
 
 findEvents()
