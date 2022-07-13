@@ -167,6 +167,24 @@ function shadeColor(color, percent) {
   return '#' + RR + GG + BB;
 }
 
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null
+}
+
+function changeColor(color) {
+  const rgb = hexToRgb(color);
+  const brightness = Math.round(
+    (parseInt(rgb.r) * 299 + parseInt(rgb.g) * 587 + parseInt(rgb.b) * 114) /
+      1000
+  );
+  return brightness < 125 ? '--text-color' : '--text-color-dark'
+}
+
 function changeColors(e) {
   if (e.teams.blueTeam.color !== '#000000') {
     document
@@ -174,10 +192,23 @@ function changeColors(e) {
       .style.setProperty('--blue-team', e.teams.blueTeam.color);
     document
       .querySelector(':root')
-      .style.setProperty('--blue-team-dark', shadeColor(e.teams.blueTeam.color, -30));
+      .style.setProperty(
+        '--blue-team-dark',
+        shadeColor(e.teams.blueTeam.color, -30)
+      );
+
+    document.querySelectorAll('#blue .player .level').forEach((i) => {
+      i.style.color = `var(${changeColor(e.teams.blueTeam.color)})`;
+    });
   } else {
     document.querySelector(':root').style.setProperty('--blue-team', themeBlue);
-    document.querySelector(':root').style.setProperty('--blue-team-dark', themeBlueDark);
+    document
+      .querySelector(':root')
+      .style.setProperty('--blue-team-dark', themeBlueDark);
+
+    document.querySelectorAll('#blue .player .level').forEach((i) => {
+      i.style.color = 'var(--background-color)';
+    });
   }
   if (e.teams.redTeam.color !== '#000000') {
     document
@@ -185,10 +216,23 @@ function changeColors(e) {
       .style.setProperty('--red-team', e.teams.redTeam.color);
     document
       .querySelector(':root')
-      .style.setProperty('--red-team-dark', shadeColor(e.teams.redTeam.color, -30));
+      .style.setProperty(
+        '--red-team-dark',
+        shadeColor(e.teams.redTeam.color, -30)
+      );
+
+    document.querySelectorAll('#red .player .level').forEach((i) => {
+      i.style.color = `var(${changeColor(e.teams.redTeam.color)})`;
+    });
   } else {
     document.querySelector(':root').style.setProperty('--red-team', themeRed);
-    document.querySelector(':root').style.setProperty('--red-team-dark', themeRedDark);
+    document
+      .querySelector(':root')
+      .style.setProperty('--red-team-dark', themeRedDark);
+
+    document.querySelectorAll('#red .player .level').forEach((i) => {
+      i.style.color = 'var(--text-color)';
+    });
   }
 }
 
