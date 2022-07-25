@@ -8,7 +8,7 @@ export interface AllGameData {
 }
 
 export interface ActivePlayer {
-  "error": "Spectator mode doesn't currently support this feature"
+  error: "Spectator mode doesn't currently support this feature"
 }
 
 export interface Player {
@@ -17,7 +17,7 @@ export interface Player {
   isDead: boolean
   items: Item[]
   level: number
-  position:	Position
+  position: Position
   rawChampionName: string
   respawnTimer: number
   runes: {
@@ -36,15 +36,15 @@ export interface Player {
 }
 
 export interface Item {
-  canUse:	boolean
-  consumable:	boolean
+  canUse: boolean
+  consumable: boolean
   count: number
   displayName: string
   itemID: number
   price: number
-  rawDescription:	string
-  rawDisplayName:	string
-  slot:	number
+  rawDescription: string
+  rawDisplayName: string
+  slot: number
 }
 
 export interface Rune {
@@ -68,10 +68,9 @@ export interface SummonerSpell {
   rawDisplayName: string
 }
 
-export type Position = "TOP" | "JUNGLE" | "MIDDLE" | "BOTTOM" | "UTILITY"
+export type Position = 'TOP' | 'JUNGLE' | 'MIDDLE' | 'BOTTOM' | 'UTILITY'
 
-export type Team = "ORDER" | "CHAOS"
-
+export type Team = 'ORDER' | 'CHAOS'
 
 export interface Event {
   EventID: number
@@ -79,7 +78,6 @@ export interface Event {
   EventTime: number
   [k: string]: any
 }
-
 
 export interface GameData {
   gameMode: string

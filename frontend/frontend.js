@@ -1,6 +1,10 @@
-$('#ingame-embed').val(`${location.href}/gfx/ingame.html${window.apiKey !== null ? '?apikey=' + window.apiKey : ''}`);
+$('#ingame-embed').val(
+  `${location.href}/gfx/ingame.html${
+    window.apiKey !== null ? '?apikey=' + window.apiKey : ''
+  }`
+)
 
-const namespace = 'module-league-in-game';
+const namespace = 'module-league-in-game'
 
 $('#settings').on('submit', (e) => {
   e.preventDefault()
@@ -16,7 +20,7 @@ $('#settings').on('submit', (e) => {
   })
 })
 
-function showInhibs (side) {
+function showInhibs(side) {
   LPTE.emit({
     meta: {
       namespace,
@@ -27,7 +31,7 @@ function showInhibs (side) {
   })
 }
 
-function hideInhibs () {
+function hideInhibs() {
   LPTE.emit({
     meta: {
       namespace,
@@ -37,7 +41,7 @@ function hideInhibs () {
   })
 }
 
-function testLvl (team) {
+function testLvl(team) {
   LPTE.emit({
     meta: {
       namespace,
@@ -48,18 +52,18 @@ function testLvl (team) {
     level: $('#testLevel').val()
   })
 }
-function testItem (team) {
+function testItem(team) {
   LPTE.emit({
     meta: {
       namespace,
       type: 'test-item',
       version: 1
     },
-    team,
+    team
   })
 }
 
-function initSettings (settings) {
+function initSettings(settings) {
   $('#items').val(settings.items)
   $('#level').val(settings.level)
 }
@@ -76,4 +80,3 @@ LPTE.onready(async () => {
 
   LPTE.on(namespace, 'set-settings', initSettings)
 })
-

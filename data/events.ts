@@ -2,7 +2,7 @@ import data from './InGame-data (1).json'
 
 const eventsMap: Map<string, any> = new Map()
 
-function findEvents (): void {
+function findEvents(): void {
   for (const dataPoint of data as any[]) {
     const events = dataPoint.events.Events as any[]
 

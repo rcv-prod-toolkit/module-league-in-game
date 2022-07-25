@@ -1,17 +1,28 @@
 <h1>In-Game Information</h1>
 
 <h2>Preview</h2>
-<div style="width: 960px; height: 540px; overflow: hidden;">
-  <iframe src="/pages/op-module-league-in-game/gfx/ingame.html" width="1920" height="1080" style="transform: scale(0.5); transform-origin: 0 0;"></iframe>
+<div style="width: 960px; height: 540px; overflow: hidden">
+  <iframe
+    src="/pages/op-module-league-in-game/gfx/ingame.html"
+    width="1920"
+    height="1080"
+    style="transform: scale(0.5); transform-origin: 0 0"
+  ></iframe>
 </div>
 
 <h2>Embed</h2>
-<input style="width: 100%;" readonly id="ingame-embed" class="mb-5" />
+<input style="width: 100%" readonly id="ingame-embed" class="mb-5" />
 
 <div class="d-flex mb-5">
-  <button class="btn btn-primary btn-lg mr-3" onclick="showInhibs(100)">Show Blue Inhibitors</button>
-  <button class="btn btn-secondary btn-lg mr-3" onclick="hideInhibs()">Hide Inhibitors</button>
-  <button class="btn btn-danger btn-lg" onclick="showInhibs(200)">Show Red Inhibitors</button>
+  <button class="btn btn-primary btn-lg mr-3" onclick="showInhibs(100)">
+    Show Blue Inhibitors
+  </button>
+  <button class="btn btn-secondary btn-lg mr-3" onclick="hideInhibs()">
+    Hide Inhibitors
+  </button>
+  <button class="btn btn-danger btn-lg" onclick="showInhibs(200)">
+    Show Red Inhibitors
+  </button>
 </div>
 
 <h2>Settings</h2>
@@ -57,16 +68,32 @@
 <h2 class="mb-3">Testing</h2>
 
 <h3>Test Level-Up</h3>
-<div class="d-flex align-items-center mb-3" style="gap: 1rem;">
-  <input type="number" value="6" min="0" max="18" step="1" class="form-control w-25" id="testLevel">
-  <button class="btn btn-primary btn-lg" onclick="testLvl(100)">Test Blue team</button>
-  <button class="btn btn-danger btn-lg" onclick="testLvl(200)">Test Red Team</button>
+<div class="d-flex align-items-center mb-3" style="gap: 1rem">
+  <input
+    type="number"
+    value="6"
+    min="0"
+    max="18"
+    step="1"
+    class="form-control w-25"
+    id="testLevel"
+  />
+  <button class="btn btn-primary btn-lg" onclick="testLvl(100)">
+    Test Blue team
+  </button>
+  <button class="btn btn-danger btn-lg" onclick="testLvl(200)">
+    Test Red Team
+  </button>
 </div>
 
 <h3>Test Item</h3>
-<div class="d-flex align-items-center" style="gap: 1rem;">
-  <button class="btn btn-primary btn-lg" onclick="testItem(100)">Test Blue team</button>
-  <button class="btn btn-danger btn-lg" onclick="testItem(200)">Test Red Team</button>
+<div class="d-flex align-items-center" style="gap: 1rem">
+  <button class="btn btn-primary btn-lg" onclick="testItem(100)">
+    Test Blue team
+  </button>
+  <button class="btn btn-danger btn-lg" onclick="testItem(200)">
+    Test Red Team
+  </button>
 </div>
 
 <script src="/pages/op-module-league-in-game/frontend.js" defer></script>
