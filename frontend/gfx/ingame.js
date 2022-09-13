@@ -188,7 +188,7 @@ function changeColor(color) {
 }
 
 function changeColors(e) {
-  if (e.teams.blueTeam.color !== '#000000') {
+  if (e.teams.blueTeam?.color && e.teams.blueTeam?.color !== '#000000') {
     document
       .querySelector(':root')
       .style.setProperty('--blue-team', e.teams.blueTeam.color)
@@ -212,7 +212,7 @@ function changeColors(e) {
       i.style.color = 'var(--background-color)'
     })
   }
-  if (e.teams.redTeam.color !== '#000000') {
+  if (e.teams.redTeam?.color && e.teams.redTeam?.color !== '#000000') {
     document
       .querySelector(':root')
       .style.setProperty('--red-team', e.teams.redTeam.color)
