@@ -17,7 +17,7 @@ export class InGameState {
     private config: Config,
     private statics: any
   ) {
-    this.itemEpicness = this.config.items.map((i) => ItemEpicness[i])
+    this.itemEpicness = this.config.items?.map((i) => ItemEpicness[i])
 
     this.gameState = {
       towers: {
