@@ -1,5 +1,6 @@
 document.querySelector('#settings').addEventListener('submit', (e) => {
   e.preventDefault()
+  console.log()
 
   LPTE.emit({
     meta: {
@@ -7,8 +8,8 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
       type: 'set-settings',
       version: 1
     },
-    items: document.querySelector('#items').value,
-    level: document.querySelector('#level').value
+    items: Array.from(document.querySelector('#items').options).filter(el => el.selected).map(el => el.value),
+    level: Array.from(document.querySelector('#level').options).filter(el => el.selected).map(el => el.value)
   })
 })
 
@@ -56,8 +57,23 @@ function testItem(team) {
 }
 
 function initSettings(settings) {
-  document.querySelector('#items').value = settings.items
-  document.querySelector('#level').value = settings.level
+  const itemOptions = document.querySelector('#items').options
+  for (let i = 0; i < itemOptions.length; i++) {
+    const item = itemOptions[i]
+
+    if (settings.items.includes(item.value)) {
+      item.selected = true
+    }
+  }
+
+  const levelOptions = document.querySelector('#level').options
+  for (let i = 0; i < levelOptions.length; i++) {
+    const level = levelOptions[i]
+
+    if (settings.level.includes(level.value)) {
+      level.selected = true
+    }
+  }
 }
 
 LPTE.onready(async () => {
