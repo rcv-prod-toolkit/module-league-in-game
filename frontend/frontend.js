@@ -80,7 +80,7 @@ LPTE.onready(async () => {
   const port =  await window.constants.getWebServerPort()
   const location = `http://localhost:${port}/pages/op-module-league-in-game/gfx`
 
-  const apiKey =  await window.constants.getApiKey()
+  const apiKey = await window.constants.getApiKey()
 
   document.querySelector('#ingame-embed').value = `${location}/ingame.html${apiKey !== null ? '?apikey=' + apiKey: ''}`
   document.querySelector('#ingame-gfx').src = `${location}/ingame.html${apiKey !== null ? '?apikey=' + apiKey: ''}`
