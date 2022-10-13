@@ -184,7 +184,7 @@ function changeColor(color) {
     (parseInt(rgb.r) * 299 + parseInt(rgb.g) * 587 + parseInt(rgb.b) * 114) /
       1000
   )
-  return brightness < 125 ? '--text-color' : '--text-color-dark'
+  return brightness < 150 ? '--text-color' : '--text-color-dark'
 }
 
 function changeColors(e) {
