@@ -3,11 +3,14 @@ import { AllGameData, Player, Event } from '../types/AllGameData'
 import { Config } from '../types/Config'
 import { ItemEpicness } from '../types/Items'
 import { InGameState as InGameStateType } from '../types/InGameState'
+import { EventType, InGameEvent, MobType, TeamType } from '../types/InGameEvent'
 
 export class InGameState {
   public gameState: InGameStateType
   public gameData: any[] = []
   public itemEpicness: number[]
+
+  private timer ? : NodeJS.Timeout
 
   public actions: Array<(allGameData: AllGameData, i: number) => void> = []
 
@@ -20,6 +23,7 @@ export class InGameState {
     this.itemEpicness = this.config.items?.map((i) => ItemEpicness[i])
 
     this.gameState = {
+      time: 0,
       towers: {
         100: {
           L: {},
@@ -141,6 +145,80 @@ export class InGameState {
     }
 
     this.gameData.push(allGameData)
+    this.gameState.time = allGameData.gameData.gameTime
+
+    this.timer = setInterval(() => {
+      this.gameState.time = allGameData.gameData.gameTime + 1
+    }, 950)
+  }
+
+  public handelEvent(event: InGameEvent): void {
+    if (event.eventname === EventType.StructureKill) return
+
+    if (event.eventname === EventType.DragonKill) {
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'event',
+          version: 1
+        },
+        event: {
+          name: 'Dragon',
+          type: this.convertDragon(event.other), 
+          team: event.sourceTeam === TeamType.Order ? 100 : 200,
+          time: Math.round(this.gameState.time)
+        }
+      })
+    } else if (event.eventname === EventType.BaronKill) {
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'event',
+          version: 1
+        },
+        event: {
+          name: 'Baron',
+          type: 'Baron',
+          team: event.sourceTeam === TeamType.Order ? 100 : 200,
+          time: Math.round(this.gameState.time)
+        }
+      })
+    } else if (event.eventname === EventType.HeraldKill) {
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'event',
+          version: 1
+        },
+        event: {
+          name: 'Herald',
+          type: 'Herald',
+          team: event.sourceTeam === TeamType.Order ? 100 : 200,
+          time: Math.round(this.gameState.time)
+        }
+      })
+    }
+  }
+
+  private convertDragon (dragon: MobType): string {
+    switch (dragon) {
+      case MobType.HextechDragon:
+        return 'Hextech'
+      case MobType.ChemtechDragon:
+        return 'Chemtech'
+      case MobType.CloudDragon:
+        return 'Cloud'
+      case MobType.ElderDragon:
+        return 'Elder'
+      case MobType.InfernalDragon:
+        return 'Infernal'
+      case MobType.MountainDragon:
+        return 'Mountain'
+      case MobType.OceanDragon:
+        return 'Ocean'
+      default:
+        return 'Air'
+    }
   }
 
   private checkPlayerUpdate(allGameData: AllGameData) {

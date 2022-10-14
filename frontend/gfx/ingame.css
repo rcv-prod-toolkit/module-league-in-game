@@ -7,7 +7,7 @@
 }
 
 body {
-  background: black;
+  /* background: black; */
   width: 1920px;
   height: 1080px;
   overflow: hidden;
@@ -274,17 +274,23 @@ body {
 .event {
   position: absolute;
   left: -2px;
+  margin-top: -25px;
   width: 155px;
   height: 520px;
   background-color: var(--background-color);
 
   padding-top: 25px;
+  z-index: 100;
 
   text-align: center;
   color: var(--text-color);
 
-  animation: blue-event 1s ease forwards;
   transform: translateX(-200%);
+  transition: transform 1s ease;
+}
+
+.event.show {
+  transform: translateX(0);
 }
 
 .event::after {
@@ -326,13 +332,32 @@ body {
   left: 0;
   top: 25%;
   z-index: 1;
-  animation: blue-event 1s ease forwards;
-  animation-delay: 0.1s;
+  transition-delay: 0.1s;
   transform: translateX(-200%);
+  transition: transform 1s ease;
+}
+
+.event.show .event-img {
+  transform: translateX(0);
 }
 
 .event.herold .event-img {
-  top: 26.65%;
+  top: 26.65% !important;
+}
+.event.chemtech .event-img {
+  top: 30% !important;
+}
+.event.infernal .event-img {
+  top: 30% !important;
+}
+.event.mountain .event-img {
+  top: 26.5% !important;
+}
+.event.ocean .event-img {
+  top: 0% !important;
+}
+.event.baron .event-img {
+  top: 28% !important;
 }
 
 .team {
@@ -342,8 +367,12 @@ body {
 #red .event {
   left: unset;
   right: -2px;
-  animation: red-event 1s ease forwards;
   transform: translateX(200%);
+  transition: transform 1s ease;
+}
+
+#red .event.show {
+  transform: translateX(0);
 }
 
 #red .event::after {
@@ -353,34 +382,11 @@ body {
 #red .event-img {
   left: unset;
   right: 0;
-  animation: red-event-img 1s ease forwards;
-  animation-delay: 0.1s;
+  transition-delay: 0.1s;
   transform: translateX(200%) scale(-1, 1);
+  transition: transform 1s ease;
 }
 
-@keyframes blue-event {
-  from {
-    transform: translateX(-200%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes red-event {
-  from {
-    transform: translateX(200%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes red-event-img {
-  from {
-    transform: translateX(200%) scale(-1, 1);
-  }
-  to {
-    transform: translateX(0) scale(-1, 1);
-  }
+#red .event.show .event-img {
+  transform: translateX(0) scale(-1, 1);
 }

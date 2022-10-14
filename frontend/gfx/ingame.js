@@ -238,12 +238,42 @@ function changeColors(e) {
   }
 }
 
+let hasEvent = false
+function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s}
+function emitEvent(e) {
+  console.log(e)
+
+  if (hasEvent) {
+    return setTimeout(() => {
+      emitEvent(e)
+    }, 2000)
+  }
+
+  hasEvent = true
+  const eventDiv = e.event.team === 100 ? blueTeam.querySelector('.event') : redTeam.querySelector('.event')
+
+  eventDiv.querySelector('.event-name').innerText = e.event.name
+  eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.event.time)}`
+  eventDiv.querySelector('.event-img').src = `img/${e.event.type.toLowerCase()}.png`
+
+  eventDiv.classList.add(e.event.type.toLowerCase(), 'show')
+
+  setTimeout(() => {
+    eventDiv.classList.remove('show')
+  }, 5000)
+  setTimeout(() => {
+    eventDiv.classList.remove(e.event.name.toLowerCase())
+    hasEvent = false
+  }, 6500)
+}
+
 LPTE.onready(async () => {
   LPTE.on(namespace, 'level-update', levelUpdate)
   LPTE.on(namespace, 'item-update', itemUpdate)
   LPTE.on(namespace, 'inhib-update', inhibUpdate)
   /* LPTE.on(namespace, 'tower-update', towerUpdate) */
   LPTE.on(namespace, 'update', setGameState)
+  LPTE.on(namespace, 'event', emitEvent)
 
   LPTE.on(namespace, 'show-inhibs', (e) => {
     inhibDiv.classList.remove('hide')

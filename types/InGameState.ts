@@ -1,4 +1,5 @@
 export interface InGameState {
+  time: number
   towers: {
     100: TowerState
     200: TowerState

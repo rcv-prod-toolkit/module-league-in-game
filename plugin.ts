@@ -83,6 +83,16 @@ module.exports = async (ctx: PluginContext) => {
       inGameState.handelData(data)
     })
 
+    ctx.LPTE.on(namespace, 'live-events', (e) => {
+      if (inGameState === undefined) {
+        inGameState = new InGameState(namespace, ctx, config, statics)
+      }
+
+      e.data.forEach((event: any) => {
+        inGameState.handelEvent(event)
+      });
+    })
+
     ctx.LPTE.on(namespace, 'request', (e) => {
       if (inGameState === undefined) {
         inGameState = new InGameState(namespace, ctx, config, statics)
