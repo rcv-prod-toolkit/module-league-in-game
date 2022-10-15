@@ -267,6 +267,45 @@ function emitEvent(e) {
   }, 6500)
 }
 
+const quickEvents = document.querySelector('#quick-events')
+function addQuickEvent (e) {
+  if (quickEvents.children.length >= 5) {
+    return setTimeout(() => {
+      addQuickEvent(e)
+    }, 3000)
+  }
+
+  const eventDiv = document.createElement('div')
+  eventDiv.classList.add('quick-event')
+
+  const other = document.createElement('img')
+  other.classList.add('other')
+  other.src = ''
+
+  const sword = document.createElement('img')
+  sword.classList.add('sword')
+  sword.src = './img/sword.png'
+
+  const source = document.createElement('img')
+  source.classList.add('other')
+  source.src = ''
+
+  eventDiv.appendChild(other, sword, source)
+
+  for (const a of e.assists) {
+    const assist = document.createElement('img')
+    assist.classList.add('assist')
+    assist.src = ''
+    eventDiv.appendChild(assist)
+  }
+
+  quickEvents.appendChild(eventDiv)
+
+  setTimeout(() => {
+    eventDiv.remove()
+  }, 5000)
+}
+
 LPTE.onready(async () => {
   LPTE.on(namespace, 'level-update', levelUpdate)
   LPTE.on(namespace, 'item-update', itemUpdate)

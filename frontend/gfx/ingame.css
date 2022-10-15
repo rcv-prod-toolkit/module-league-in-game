@@ -7,7 +7,7 @@
 }
 
 body {
-  /* background: black; */
+  background: black;
   width: 1920px;
   height: 1080px;
   overflow: hidden;
@@ -389,4 +389,79 @@ body {
 
 #red .event.show .event-img {
   transform: translateX(0) scale(-1, 1);
+}
+
+#quick-events {
+  position: absolute;
+  bottom: 330px;
+  right: 185px;
+  height: 60;
+  width: 170px;
+}
+
+.quick-event {
+  height: 60px;
+  width: 170px;
+  display: flex;
+  flex-direction: row-reverse;
+  position: relative;
+  align-items: center;
+  padding: 5px;
+  gap: 10px;
+  transition: margin-bottom 0.5s ease;
+  transform: translateX(200%);
+  opacity: 0;
+  animation: quick-event 5s ease-in-out forwards;
+}
+
+.quick-event:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.quick-event::after {
+  content: '';
+  height: 60px;
+  width: 170px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  background: linear-gradient(to right, rgba(5, 28, 44, 0), rgba(5, 28, 44, 1) 40%, var(--red-team));
+}
+
+.other,
+.source {
+  height: 50px;
+  object-fit: contain;
+  border: 2px solid var(--background-color);
+}
+
+.sword {
+  height: 25px;
+  object-fit: contain;
+}
+
+.assist {
+  margin-top: auto;
+  height: 30px;
+  object-fit: contain;
+}
+
+@keyframes quick-event {
+  0% {
+    transform: translateX(200%);
+    opacity: 0;
+  }
+  5% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  95% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(200%);
+    opacity: 0;
+  }
 }
