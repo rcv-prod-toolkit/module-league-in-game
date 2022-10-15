@@ -7,7 +7,7 @@
 }
 
 body {
-  background: black;
+  /* background: black; */
   width: 1920px;
   height: 1080px;
   overflow: hidden;
@@ -393,13 +393,15 @@ body {
 
 #quick-events {
   position: absolute;
-  bottom: 330px;
-  right: 185px;
+  bottom: 465px;
+  right: 180px;
   height: 60;
   width: 170px;
 }
 
 .quick-event {
+  --team: var(--blue-team)
+
   height: 60px;
   width: 170px;
   display: flex;
@@ -415,7 +417,7 @@ body {
 }
 
 .quick-event:not(:last-child) {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .quick-event::after {
@@ -426,25 +428,29 @@ body {
   right: 0;
   top: 0;
   z-index: -1;
-  background: linear-gradient(to right, rgba(5, 28, 44, 0), rgba(5, 28, 44, 1) 40%, var(--red-team));
+  background: linear-gradient(to right, transparent, var(--background-color) 50%, var(--team));
 }
 
 .other,
 .source {
   height: 50px;
+  width: 50px;
   object-fit: contain;
   border: 2px solid var(--background-color);
 }
 
 .sword {
   height: 25px;
+  width: 25px;
   object-fit: contain;
 }
 
 .assist {
   margin-top: auto;
   height: 30px;
+  width: 30px;
   object-fit: contain;
+  border: 2px solid var(--background-color);
 }
 
 @keyframes quick-event {

@@ -268,34 +268,51 @@ function emitEvent(e) {
 }
 
 const quickEvents = document.querySelector('#quick-events')
-function addQuickEvent (e) {
+function addQuickEvent (event) {
   if (quickEvents.children.length >= 5) {
     return setTimeout(() => {
-      addQuickEvent(e)
+      addQuickEvent(event)
     }, 3000)
   }
 
+  console.log(event)
+
   const eventDiv = document.createElement('div')
   eventDiv.classList.add('quick-event')
+  eventDiv.style.setProperty('--team', event.team === 100 ? 'var(--blue-team)' : 'var(--red-team)')
 
   const other = document.createElement('img')
   other.classList.add('other')
-  other.src = ''
+  if (event.other === 'Turret') {
+    other.src = './img/tower.png'
+  } else if (event.other === 'Inhib') {
+    other.src = './img/inhib.png'
+  } else {
+    other.src = `/serve/module-league-static/img/champion/tiles/${event.other}_0.jpg`
+  }
 
   const sword = document.createElement('img')
   sword.classList.add('sword')
   sword.src = './img/sword.png'
 
   const source = document.createElement('img')
-  source.classList.add('other')
-  source.src = ''
+  source.classList.add('source')
+  if (event.source === 'Minion') {
+    source.src = './img/minion.png'
+  } else if (event.source === 'Turret') {
+    source.src = './img/tower.png'
+  } else {
+    source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
+  }
 
-  eventDiv.appendChild(other, sword, source)
+  eventDiv.appendChild(other)
+  eventDiv.appendChild(sword)
+  eventDiv.appendChild(source)
 
-  for (const a of e.assists) {
+  for (const a of event.assists) {
     const assist = document.createElement('img')
     assist.classList.add('assist')
-    assist.src = ''
+    assist.src = `/serve/module-league-static/img/champion/tiles/${a}_0.jpg`
     eventDiv.appendChild(assist)
   }
 
@@ -310,6 +327,7 @@ LPTE.onready(async () => {
   LPTE.on(namespace, 'level-update', levelUpdate)
   LPTE.on(namespace, 'item-update', itemUpdate)
   LPTE.on(namespace, 'inhib-update', inhibUpdate)
+  LPTE.on(namespace, 'kill-update', addQuickEvent)
   /* LPTE.on(namespace, 'tower-update', towerUpdate) */
   LPTE.on(namespace, 'update', setGameState)
   LPTE.on(namespace, 'event', emitEvent)
