@@ -241,7 +241,6 @@ function changeColors(e) {
 let hasEvent = false
 function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s}
 function emitEvent(e) {
-  console.log(e)
 
   if (hasEvent) {
     return setTimeout(() => {
@@ -249,22 +248,24 @@ function emitEvent(e) {
     }, 2000)
   }
 
-  hasEvent = true
-  const eventDiv = e.event.team === 100 ? blueTeam.querySelector('.event') : redTeam.querySelector('.event')
-
-  eventDiv.querySelector('.event-name').innerText = e.event.name
-  eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.event.time)}`
-  eventDiv.querySelector('.event-img').src = `img/${e.event.type.toLowerCase()}.png`
-
-  eventDiv.classList.add(e.event.type.toLowerCase(), 'show')
-
   setTimeout(() => {
-    eventDiv.classList.remove('show')
-  }, 5000)
-  setTimeout(() => {
-    eventDiv.classList.remove(e.event.name.toLowerCase())
-    hasEvent = false
-  }, 6500)
+    hasEvent = true
+    const eventDiv = e.event.team === 100 ? blueTeam.querySelector('.event') : redTeam.querySelector('.event')
+
+    eventDiv.querySelector('.event-name').innerText = e.event.name
+    eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.event.time)}`
+    eventDiv.querySelector('.event-img').src = `img/${e.event.type.toLowerCase()}.png`
+
+    eventDiv.classList.add(e.event.type.toLowerCase(), 'show')
+
+    setTimeout(() => {
+      eventDiv.classList.remove('show')
+    }, 5000)
+    setTimeout(() => {
+      eventDiv.classList.remove(e.event.name.toLowerCase())
+      hasEvent = false
+    }, 6500)
+  }, 500)
 }
 
 const quickEvents = document.querySelector('#quick-events')
@@ -275,52 +276,52 @@ function addQuickEvent (event) {
     }, 3000)
   }
 
-  console.log(event)
-
-  const eventDiv = document.createElement('div')
-  eventDiv.classList.add('quick-event')
-  eventDiv.style.setProperty('--team', event.team === 100 ? 'var(--blue-team)' : 'var(--red-team)')
-
-  const other = document.createElement('img')
-  other.classList.add('other')
-  if (event.other === 'Turret') {
-    other.src = './img/tower.png'
-  } else if (event.other === 'Inhib') {
-    other.src = './img/inhib.png'
-  } else {
-    other.src = `/serve/module-league-static/img/champion/tiles/${event.other}_0.jpg`
-  }
-
-  const sword = document.createElement('img')
-  sword.classList.add('sword')
-  sword.src = './img/sword.png'
-
-  const source = document.createElement('img')
-  source.classList.add('source')
-  if (event.source === 'Minion') {
-    source.src = './img/minion.png'
-  } else if (event.source === 'Turret') {
-    source.src = './img/tower.png'
-  } else {
-    source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
-  }
-
-  eventDiv.appendChild(other)
-  eventDiv.appendChild(sword)
-  eventDiv.appendChild(source)
-
-  for (const a of event.assists) {
-    const assist = document.createElement('img')
-    assist.classList.add('assist')
-    assist.src = `/serve/module-league-static/img/champion/tiles/${a}_0.jpg`
-    eventDiv.appendChild(assist)
-  }
-
-  quickEvents.appendChild(eventDiv)
-
   setTimeout(() => {
-    eventDiv.remove()
-  }, 5000)
+    const eventDiv = document.createElement('div')
+    eventDiv.classList.add('quick-event')
+    eventDiv.style.setProperty('--team', event.team === 100 ? 'var(--blue-team)' : 'var(--red-team)')
+
+    const other = document.createElement('img')
+    other.classList.add('other')
+    if (event.other === 'Turret') {
+      other.src = './img/tower.png'
+    } else if (event.other === 'Inhib') {
+      other.src = './img/inhib.png'
+    } else {
+      other.src = `/serve/module-league-static/img/champion/tiles/${event.other}_0.jpg`
+    }
+
+    const sword = document.createElement('img')
+    sword.classList.add('sword')
+    sword.src = './img/sword.png'
+
+    const source = document.createElement('img')
+    source.classList.add('source')
+    if (event.source === 'Minion') {
+      source.src = './img/minion.png'
+    } else if (event.source === 'Turret') {
+      source.src = './img/tower.png'
+    } else {
+      source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
+    }
+
+    eventDiv.appendChild(other)
+    eventDiv.appendChild(sword)
+    eventDiv.appendChild(source)
+
+    for (const a of event.assists) {
+      const assist = document.createElement('img')
+      assist.classList.add('assist')
+      assist.src = `/serve/module-league-static/img/champion/tiles/${a}_0.jpg`
+      eventDiv.appendChild(assist)
+    }
+
+    quickEvents.appendChild(eventDiv)
+
+    setTimeout(() => {
+      eventDiv.remove()
+    }, 5000)
+  }, 1000)
 }
 
 LPTE.onready(async () => {
