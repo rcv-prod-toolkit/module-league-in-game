@@ -14,13 +14,20 @@ module.exports = async (ctx: PluginContext) => {
     }
   })
   if (configRes === undefined) {
-    return ctx.log.warn('config could not be loaded')
+    ctx.log.warn('config could not be loaded')
   }
-  let config = configRes.config as Config
+  let config: Config = Object.assign({
+    items: [],
+    level: [],
+    events: [],
+    killfeed: false
+  }, configRes?.config)
 
   ctx.LPTE.on(namespace, 'set-settings', (e) => {
     config.items = e.items
     config.level = e.level
+    config.events = e.events
+    config.killfeed = e.killfeed
 
     ctx.LPTE.emit({
       meta: {
@@ -30,7 +37,9 @@ module.exports = async (ctx: PluginContext) => {
       },
       config: {
         items: e.items,
-        level: e.level
+        level: e.level,
+        events: e.events,
+        killfeed: e.killfeed
       }
     })
   })
@@ -43,7 +52,9 @@ module.exports = async (ctx: PluginContext) => {
         version: 1
       },
       items: config.items,
-      level: config.level
+      level: config.level,
+      events: config.events,
+      killfeed: config.killfeed,
     })
   })
 

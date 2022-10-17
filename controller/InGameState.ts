@@ -155,47 +155,41 @@ export class InGameState {
   public handelEvent(event: InGameEvent): void {
     if (event.eventname === EventType.StructureKill) return
 
-    if (event.eventname === EventType.DragonKill) {
+    if (event.eventname === EventType.DragonKill && this.config.events?.includes('Dragons')) {
       this.ctx.LPTE.emit({
         meta: {
           namespace: this.namespace,
           type: 'event',
           version: 1
         },
-        event: {
-          name: 'Dragon',
-          type: this.convertDragon(event.other),
-          team: event.sourceTeam === TeamType.Order ? 100 : 200,
-          time: Math.round(this.gameState.time)
-        }
+        name: 'Dragon',
+        type: this.convertDragon(event.other),
+        team: event.sourceTeam === TeamType.Order ? 100 : 200,
+        time: Math.round(this.gameState.time)
       })
-    } else if (event.eventname === EventType.BaronKill) {
+    } else if (event.eventname === EventType.BaronKill && this.config.events?.includes('Barons')) {
       this.ctx.LPTE.emit({
         meta: {
           namespace: this.namespace,
           type: 'event',
           version: 1
         },
-        event: {
-          name: 'Baron',
-          type: 'Baron',
-          team: event.sourceTeam === TeamType.Order ? 100 : 200,
-          time: Math.round(this.gameState.time)
-        }
+        name: 'Baron',
+        type: 'Baron',
+        team: event.sourceTeam === TeamType.Order ? 100 : 200,
+        time: Math.round(this.gameState.time)
       })
-    } else if (event.eventname === EventType.HeraldKill) {
+    } else if (event.eventname === EventType.HeraldKill && this.config.events?.includes('Herolds')) {
       this.ctx.LPTE.emit({
         meta: {
           namespace: this.namespace,
           type: 'event',
           version: 1
         },
-        event: {
-          name: 'Herald',
-          type: 'Herald',
-          team: event.sourceTeam === TeamType.Order ? 100 : 200,
-          time: Math.round(this.gameState.time)
-        }
+        name: 'Herald',
+        type: 'Herald',
+        team: event.sourceTeam === TeamType.Order ? 100 : 200,
+        time: Math.round(this.gameState.time)
       })
     }
   }
@@ -355,23 +349,25 @@ export class InGameState {
       }
     })
 
-    this.ctx.LPTE.emit({
-      meta: {
-        namespace: this.namespace,
-        type: 'kill-update',
-        version: 1
-      },
-      assists: event.Assisters.map((a: string) => {
-        return allGameData.allPlayers.find(p => {
-          return p.summonerName === a
-        })?.rawChampionName.split('_')[3]
-      }),
-      other: 'Inhib',
-      source: event.KillerName.startsWith('Minion') ? 'Minion' : allGameData.allPlayers.find(p => {
-        return p.summonerName === event.KillerName
-      })?.rawChampionName.split('_')[3],
-      team: team === 100 ? 200 : 100
-    })
+    if (this.config.killfeed) {
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'kill-update',
+          version: 1
+        },
+        assists: event.Assisters.map((a: string) => {
+          return allGameData.allPlayers.find(p => {
+            return p.summonerName === a
+          })?.rawChampionName.split('_')[3]
+        }),
+        other: 'Inhib',
+        source: event.KillerName.startsWith('Minion') ? 'Minion' : allGameData.allPlayers.find(p => {
+          return p.summonerName === event.KillerName
+        })?.rawChampionName.split('_')[3],
+        team: team === 100 ? 200 : 100
+      })
+    }
   }
 
   private handleTowerEvent(event: Event, allGameData: AllGameData) {
@@ -395,26 +391,30 @@ export class InGameState {
       turret
     })
 
-    this.ctx.LPTE.emit({
-      meta: {
-        namespace: this.namespace,
-        type: 'kill-update',
-        version: 1
-      },
-      assists: event.Assisters.map((a: string) => {
-        return allGameData.allPlayers.find(p => {
-          return p.summonerName === a
-        })?.rawChampionName.split('_')[3]
-      }),
-      other: 'Turret',
-      source: event.KillerName.startsWith('Minion') ? 'Minion' : allGameData.allPlayers.find(p => {
-        return p.summonerName === event.KillerName
-      })?.rawChampionName.split('_')[3],
-      team: team === 100 ? 200 : 100
-    })
+    if (this.config.killfeed) {
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'kill-update',
+          version: 1
+        },
+        assists: event.Assisters.map((a: string) => {
+          return allGameData.allPlayers.find(p => {
+            return p.summonerName === a
+          })?.rawChampionName.split('_')[3]
+        }),
+        other: 'Turret',
+        source: event.KillerName.startsWith('Minion') ? 'Minion' : allGameData.allPlayers.find(p => {
+          return p.summonerName === event.KillerName
+        })?.rawChampionName.split('_')[3],
+        team: team === 100 ? 200 : 100
+      })
+    }
   }
 
   private handleKillEvent(event: Event, allGameData: AllGameData) {
+    if (!this.config.killfeed) return
+    
     this.ctx.LPTE.emit({
       meta: {
         namespace: this.namespace,

@@ -394,7 +394,7 @@ body {
   transform: translateX(0) scale(-1, 1);
 }
 
-#quick-events {
+#killfeed {
   position: absolute;
   bottom: 465px;
   right: 180px;
@@ -402,7 +402,7 @@ body {
   width: 170px;
 }
 
-.quick-event {
+.kill {
   --team: var(--blue-team)
 
   height: 60px;
@@ -416,14 +416,14 @@ body {
   transition: margin-bottom 0.5s ease;
   transform: translateX(200%);
   opacity: 0;
-  animation: quick-event 5s ease-in-out forwards;
+  animation: kill 5s ease-in-out forwards;
 }
 
-.quick-event:not(:last-child) {
+.kill:not(:last-child) {
   margin-bottom: 5px;
 }
 
-.quick-event::after {
+.kill::after {
   content: '';
   height: 60px;
   width: 170px;
@@ -456,7 +456,7 @@ body {
   border: 2px solid var(--background-color);
 }
 
-@keyframes quick-event {
+@keyframes kill {
   0% {
     transform: translateX(200%);
     opacity: 0;

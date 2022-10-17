@@ -60,6 +60,20 @@
       <option>18</option>
     </select>
   </div>
+  <div class="form-group mb-3">
+    <label for="events">Events</label>
+    <select multiple class="form-control" id="events">
+      <option>Dragons</option>
+      <option>Herolds</option>
+      <option>Barons</option>
+    </select>
+  </div>
+  <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" value="" id="killfeed">
+    <label class="form-check-label" for="flexCheckDefault">
+      Activate Killfeed
+    </label>
+  </div>
   <div class="form-group">
     <button type="submit" class="btn btn-primary">Save Settings</button>
   </div>
@@ -87,11 +101,41 @@
 </div>
 
 <h3>Test Item</h3>
-<div class="d-flex align-items-center" style="gap: 1rem">
+<div class="d-flex align-items-center mb-3" style="gap: 1rem">
   <button class="btn btn-primary btn-lg" onclick="testItem(100)">
     Test Blue team
   </button>
   <button class="btn btn-danger btn-lg" onclick="testItem(200)">
+    Test Red Team
+  </button>
+</div>
+
+<h3>Test Event</h3>
+<div class="d-flex align-items-center mb-3" style="gap: 1rem">
+  <select class="form-control" id="events-test" style="width: 24%;">
+    <option selected>Dragon</option>
+    <option>Herold</option>
+    <option>Baron</option>
+  </select>
+  <button class="btn btn-primary btn-lg" onclick="testEvent(100)">
+    Test Blue team
+  </button>
+  <button class="btn btn-danger btn-lg" onclick="testEvent(200)">
+    Test Red Team
+  </button>
+</div>
+
+<h3>Test Killfeed</h3>
+<div class="d-flex align-items-center mb-3" style="gap: 1rem">
+  <select class="form-control" id="killfeed-test" style="width: 24%;">
+    <option selected>Kill</option>
+    <option>Turret</option>
+    <option>Inhib</option>
+  </select>
+  <button class="btn btn-primary btn-lg" onclick="testKillfeed(100)">
+    Test Blue team
+  </button>
+  <button class="btn btn-danger btn-lg" onclick="testKillfeed(200)">
     Test Red Team
   </button>
 </div>

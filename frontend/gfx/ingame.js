@@ -241,7 +241,6 @@ function changeColors(e) {
 let hasEvent = false
 function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s}
 function emitEvent(e) {
-
   if (hasEvent) {
     return setTimeout(() => {
       emitEvent(e)
@@ -250,36 +249,36 @@ function emitEvent(e) {
 
   setTimeout(() => {
     hasEvent = true
-    const eventDiv = e.event.team === 100 ? blueTeam.querySelector('.event') : redTeam.querySelector('.event')
+    const eventDiv = e.team === 100 ? blueTeam.querySelector('.event') : redTeam.querySelector('.event')
 
-    eventDiv.querySelector('.event-name').innerText = e.event.name
-    eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.event.time)}`
-    eventDiv.querySelector('.event-img').src = `img/${e.event.type.toLowerCase()}.png`
+    eventDiv.querySelector('.event-name').innerText = e.name
+    eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.time)}`
+    eventDiv.querySelector('.event-img').src = `img/${e.type.toLowerCase()}.png`
 
-    eventDiv.classList.add(e.event.type.toLowerCase(), 'show')
+    eventDiv.classList.add(e.type.toLowerCase(), 'show')
 
     setTimeout(() => {
       eventDiv.classList.remove('show')
     }, 5000)
     setTimeout(() => {
-      eventDiv.classList.remove(e.event.name.toLowerCase())
+      eventDiv.classList.remove(e.name.toLowerCase())
       hasEvent = false
     }, 6500)
   }, 500)
 }
 
-const quickEvents = document.querySelector('#quick-events')
-function addQuickEvent (event) {
-  if (quickEvents.children.length >= 5) {
+const killfeed = document.querySelector('#killfeed')
+function addKill (event) {
+  if (killfeed.children.length >= 5) {
     return setTimeout(() => {
-      addQuickEvent(event)
+      addKill(event)
     }, 3000)
   }
 
   setTimeout(() => {
-    const eventDiv = document.createElement('div')
-    eventDiv.classList.add('quick-event')
-    eventDiv.style.setProperty('--team', event.team === 100 ? 'var(--blue-team)' : 'var(--red-team)')
+    const killDiv = document.createElement('div')
+    killDiv.classList.add('kill')
+    killDiv.style.setProperty('--team', event.team === 100 ? 'var(--blue-team)' : 'var(--red-team)')
 
     const other = document.createElement('img')
     other.classList.add('other')
@@ -305,21 +304,21 @@ function addQuickEvent (event) {
       source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
     }
 
-    eventDiv.appendChild(other)
-    eventDiv.appendChild(sword)
-    eventDiv.appendChild(source)
+    killDiv.appendChild(other)
+    killDiv.appendChild(sword)
+    killDiv.appendChild(source)
 
     for (const a of event.assists) {
       const assist = document.createElement('img')
       assist.classList.add('assist')
       assist.src = `/serve/module-league-static/img/champion/tiles/${a}_0.jpg`
-      eventDiv.appendChild(assist)
+      killDiv.appendChild(assist)
     }
 
-    quickEvents.appendChild(eventDiv)
+    killfeed.appendChild(killDiv)
 
     setTimeout(() => {
-      eventDiv.remove()
+      killDiv.remove()
     }, 5000)
   }, 1000)
 }
@@ -328,7 +327,7 @@ LPTE.onready(async () => {
   LPTE.on(namespace, 'level-update', levelUpdate)
   LPTE.on(namespace, 'item-update', itemUpdate)
   LPTE.on(namespace, 'inhib-update', inhibUpdate)
-  LPTE.on(namespace, 'kill-update', addQuickEvent)
+  LPTE.on(namespace, 'kill-update', addKill)
   /* LPTE.on(namespace, 'tower-update', towerUpdate) */
   LPTE.on(namespace, 'update', setGameState)
   LPTE.on(namespace, 'event', emitEvent)
@@ -396,6 +395,46 @@ LPTE.onready(async () => {
           })
         }, 2500 * (i - 5))
       }
+    }
+  })
+  LPTE.on(namespace, 'test-event', (e) => {
+    if (e.team === 100) {
+      emitEvent({
+        team: 100,
+        name: e.event,
+        time: 160000,
+        type: e.event === 'Dragon' ? 'infernal' : e.event
+      })
+    } else if (e.team === 200) {
+      emitEvent({
+        team: 200,
+        name: e.event,
+        time: 160000,
+        type: e.event === 'Dragon' ? 'infernal' : e.event
+      })
+    }
+  })
+  LPTE.on(namespace, 'test-killfeed', (e) => {
+    if (e.team === 100) {
+      addKill({
+        team: 100,
+        other: e.event === 'Kill' ? 'Bard' : e.event,
+        source: 'Aatrox',
+        assists: [
+          'Leona',
+          'Trundle'
+        ]
+      })
+    } else if (e.team === 200) {
+      addKill({
+        team: 200,
+        other: e.event === 'Kill' ? 'Bard' : e.event,
+        source: 'Aatrox',
+        assists: [
+          'Leona',
+          'Trundle'
+        ]
+      })
     }
   })
 

@@ -9,7 +9,9 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
       version: 1
     },
     items: Array.from(document.querySelector('#items').options).filter(el => el.selected).map(el => el.value),
-    level: Array.from(document.querySelector('#level').options).filter(el => el.selected).map(el => el.value)
+    level: Array.from(document.querySelector('#level').options).filter(el => el.selected).map(el => el.value),
+    events: Array.from(document.querySelector('#events').options).filter(el => el.selected).map(el => el.value),
+    killfeed: document.querySelector('#killfeed').checked
   })
 })
 
@@ -55,6 +57,28 @@ function testItem(team) {
     team
   })
 }
+function testEvent(team) {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'test-event',
+      version: 1
+    },
+    team,
+    event: document.getElementById('events-test').options[document.getElementById('events-test').selectedIndex].text
+  })
+}
+function testKillfeed(team) {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'test-killfeed',
+      version: 1
+    },
+    team,
+    event: document.getElementById('killfeed-test').options[document.getElementById('killfeed-test').selectedIndex].text
+  })
+}
 
 function initSettings(settings) {
   const itemOptions = document.querySelector('#items').options
@@ -74,10 +98,21 @@ function initSettings(settings) {
       level.selected = true
     }
   }
+
+  const eventsOptions = document.querySelector('#events').options
+  for (let i = 0; i < eventsOptions.length; i++) {
+    const event = eventsOptions[i]
+
+    if (settings.events.includes(event.value)) {
+      event.selected = true
+    }
+  }
+
+  document.querySelector('#killfeed').checked = settings.killfeed
 }
 
 LPTE.onready(async () => {
-  const port =  await window.constants.getWebServerPort()
+  const port = await window.constants.getWebServerPort()
   const location = `http://localhost:${port}/pages/op-module-league-in-game/gfx`
 
   const apiKey = await window.constants.getApiKey()
