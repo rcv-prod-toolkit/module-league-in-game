@@ -29,7 +29,8 @@ export const enum MobType {
   ElderDragon = 'SRU_Dragon_Elder',
   InfernalDragon = 'SRU_Dragon_Fire',
   OceanDragon = 'SRU_Dragon_Water',
-  MountainDragon = 'SRU_Dragon_Earth'
+  MountainDragon = 'SRU_Dragon_Earth',
+  Herald = 'Herald'
 }
 
 export const enum StructureType {

@@ -246,6 +246,12 @@ export class InGameState {
   private checkItemUpdate(currentPlayerState: Player, id: number) {
     const previousItems = this.gameState.player[id].items
 
+    if (previousItems.has(3513)) {
+      if (!currentPlayerState.items.find(i => i.itemID === 3513)) {
+        previousItems.delete(3513)
+      }
+    }
+
     for (const item of currentPlayerState.items) {
       const itemID = item.itemID
       if (previousItems.has(itemID)) continue
@@ -254,6 +260,19 @@ export class InGameState {
         (i: any) => i.itemID === itemID
       )
       if (itemBinFind === undefined) continue
+
+      if (itemID === 3513) {
+        this.handelEvent({
+          eventname: EventType.HeraldKill,
+          other: MobType.Herald,
+          otherTeam: TeamType.Neutral,
+          source: currentPlayerState.summonerName,
+          sourceID: id,
+          sourceTeam: currentPlayerState.team === 'CHAOS' ? TeamType.Chaos : TeamType.Order
+        })
+        this.gameState.player[id].items.add(itemID)
+        return
+      }
 
       if (!this.itemEpicness.includes(itemBinFind.epicness)) continue
 
@@ -271,8 +290,6 @@ export class InGameState {
       })
     }
   }
-
-  // ---
 
   private checkEventUpdate(
     allGameData: AllGameData,
