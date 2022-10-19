@@ -111,9 +111,11 @@ function initSettings(settings) {
   document.querySelector('#killfeed').checked = settings.killfeed
 }
 
+let server = ''
+
 LPTE.onready(async () => {
-  const port = await window.constants.getWebServerPort()
-  const location = `http://localhost:${port}/pages/op-module-league-in-game/gfx`
+  server = await window.constants.getWebServerPort()
+  const location = `http://${server}/pages/op-module-league-in-game/gfx`
 
   const apiKey = await window.constants.getApiKey()
 

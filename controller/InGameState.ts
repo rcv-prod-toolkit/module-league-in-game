@@ -120,6 +120,10 @@ export class InGameState {
           level: 0,
           items: new Set()
         }
+      },
+      objectives: {
+        100: [],
+        200: [],
       }
     }
 
@@ -155,6 +159,14 @@ export class InGameState {
   public handelEvent(event: InGameEvent): void {
     if (event.eventname === EventType.StructureKill) return
 
+    const team = event.sourceTeam === TeamType.Order ? 100 : 200
+    const time = Math.round(this.gameState.time)
+    this.gameState.objectives[team].push({
+      type: event.eventname,
+      mob: event.other,
+      time
+    })
+
     if (event.eventname === EventType.DragonKill && this.config.events?.includes('Dragons')) {
       this.ctx.LPTE.emit({
         meta: {
@@ -164,8 +176,8 @@ export class InGameState {
         },
         name: 'Dragon',
         type: this.convertDragon(event.other),
-        team: event.sourceTeam === TeamType.Order ? 100 : 200,
-        time: Math.round(this.gameState.time)
+        team,
+        time
       })
     } else if (event.eventname === EventType.BaronKill && this.config.events?.includes('Barons')) {
       this.ctx.LPTE.emit({
@@ -176,8 +188,8 @@ export class InGameState {
         },
         name: 'Baron',
         type: 'Baron',
-        team: event.sourceTeam === TeamType.Order ? 100 : 200,
-        time: Math.round(this.gameState.time)
+        team,
+        time
       })
     } else if (event.eventname === EventType.HeraldKill && this.config.events?.includes('Herolds')) {
       this.ctx.LPTE.emit({
@@ -188,8 +200,8 @@ export class InGameState {
         },
         name: 'Herald',
         type: 'Herald',
-        team: event.sourceTeam === TeamType.Order ? 100 : 200,
-        time: Math.round(this.gameState.time)
+        team,
+        time
       })
     }
   }

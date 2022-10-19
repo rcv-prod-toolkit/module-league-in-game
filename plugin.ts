@@ -82,6 +82,15 @@ module.exports = async (ctx: PluginContext) => {
       inGameState = new InGameState(namespace, ctx, config, statics)
     })
     ctx.LPTE.on('lcu', 'lcu-end-of-game-create', () => {
+      ctx.LPTE.emit({
+        meta: {
+          namespace: 'module-league-state',
+          type: 'save-live-game-stats',
+          version: 1
+        },
+        objectives: inGameState.gameState.objectives
+      })
+      
       inGameState = new InGameState(namespace, ctx, config, statics)
     })
 

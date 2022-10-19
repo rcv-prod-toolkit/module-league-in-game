@@ -1,3 +1,5 @@
+import { EventType, MobType } from './InGameEvent'
+
 export interface InGameState {
   time: number
   towers: {
@@ -15,6 +17,16 @@ export interface InGameState {
       items: Set<number>
     }
   }
+  objectives: {
+    100: Objective[]
+    200: Objective[]
+  }
+}
+
+export interface Objective {
+  type: EventType,
+  mob: MobType,
+  time: number
 }
 
 export interface TowerState {

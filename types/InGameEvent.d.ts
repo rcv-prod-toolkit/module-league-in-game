@@ -30,7 +30,8 @@ export const enum MobType {
   InfernalDragon = 'SRU_Dragon_Fire',
   OceanDragon = 'SRU_Dragon_Water',
   MountainDragon = 'SRU_Dragon_Earth',
-  Herald = 'Herald'
+  Herald = 'SRU_Herald',
+  Baron = 'SRU_Baron'
 }
 
 export const enum StructureType {

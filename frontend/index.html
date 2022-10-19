@@ -14,15 +14,35 @@
 <input style="width: 100%" readonly id="ingame-embed" class="mb-5" />
 
 <div class="d-flex mb-5">
-  <button class="btn btn-primary btn-lg mr-3" onclick="showInhibs(100)">
-    Show Blue Inhibitors
-  </button>
-  <button class="btn btn-secondary btn-lg mr-3" onclick="hideInhibs()">
-    Hide Inhibitors
-  </button>
-  <button class="btn btn-danger btn-lg" onclick="showInhibs(200)">
-    Show Red Inhibitors
-  </button>
+  <div class="btn-group mr-3">
+    <button type="button" class="btn btn-primary" onclick="showInhibs(100)">Show Blue Inhibitors</button>
+    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button class="dropdown-item" onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/show-inhibs?side=100`)">Copy Action-Link</button>
+    </div>
+  </div>
+
+  <div class="btn-group mr-3">
+    <button type="button" class="btn btn-secondary" onclick="hideInhibs()">Hide Inhibitors</button>
+    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button class="dropdown-item" onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/hide-inhibs`)">Copy Action-Link</button>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-danger" onclick="showInhibs(200)">Show Red Inhibitors</button>
+    <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button class="dropdown-item" onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/show-inhibs?side=200`)">Copy Action-Link</button>
+    </div>
+  </div>
 </div>
 
 <h2>Settings</h2>
