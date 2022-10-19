@@ -403,14 +403,14 @@ LPTE.onready(async () => {
         team: 100,
         name: e.event,
         time: 160000,
-        type: e.event === 'Dragon' ? 'infernal' : e.event
+        type: e.event === 'Dragon' ? 'cloud' : e.event
       })
     } else if (e.team === 200) {
       emitEvent({
         team: 200,
         name: e.event,
         time: 160000,
-        type: e.event === 'Dragon' ? 'infernal' : e.event
+        type: e.event === 'Dragon' ? 'cloud' : e.event
       })
     }
   })
