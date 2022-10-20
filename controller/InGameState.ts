@@ -36,6 +36,10 @@ export class InGameState {
           R: {}
         }
       },
+      platings: {
+        100: 0,
+        200: 0
+      },
       showInhibitors: null,
       inhibitors: {
         100: {
@@ -160,10 +164,24 @@ export class InGameState {
     if (event.eventname === EventType.StructureKill) return
 
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
+
+    if (event.eventname === EventType.TurretPlateDestroyed) {
+      this.gameState.platings[team] += 1
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'platings-update',
+          version: 1
+        },
+        platings: this.gameState.platings
+      })
+      return
+    }
+
     const time = Math.round(this.gameState.time)
     this.gameState.objectives[team].push({
       type: event.eventname,
-      mob: event.other,
+      mob: event.other as MobType,
       time
     })
 
@@ -308,13 +326,12 @@ export class InGameState {
     previousGameData: AllGameData
   ) {
     if (
-      allGameData.events.Events.length === 0 ||
-      previousGameData.events.Events.length === 0
+      allGameData.events.Events.length === 0
     )
       return
 
     const newEvents = allGameData.events.Events.slice(
-      previousGameData.events.Events.length
+      previousGameData.events.Events.length || 0
     )
 
     newEvents.forEach((event) => {

@@ -6,7 +6,7 @@ export type InGameEvent = {
     sourceID: number
     sourceTeam: TeamType
 } | {
-  eventname: EventType.StructureKill
+  eventname: EventType.StructureKill | EventType.TurretPlateDestroyed
   other: StructureType
   otherTeam: TeamType
   source: string
@@ -19,6 +19,7 @@ export const enum EventType {
   HeraldKill = 'OnKillRiftHerald_Spectator',
   BaronKill = 'OnKillWorm_Spectator',
   StructureKill = 'OnStructureKill',
+  TurretPlateDestroyed = 'OnTurretPlateDestroyed',
   HeraldSummon = 'OnSummonRiftHerald'
 }
 

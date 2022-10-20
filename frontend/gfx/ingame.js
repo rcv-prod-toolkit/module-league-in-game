@@ -66,6 +66,14 @@ function inhibUpdate(e) {
   inhib.querySelector('p').innerText = convertSecsToTime(e.respawnIn)
 }
 
+function platingsUpdate(e) {
+  console.log(e)
+  /* const team = parseInt(e.team) === 100 ? blueSide : redSide
+  const inhib = team.querySelector(`.${e.lane}`)
+  inhib.style.setProperty('--percent', e.percent)
+  inhib.querySelector('p').innerText = convertSecsToTime(e.respawnIn) */
+}
+
 /* const turretDiv = document.querySelector('#turrets')
 const blueTurrets = turretDiv.querySelector('#blueTurrets')
 const redTurrets = turretDiv.querySelector('#redTurrets')
@@ -247,8 +255,8 @@ function emitEvent(e) {
     }, 2000)
   }
 
+  hasEvent = true
   setTimeout(() => {
-    hasEvent = true
     const eventDiv = e.team === 100 ? blueTeam.querySelector('.event') : redTeam.querySelector('.event')
 
     eventDiv.querySelector('.event-name').innerText = e.name
@@ -264,7 +272,7 @@ function emitEvent(e) {
       eventDiv.classList.remove(e.name.toLowerCase())
       hasEvent = false
     }, 6500)
-  }, 500)
+  }, 2000)
 }
 
 const killfeed = document.querySelector('#killfeed')
@@ -328,6 +336,7 @@ LPTE.onready(async () => {
   LPTE.on(namespace, 'item-update', itemUpdate)
   LPTE.on(namespace, 'inhib-update', inhibUpdate)
   LPTE.on(namespace, 'kill-update', addKill)
+  LPTE.on(namespace, 'platings-update', platingsUpdate)
   /* LPTE.on(namespace, 'tower-update', towerUpdate) */
   LPTE.on(namespace, 'update', setGameState)
   LPTE.on(namespace, 'event', emitEvent)

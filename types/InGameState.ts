@@ -6,6 +6,10 @@ export interface InGameState {
     100: TowerState
     200: TowerState
   }
+  platings: {
+    100: number
+    200: number
+  }
   showInhibitors: 100 | 200 | null
   inhibitors: {
     100: InhibitorState
