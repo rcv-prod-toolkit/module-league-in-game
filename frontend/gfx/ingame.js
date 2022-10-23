@@ -66,14 +66,6 @@ function inhibUpdate(e) {
   inhib.querySelector('p').innerText = convertSecsToTime(e.respawnIn)
 }
 
-function platingsUpdate(e) {
-  console.log(e)
-  /* const team = parseInt(e.team) === 100 ? blueSide : redSide
-  const inhib = team.querySelector(`.${e.lane}`)
-  inhib.style.setProperty('--percent', e.percent)
-  inhib.querySelector('p').innerText = convertSecsToTime(e.respawnIn) */
-}
-
 /* const turretDiv = document.querySelector('#turrets')
 const blueTurrets = turretDiv.querySelector('#blueTurrets')
 const redTurrets = turretDiv.querySelector('#redTurrets')
@@ -84,6 +76,48 @@ function towerUpdate (e) {
   const newValue = (Number(value.innerText) || 0) + 1
   value.innerText = newValue
 } */
+
+const platingDiv = document.querySelector('#platings')
+const bluePlates = platingDiv.querySelector('.team-plates.blue')
+const redPlates = platingDiv.querySelector('.team-plates.red')
+
+function calcK(amount) {
+  switch (true) {
+    case amount > 1000:
+      return `${(amount / 1000).toFixed(1)} K`
+    default:
+      return amount
+  }
+}
+
+function platingsUpdate (e) {
+  const platings = e.state?.platings ?? e.platings
+
+  if (platings.showPlatings) {
+    platingDiv.classList.remove('hide')
+  } else {
+    platingDiv.classList.add('hide')
+  }
+
+  for (const [teamId, team] of Object.entries(platings)) {
+    const teamDiv = teamId === '100' ? bluePlates : redPlates
+    let total = 0
+
+    for (const [lane, number] of Object.entries(team)) {
+      total += number
+
+      if (lane === 'L') {
+        teamDiv.querySelector('.top span').innerText = number
+      } else if (lane === 'C') {
+        teamDiv.querySelector('.mid span').innerText = number
+      } else if (lane === 'R') {
+        teamDiv.querySelector('.bot span').innerText = number
+      }
+    }
+
+    teamDiv.querySelector('.gold span').innerText = calcK(total * 160)
+  }
+}
 
 function setGameState(e) {
   const state = e.state
@@ -104,6 +138,8 @@ function setGameState(e) {
       value.textContent = (Number(value.innerText) || 0)
     }
   } */
+
+  platingsUpdate(e)
 
   for (const [teamId, team] of Object.entries(state.inhibitors)) {
     for (const [lane, data] of Object.entries(team)) {
@@ -352,11 +388,17 @@ LPTE.onready(async () => {
       redSide.classList.remove('hide')
     }
   })
+  LPTE.on(namespace, 'show-platings', (e) => {
+    platingDiv.classList.remove('hide')
+  })
 
   LPTE.on(namespace, 'hide-inhibs', () => {
     inhibDiv.classList.add('hide')
     blueSide.classList.add('hide')
     redSide.classList.add('hide')
+  })
+  LPTE.on(namespace, 'hide-platings', () => {
+    platingDiv.classList.add('hide')
   })
 
   LPTE.on(namespace, 'test-level-up', (e) => {

@@ -14,7 +14,6 @@ body {
   display: flex;
   background-size: contain;
   background-repeat: no-repeat;
-  margin-top: 154px;
   font-family: var(--secondary-font-family);
   font-weight: 700;
   position: relative;
@@ -240,7 +239,7 @@ body {
   color: var(--red-team);
 }
 
-.hide {
+#inhibDiv.hide {
   opacity: 0 !important;
 }
 
@@ -365,6 +364,7 @@ body {
 
 .team {
   position: relative;
+  top: 154px;
 }
 
 #red .event {
@@ -396,7 +396,7 @@ body {
 
 #killfeed {
   position: absolute;
-  bottom: 465px;
+  bottom: 310px;
   right: 180px;
   height: 60;
   width: 170px;
@@ -473,4 +473,70 @@ body {
     transform: translateX(200%);
     opacity: 0;
   }
+}
+
+#platings {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 1420px;
+  height: 72px;
+  background: var(--background-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 100px;
+  transition: transform 0.3s ease;
+}
+
+#platings.hide {
+  transform: translate(-50%,-100%);
+}
+
+.team-plates {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.team-plates.blue {
+  color: var(--blue-team);
+}
+
+.team-plates.red {
+  color: var(--red-team);
+}
+
+.text {
+  font-family: var(--primary-font-family);
+  font-size: 35px;
+  color: var(--text-color);
+  margin: 0 100px;
+}
+
+.plates,
+.gold {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plates span,
+.gold span {
+  font-family: var(--secondary-font-family);
+  font-size: 25px;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.plates img {
+  width: 25px;
+  height: 25px;
+  fill: var(--text-color);
+}
+
+.gold img {
+  width: 35px;
+  height: 35px;
 }

@@ -37,8 +37,17 @@ export class InGameState {
         }
       },
       platings: {
-        100: 0,
-        200: 0
+        showPlatings: false,
+        100: {
+          L: 0,
+          C: 0,
+          R: 0
+        },
+        200: {
+          L: 0,
+          C: 0,
+          R: 0
+        }
       },
       showInhibitors: null,
       inhibitors: {
@@ -166,7 +175,10 @@ export class InGameState {
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
 
     if (event.eventname === EventType.TurretPlateDestroyed) {
-      this.gameState.platings[team] += 1
+      const split = event.other.split('_') as string[]
+      const lane = split[2] as 'L' | 'C' | 'R'
+      this.gameState.platings[team][lane] += 1
+
       this.ctx.LPTE.emit({
         meta: {
           namespace: this.namespace,

@@ -131,16 +131,21 @@ module.exports = async (ctx: PluginContext) => {
 
   ctx.LPTE.on(namespace, 'show-inhibs', (e) => {
     if (inGameState === undefined) return
-
     const side = parseInt(e.side) as any
-
     inGameState.gameState.showInhibitors = side
+  })
+  ctx.LPTE.on(namespace, 'show-platings', (e) => {
+    if (inGameState === undefined) return
+    inGameState.gameState.platings.showPlatings = true
   })
 
   ctx.LPTE.on(namespace, 'hide-inhibs', (e) => {
     if (inGameState === undefined) return
-
     inGameState.gameState.showInhibitors = null
+  })
+  ctx.LPTE.on(namespace, 'hide-platings', (e) => {
+    if (inGameState === undefined) return
+    inGameState.gameState.platings.showPlatings = false
   })
 
   // Emit event that we're ready to operate

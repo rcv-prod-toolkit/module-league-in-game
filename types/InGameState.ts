@@ -7,8 +7,9 @@ export interface InGameState {
     200: TowerState
   }
   platings: {
-    100: number
-    200: number
+    showPlatings: boolean
+    100: PlatingState
+    200: PlatingState
   }
   showInhibitors: 100 | 200 | null
   inhibitors: {
@@ -43,6 +44,12 @@ export interface TowerState {
   R: {
     [turret: string]: boolean
   }
+}
+
+export interface PlatingState {
+  L: number
+  C: number
+  R: number
 }
 
 export interface InhibitorState {

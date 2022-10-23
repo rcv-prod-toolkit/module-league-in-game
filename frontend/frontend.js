@@ -25,12 +25,30 @@ function showInhibs(side) {
     side
   })
 }
+function showPlatings() {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'show-platings',
+      version: 1
+    }
+  })
+}
 
 function hideInhibs() {
   LPTE.emit({
     meta: {
       namespace: 'module-league-in-game',
       type: 'hide-inhibs',
+      version: 1
+    }
+  })
+}
+function hidePlatings() {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'hide-platings',
       version: 1
     }
   })

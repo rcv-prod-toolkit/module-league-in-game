@@ -36,7 +36,9 @@ export const enum MobType {
 }
 
 export const enum StructureType {
-  
+  Turret_T2_R_03_A = 'Turret_T2_R_03_A',
+  Turret_T2_C_03_A = 'Turret_T2_C_03_A',
+  Turret_T2_L_03_A = 'Turret_T2_L_03_A'
 }
 
 export const enum TeamType {
