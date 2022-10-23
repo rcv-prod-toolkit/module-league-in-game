@@ -221,7 +221,7 @@ export class InGameState {
         team,
         time
       })
-    } else if (event.eventname === EventType.HeraldKill && this.config.events?.includes('Herolds')) {
+    } else if (event.eventname === EventType.HeraldKill && this.config.events?.includes('Heralds')) {
       this.ctx.LPTE.emit({
         meta: {
           namespace: this.namespace,
