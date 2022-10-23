@@ -84,7 +84,7 @@ const redPlates = platingDiv.querySelector('.team-plates.red')
 function calcK(amount) {
   switch (true) {
     case amount > 1000:
-      return `${(amount / 1000).toFixed(1)} K`
+      return `${(amount / 1000).toFixed(2)} K`
     default:
       return amount
   }
@@ -100,6 +100,7 @@ function platingsUpdate (e) {
   }
 
   for (const [teamId, team] of Object.entries(platings)) {
+    if (teamId === 'showPlatings') continue
     const teamDiv = teamId === '100' ? bluePlates : redPlates
     let total = 0
 
