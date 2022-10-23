@@ -239,7 +239,7 @@ body {
   color: var(--red-team);
 }
 
-#inhibDiv.hide {
+.hide {
   opacity: 0 !important;
 }
 
@@ -481,7 +481,7 @@ body {
   left: 50%;
   transform: translate(-50%, 0);
   width: 1420px;
-  height: 72px;
+  height: 75px;
   background: var(--background-color);
   display: flex;
   justify-content: space-between;
@@ -491,6 +491,7 @@ body {
 }
 
 #platings.hide {
+  opacity: 1 !important;
   transform: translate(-50%,-100%);
 }
 
