@@ -20,7 +20,9 @@ module.exports = async (ctx: PluginContext) => {
     items: [],
     level: [],
     events: [],
-    killfeed: false
+    killfeed: false,
+    ppTimer: false,
+    delay: 0
   }, configRes?.config)
 
   ctx.LPTE.on(namespace, 'set-settings', (e) => {
@@ -28,6 +30,8 @@ module.exports = async (ctx: PluginContext) => {
     config.level = e.level
     config.events = e.events
     config.killfeed = e.killfeed
+    config.ppTimer = e.ppTimer
+    config.delay = e.delay
 
     ctx.LPTE.emit({
       meta: {
@@ -39,7 +43,9 @@ module.exports = async (ctx: PluginContext) => {
         items: e.items,
         level: e.level,
         events: e.events,
-        killfeed: e.killfeed
+        killfeed: e.killfeed,
+        ppTimer: e.ppTimer,
+        delay: e.delay
       }
     })
   })
@@ -55,6 +61,8 @@ module.exports = async (ctx: PluginContext) => {
       level: config.level,
       events: config.events,
       killfeed: config.killfeed,
+      ppTimer: config.ppTimer,
+      delay: config.delay
     })
   })
 

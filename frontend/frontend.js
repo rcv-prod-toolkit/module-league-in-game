@@ -11,7 +11,9 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
     items: Array.from(document.querySelector('#items').options).filter(el => el.selected).map(el => el.value),
     level: Array.from(document.querySelector('#level').options).filter(el => el.selected).map(el => el.value),
     events: Array.from(document.querySelector('#events').options).filter(el => el.selected).map(el => el.value),
-    killfeed: document.querySelector('#killfeed').checked
+    killfeed: document.querySelector('#killfeed').checked,
+    ppTimer: document.querySelector('#ppTimer').checked,
+    delay: parseInt(document.querySelector('#delay').value),
   })
 })
 
@@ -127,6 +129,8 @@ function initSettings(settings) {
   }
 
   document.querySelector('#killfeed').checked = settings.killfeed
+  document.querySelector('#ppTimer').checked = settings.ppTimer
+  document.querySelector('#delay').value = settings.delay
 }
 
 let server = ''

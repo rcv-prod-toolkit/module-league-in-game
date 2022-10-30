@@ -3,4 +3,6 @@ export interface Config {
   items: string[]
   events: string[]
   killfeed: boolean
+  ppTimer: boolean
+  delay: number
 }
