@@ -181,6 +181,7 @@ export class InGameState {
     if (event.eventname === EventType.StructureKill) return
 
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
+    const time = this.gameData[this.gameData.length - 1].gameData.gameTime
 
     setTimeout(() => {
       if (event.eventname === EventType.TurretPlateDestroyed) {
@@ -198,8 +199,7 @@ export class InGameState {
         })
         return
       }
-
-      const time = this.gameData[this.gameData.length - 1].gameData.gameTime
+      
       this.gameState.objectives[team].push({
         type: event.eventname,
         mob: event.other as MobType,
@@ -237,7 +237,7 @@ export class InGameState {
           time
         })
       }
-    }, this.config.delay ?? 0)
+    }, this.config.delay)
   }
 
   private convertDragon(dragon: MobType): string {
