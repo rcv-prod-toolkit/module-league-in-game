@@ -90,7 +90,7 @@ function calcK(amount) {
   }
 }
 
-function platingsUpdate (e) {
+function platingsUpdate(e) {
   const platings = e.state?.platings ?? e.platings
 
   if (platings.showPlatings) {
@@ -170,6 +170,30 @@ function setGameState(e) {
     inhibDiv.classList.add('hide')
     blueSide.classList.add('hide')
     redSide.classList.add('hide')
+  }
+}
+
+const baron = document.querySelector('#baron')
+const elder = document.querySelector('#elder')
+function ppUpdate(e) {
+  const typeDiv = e.type === 'Baron' ? baron : elder
+  const div = typeDiv.querySelector('.pp-bar')
+  const timer = typeDiv.querySelector('.timer')
+
+  if (!e.ongoing) {
+    div.style.setProperty('--percent', 100)
+    timer.innerText = convertSecsToTime(0)
+
+    typeDiv.classList.add('hide')
+  } else {
+    div.style.setProperty('--percent', e.percent)
+    timer.innerText = convertSecsToTime(e.respawnIn)
+
+    if (typeDiv.classList.contains('hide')) {
+      setTimeout(() => {
+        typeDiv.classList.remove('hide')
+      }, 5000)
+    }
   }
 }
 
@@ -284,7 +308,9 @@ function changeColors(e) {
 }
 
 let hasEvent = false
-function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s}
+function fmtMSS(s) {
+  return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
+}
 function emitEvent(e) {
   if (hasEvent) {
     return setTimeout(() => {
@@ -293,79 +319,81 @@ function emitEvent(e) {
   }
 
   hasEvent = true
+  const eventDiv =
+    e.team === 100
+      ? blueTeam.querySelector('.event')
+      : redTeam.querySelector('.event')
+
+  eventDiv.querySelector('.event-name').innerText = e.name
+  eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.time)}`
+  eventDiv.querySelector('.event-img').src = `img/${e.type.toLowerCase()}.png`
+
+  eventDiv.classList.add(e.type.toLowerCase(), 'show')
+
   setTimeout(() => {
-    const eventDiv = e.team === 100 ? blueTeam.querySelector('.event') : redTeam.querySelector('.event')
-
-    eventDiv.querySelector('.event-name').innerText = e.name
-    /* eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.time)}` */
-    eventDiv.querySelector('.event-img').src = `img/${e.type.toLowerCase()}.png`
-
-    eventDiv.classList.add(e.type.toLowerCase(), 'show')
-
-    setTimeout(() => {
-      eventDiv.classList.remove('show')
-    }, 5000)
-    setTimeout(() => {
-      eventDiv.classList.remove(e.name.toLowerCase())
-      hasEvent = false
-    }, 6500)
-  }, 2000)
+    eventDiv.classList.remove('show')
+  }, 5000)
+  setTimeout(() => {
+    eventDiv.classList.remove(e.name.toLowerCase())
+    hasEvent = false
+  }, 6500)
 }
 
 const killfeed = document.querySelector('#killfeed')
-function addKill (event) {
+function addKill(event) {
   if (killfeed.children.length >= 5) {
     return setTimeout(() => {
       addKill(event)
     }, 3000)
   }
 
+  const killDiv = document.createElement('div')
+  killDiv.classList.add('kill')
+  killDiv.style.setProperty(
+    '--team',
+    event.team === 100 ? 'var(--blue-team)' : 'var(--red-team)'
+  )
+
+  const other = document.createElement('img')
+  other.classList.add('other')
+  if (event.other === 'Turret') {
+    other.src = './img/tower.png'
+  } else if (event.other === 'Inhib') {
+    other.src = './img/inhib.png'
+  } else {
+    other.src = `/serve/module-league-static/img/champion/tiles/${event.other}_0.jpg`
+  }
+
+  const sword = document.createElement('img')
+  sword.classList.add('sword')
+  sword.src = './img/sword.png'
+
+  const source = document.createElement('img')
+  source.classList.add('source')
+  if (event.source === 'Minion') {
+    source.src = './img/minion.png'
+  } else if (event.source === 'Turret') {
+    source.src = './img/tower.png'
+  } else {
+    source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
+  }
+
+  killDiv.appendChild(other)
+  killDiv.appendChild(sword)
+  killDiv.appendChild(source)
+
+  for (const a of event.assists) {
+    const assist = document.createElement('img')
+    assist.classList.add('assist')
+    assist.src = `/serve/module-league-static/img/champion/tiles/${a}_0.jpg`
+    killDiv.appendChild(assist)
+  }
+
+  killfeed.appendChild(killDiv)
+
   setTimeout(() => {
-    const killDiv = document.createElement('div')
-    killDiv.classList.add('kill')
-    killDiv.style.setProperty('--team', event.team === 100 ? 'var(--blue-team)' : 'var(--red-team)')
-
-    const other = document.createElement('img')
-    other.classList.add('other')
-    if (event.other === 'Turret') {
-      other.src = './img/tower.png'
-    } else if (event.other === 'Inhib') {
-      other.src = './img/inhib.png'
-    } else {
-      other.src = `/serve/module-league-static/img/champion/tiles/${event.other}_0.jpg`
-    }
-
-    const sword = document.createElement('img')
-    sword.classList.add('sword')
-    sword.src = './img/sword.png'
-
-    const source = document.createElement('img')
-    source.classList.add('source')
-    if (event.source === 'Minion') {
-      source.src = './img/minion.png'
-    } else if (event.source === 'Turret') {
-      source.src = './img/tower.png'
-    } else {
-      source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
-    }
-
-    killDiv.appendChild(other)
-    killDiv.appendChild(sword)
-    killDiv.appendChild(source)
-
-    for (const a of event.assists) {
-      const assist = document.createElement('img')
-      assist.classList.add('assist')
-      assist.src = `/serve/module-league-static/img/champion/tiles/${a}_0.jpg`
-      killDiv.appendChild(assist)
-    }
-
-    killfeed.appendChild(killDiv)
-
-    setTimeout(() => {
-      killDiv.remove()
-    }, 5000)
-  }, 1000)
+    killDiv.remove()
+  }, 5000)
 }
 
 LPTE.onready(async () => {
@@ -377,6 +405,7 @@ LPTE.onready(async () => {
   /* LPTE.on(namespace, 'tower-update', towerUpdate) */
   LPTE.on(namespace, 'update', setGameState)
   LPTE.on(namespace, 'event', emitEvent)
+  LPTE.on(namespace, 'pp-update', ppUpdate)
 
   LPTE.on(namespace, 'show-inhibs', (e) => {
     inhibDiv.classList.remove('hide')
@@ -472,20 +501,14 @@ LPTE.onready(async () => {
         team: 100,
         other: e.event === 'Kill' ? 'Bard' : e.event,
         source: 'Aatrox',
-        assists: [
-          'Leona',
-          'Trundle'
-        ]
+        assists: ['Leona', 'Trundle']
       })
     } else if (e.team === 200) {
       addKill({
         team: 200,
         other: e.event === 'Kill' ? 'Bard' : e.event,
         source: 'Aatrox',
-        assists: [
-          'Leona',
-          'Trundle'
-        ]
+        assists: ['Leona', 'Trundle']
       })
     }
   })
