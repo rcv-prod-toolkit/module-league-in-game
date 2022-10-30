@@ -308,9 +308,6 @@ function changeColors(e) {
 }
 
 let hasEvent = false
-function fmtMSS(s) {
-  return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
-}
 function emitEvent(e) {
   if (hasEvent) {
     return setTimeout(() => {
@@ -325,7 +322,7 @@ function emitEvent(e) {
       : redTeam.querySelector('.event')
 
   eventDiv.querySelector('.event-name').innerText = e.name
-  eventDiv.querySelector('.event-time').innerText = `AT ${fmtMSS(e.time)}`
+  eventDiv.querySelector('.event-time').innerText = `AT ${convertSecsToTime(e.time)}`
   eventDiv.querySelector('.event-img').src = `img/${e.type.toLowerCase()}.png`
 
   eventDiv.classList.add(e.type.toLowerCase(), 'show')
