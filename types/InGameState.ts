@@ -1,7 +1,6 @@
 import { EventType, MobType } from './InGameEvent'
 
 export interface InGameState {
-  time: number
   towers: {
     100: TowerState
     200: TowerState
@@ -58,17 +57,20 @@ export interface InhibitorState {
     respawnIn: number
     respawnAt: number
     percent: number
+    time: number
   }
   C1: {
     alive: boolean
     respawnIn: number
     respawnAt: number
     percent: number
+    time: number
   }
   R1: {
     alive: boolean
     respawnIn: number
     respawnAt: number
     percent: number
+    time: number
   }
 }
