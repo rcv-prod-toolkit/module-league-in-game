@@ -153,6 +153,17 @@ export class InGameState {
     })
   }
 
+  public updateState () {
+    this.ctx.LPTE.emit({
+      meta: {
+        namespace: 'module-league-state',
+        type: 'save-live-game-stats',
+        version: 1
+      },
+      gameState: this.gameState
+    })
+  }
+
   public handelData(allGameData: AllGameData): void {
     if (this.gameData.length > 0) {
       let previousGameData = this.gameData[this.gameData.length - 1]
@@ -205,6 +216,8 @@ export class InGameState {
         mob: event.other as MobType,
         time
       })
+
+      this.updateState()
 
       if (event.eventname === EventType.DragonKill && this.config.events?.includes('Dragons')) {
         if (this.convertDragon(event.other) === 'Elder') {
@@ -365,6 +378,7 @@ export class InGameState {
     if (!this.config.level.includes(currentPlayerState.level.toString())) return
 
     this.gameState.player[id].level = currentPlayerState.level
+    this.updateState()
 
     this.ctx.LPTE.emit({
       meta: {
@@ -412,6 +426,7 @@ export class InGameState {
       if (!this.itemEpicness.includes(itemBinFind.epicness)) continue
 
       this.gameState.player[id].items.add(itemID)
+      this.updateState()
 
       this.ctx.LPTE.emit({
         meta: {
@@ -466,6 +481,7 @@ export class InGameState {
       percent: 100,
       time
     }
+    this.updateState()
 
     this.actions.set(event.InhibKilled, (allGameData, i) => {
       const gameState = allGameData.gameData
@@ -501,6 +517,7 @@ export class InGameState {
           time: 0
         }
 
+        this.updateState()
         this.actions.delete(i)
       }
     })
@@ -534,21 +551,6 @@ export class InGameState {
     const lane = split[2] as 'L' | 'C' | 'R'
     const turret = split[3]
 
-    if (this.gameState.towers[team][lane][turret] === false) return
-
-    this.gameState.towers[team][lane][turret] = false
-
-    this.ctx.LPTE.emit({
-      meta: {
-        namespace: this.namespace,
-        type: 'tower-update',
-        version: 1
-      },
-      team,
-      lane,
-      turret
-    })
-
     if (this.config.killfeed) {
       this.ctx.LPTE.emit({
         meta: {
@@ -568,6 +570,22 @@ export class InGameState {
         team: team === 100 ? 200 : 100
       })
     }
+
+    if (this.gameState.towers[team][lane][turret] === false) return
+
+    this.gameState.towers[team][lane][turret] = false
+    this.updateState()
+
+    this.ctx.LPTE.emit({
+      meta: {
+        namespace: this.namespace,
+        type: 'tower-update',
+        version: 1
+      },
+      team,
+      lane,
+      turret
+    })
   }
 
   private handleKillEvent(event: Event, allGameData: AllGameData) {
