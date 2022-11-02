@@ -5,4 +5,5 @@ export interface Config {
   killfeed: boolean
   ppTimer: boolean
   delay: number
+  showNicknames: boolean
 }
