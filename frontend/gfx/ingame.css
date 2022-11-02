@@ -22,13 +22,34 @@ body {
 .player {
   width: 74px;
   height: 71px;
-  overflow: hidden;
+  position: relative;
+}
+
+.nickname {
+  position: absolute;
+  top: -23px;
+  height: 20px;
+  width: 95px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  text-align: left;
+  padding: 2px 10px;
+}
+
+#red .nickname {
+  right: 0;
+  text-align: right;
+}
+
+.player-event {
+  transform: scaleY(0);
+  width: 74px;
+  height: 71px;
   position: relative;
   transform-origin: center bottom;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: scaleY(0);
 }
 
 .level {
@@ -78,7 +99,7 @@ body {
   margin-left: 2px;
 }
 
-#blue .player {
+#blue .player .player-event {
   background: var(--blue-team);
   background: linear-gradient(
     180deg,
@@ -102,7 +123,7 @@ body {
   margin-left: auto;
 }
 
-#red .player {
+#red .player .player-event {
   background: var(--red-team);
   background: linear-gradient(
     180deg,

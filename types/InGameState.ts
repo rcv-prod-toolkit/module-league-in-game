@@ -17,6 +17,8 @@ export interface InGameState {
   }
   player: {
     [id: number]: {
+      summonerName: string
+      nickname: string
       level: number
       items: Set<number>
     }

@@ -1,6 +1,6 @@
-const namespace = 'module-league-in-game'
 const blueTeam = document.querySelector('#blue')
 const redTeam = document.querySelector('#red')
+let showNicknames = false
 
 function getPlayerId(id) {
   if (id > 4) return id - 5
@@ -11,7 +11,7 @@ function levelUpdate(e) {
   const playerId = getPlayerId(e.player)
 
   const team = e.team === 100 ? blueTeam : redTeam
-  const playerDiv = team.children[playerId]
+  const playerDiv = team.children[playerId].querySelector('.player-event')
 
   const levelContainer = playerDiv.querySelector('.level')
 
@@ -35,7 +35,7 @@ function itemUpdate(e) {
   const playerId = getPlayerId(e.player)
 
   const team = e.team === 100 ? blueTeam : redTeam
-  const playerDiv = team.children[playerId]
+  const playerDiv = team.children[playerId].querySelector('.player-event')
 
   const levelContainer = playerDiv.querySelector('.item')
 
@@ -53,6 +53,14 @@ function itemUpdate(e) {
   setTimeout(() => {
     playerDiv.classList.remove('itemBuy')
   }, 6000)
+}
+
+function nameUpdate(e) {
+  const playerId = getPlayerId(e.player)
+
+  const team = e.team === 100 ? blueTeam : redTeam
+  const playerDiv = team.children[playerId].querySelector('.nickname')
+  playerDiv.innerText = e.nickname
 }
 
 const inhibDiv = document.querySelector('#inhibDiv')
@@ -122,6 +130,15 @@ function platingsUpdate(e) {
 
 function setGameState(e) {
   const state = e.state
+
+  for (const [i, player] of Object.entries(state.player)) {
+    const id = parseInt(i)
+    const playerId = getPlayerId(id)
+
+    const team = id > 4 ? blueTeam : redTeam
+    const playerDiv = team.children[playerId].querySelector('.nickname')
+    playerDiv.innerText = player.nickname
+  }
 
   /* for (const [teamId, team] of Object.entries(state.towers)) {
     for (const lane of Object.values(team)) {
@@ -395,18 +412,35 @@ function addKill(event) {
   }, 5000)
 }
 
-LPTE.onready(async () => {
-  LPTE.on(namespace, 'level-update', levelUpdate)
-  LPTE.on(namespace, 'item-update', itemUpdate)
-  LPTE.on(namespace, 'inhib-update', inhibUpdate)
-  LPTE.on(namespace, 'kill-update', addKill)
-  LPTE.on(namespace, 'platings-update', platingsUpdate)
-  /* LPTE.on(namespace, 'tower-update', towerUpdate) */
-  LPTE.on(namespace, 'update', setGameState)
-  LPTE.on(namespace, 'event', emitEvent)
-  LPTE.on(namespace, 'pp-update', ppUpdate)
+function updateSettings (e) {
+  if (e.showNicknames === showNicknames) return
 
-  LPTE.on(namespace, 'show-inhibs', (e) => {
+  showNicknames = e.showNicknames
+  if (!e.showNicknames) {
+    document.querySelectorAll('.nickname').forEach(n => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.nickname').forEach(n => {
+      n.style.display = 'block'
+    })
+  }
+}
+
+LPTE.onready(async () => {
+  LPTE.on('module-league-in-game', 'level-update', levelUpdate)
+  LPTE.on('module-league-in-game', 'item-update', itemUpdate)
+  LPTE.on('module-league-in-game', 'inhib-update', inhibUpdate)
+  LPTE.on('module-league-in-game', 'kill-update', addKill)
+  LPTE.on('module-league-in-game', 'platings-update', platingsUpdate)
+  /* LPTE.on(namespace, 'tower-update', towerUpdate) */
+  LPTE.on('module-league-in-game', 'update', setGameState)
+  LPTE.on('module-league-in-game', 'event', emitEvent)
+  LPTE.on('module-league-in-game', 'pp-update', ppUpdate)
+  LPTE.on('module-league-in-game', 'name-update', nameUpdate)
+  LPTE.on('module-league-in-game', 'set-settings', updateSettings)
+
+  LPTE.on('module-league-in-game', 'show-inhibs', (e) => {
     inhibDiv.classList.remove('hide')
 
     if (parseInt(e.side) === 100) {
@@ -417,20 +451,20 @@ LPTE.onready(async () => {
       redSide.classList.remove('hide')
     }
   })
-  LPTE.on(namespace, 'show-platings', (e) => {
+  LPTE.on('module-league-in-game', 'show-platings', (e) => {
     platingDiv.classList.remove('hide')
   })
 
-  LPTE.on(namespace, 'hide-inhibs', () => {
+  LPTE.on('module-league-in-game', 'hide-inhibs', () => {
     inhibDiv.classList.add('hide')
     blueSide.classList.add('hide')
     redSide.classList.add('hide')
   })
-  LPTE.on(namespace, 'hide-platings', () => {
+  LPTE.on('module-league-in-game', 'hide-platings', () => {
     platingDiv.classList.add('hide')
   })
 
-  LPTE.on(namespace, 'test-level-up', (e) => {
+  LPTE.on('module-league-in-game', 'test-level-up', (e) => {
     if (e.team === 100) {
       for (let i = 0; i < 5; i++) {
         setTimeout(() => {
@@ -454,7 +488,7 @@ LPTE.onready(async () => {
     }
   })
 
-  LPTE.on(namespace, 'test-item', (e) => {
+  LPTE.on('module-league-in-game', 'test-item', (e) => {
     if (e.team === 100) {
       for (let i = 0; i < 5; i++) {
         setTimeout(() => {
@@ -477,7 +511,7 @@ LPTE.onready(async () => {
       }
     }
   })
-  LPTE.on(namespace, 'test-event', (e) => {
+  LPTE.on('module-league-in-game', 'test-event', (e) => {
     if (e.team === 100) {
       emitEvent({
         team: 100,
@@ -494,7 +528,7 @@ LPTE.onready(async () => {
       })
     }
   })
-  LPTE.on(namespace, 'test-killfeed', (e) => {
+  LPTE.on('module-league-in-game', 'test-killfeed', (e) => {
     if (e.team === 100) {
       addKill({
         team: 100,
@@ -511,10 +545,20 @@ LPTE.onready(async () => {
       })
     }
   })
+
+  const settingsRes = await LPTE.request({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'get-settings',
+      version: 1
+    }
+  })
+
+  updateSettings(settingsRes)
 
   const res = await LPTE.request({
     meta: {
-      namespace,
+      namespace: 'module-league-in-game',
       type: 'request',
       version: 1
     }

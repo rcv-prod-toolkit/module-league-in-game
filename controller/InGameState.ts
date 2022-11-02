@@ -16,6 +16,7 @@ export class InGameState {
     private namespace: string,
     private ctx: PluginContext,
     private config: Config,
+    private state: any,
     private statics: any
   ) {
     this.itemEpicness = this.config.items?.map((i) => ItemEpicness[i])
@@ -97,42 +98,62 @@ export class InGameState {
       },
       player: {
         0: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         1: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         2: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         3: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         4: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         5: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         6: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         7: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         8: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         },
         9: {
+          summonerName: '',
+          nickname: '',
           level: 0,
           items: new Set()
         }
@@ -368,8 +389,30 @@ export class InGameState {
     if (allGameData.allPlayers.length === 0) return
 
     allGameData.allPlayers.forEach((player, i) => {
+      this.checkNameUpdate(player, i)
       this.checkItemUpdate(player, i)
       this.checkLevelUpdate(player, i)
+    })
+  }
+
+  private checkNameUpdate(currentPlayerState: Player, id: number) {
+    if (this.gameState.player[id].summonerName !== currentPlayerState.summonerName) {
+      this.gameState.player[id].summonerName = currentPlayerState.summonerName
+      const member = this.state.lcu.lobby?.members?.find((m: any) => m.summonerName === currentPlayerState.summonerName)
+      this.gameState.player[id].nickname = member?.nickname ?? currentPlayerState.summonerName
+    }
+
+    this.updateState()
+
+    this.ctx.LPTE.emit({
+      meta: {
+        type: 'name-update',
+        namespace: this.namespace,
+        version: 1
+      },
+      team: currentPlayerState.team === 'ORDER' ? 100 : 200,
+      player: id,
+      nickname: this.gameState.player[id].nickname
     })
   }
 
