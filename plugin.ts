@@ -22,6 +22,7 @@ module.exports = async (ctx: PluginContext) => {
     events: [],
     killfeed: false,
     ppTimer: false,
+    showNicknames: false,
     delay: 0
   }, configRes?.config)
 
@@ -32,6 +33,7 @@ module.exports = async (ctx: PluginContext) => {
     config.killfeed = e.killfeed
     config.ppTimer = e.ppTimer
     config.delay = e.delay
+    config.showNicknames = e.showNicknames
 
     ctx.LPTE.emit({
       meta: {
@@ -45,7 +47,8 @@ module.exports = async (ctx: PluginContext) => {
         events: e.events,
         killfeed: e.killfeed,
         ppTimer: e.ppTimer,
-        delay: e.delay
+        delay: e.delay,
+        showNicknames: e.showNicknames
       }
     })
   })
@@ -62,7 +65,8 @@ module.exports = async (ctx: PluginContext) => {
       events: config.events,
       killfeed: config.killfeed,
       ppTimer: config.ppTimer,
-      delay: config.delay
+      delay: config.delay,
+      showNicknames: config.showNicknames
     })
   })
 
@@ -86,17 +90,29 @@ module.exports = async (ctx: PluginContext) => {
   ctx.LPTE.on('module-league-static', 'static-loaded', async (e) => {
     const statics = e.constants
 
+    const stateRes = await ctx.LPTE.request({
+      meta: {
+        type: 'request',
+        namespace: 'module-league-state',
+        version: 1
+      }
+    })
+    const state = stateRes?.state
+
     ctx.LPTE.on('module-league-state', 'live-game-loaded', () => {
-      inGameState = new InGameState(namespace, ctx, config, statics)
+      inGameState = new InGameState(namespace, ctx, config, state, statics)
+    })
+    ctx.LPTE.on('module-league-state', 'lcu-champ-select-create', () => {
+      inGameState = new InGameState(namespace, ctx, config, state, statics)
     })
     ctx.LPTE.on('lcu', 'lcu-end-of-game-create', () => {
       inGameState.updateState()
-      inGameState = new InGameState(namespace, ctx, config, statics)
+      inGameState = new InGameState(namespace, ctx, config, state, statics)
     })
 
     ctx.LPTE.on(namespace, 'allgamedata', (e) => {
       if (inGameState === undefined) {
-        inGameState = new InGameState(namespace, ctx, config, statics)
+        inGameState = new InGameState(namespace, ctx, config, state, statics)
       }
 
       const data = e.data as AllGameData
@@ -105,7 +121,7 @@ module.exports = async (ctx: PluginContext) => {
 
     ctx.LPTE.on(namespace, 'live-events', (e) => {
       if (inGameState === undefined) {
-        inGameState = new InGameState(namespace, ctx, config, statics)
+        inGameState = new InGameState(namespace, ctx, config, state, statics)
       }
 
       e.data.forEach((event: any) => {
@@ -115,7 +131,7 @@ module.exports = async (ctx: PluginContext) => {
 
     ctx.LPTE.on(namespace, 'request', (e) => {
       if (inGameState === undefined) {
-        inGameState = new InGameState(namespace, ctx, config, statics)
+        inGameState = new InGameState(namespace, ctx, config, state, statics)
       }
 
       ctx.LPTE.emit({
