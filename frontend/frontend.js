@@ -14,6 +14,7 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
     killfeed: document.querySelector('#killfeed').checked,
     ppTimer: document.querySelector('#ppTimer').checked,
     delay: parseInt(document.querySelector('#delay').value),
+    showNicknames: document.querySelector('#showNicknames').checked
   })
 })
 
@@ -131,6 +132,7 @@ function initSettings(settings) {
   document.querySelector('#killfeed').checked = settings.killfeed
   document.querySelector('#ppTimer').checked = settings.ppTimer
   document.querySelector('#delay').value = settings.delay
+  document.querySelector('#showNicknames').checked = settings.showNicknames
 }
 
 let server = ''
