@@ -215,8 +215,9 @@ function ppUpdate(e) {
 }
 
 function convertSecsToTime(secs) {
-  const minutes = Math.floor(secs / 60)
-  const seconds = secs - minutes * 60
+  const newSecs = Math.round(secs)
+  const minutes = Math.floor(newSecs / 60)
+  const seconds = newSecs % 60
   return `${('0' + minutes).slice(-2)}:${('0' + seconds).slice(-2)}`
 }
 
