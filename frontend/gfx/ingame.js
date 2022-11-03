@@ -1,6 +1,6 @@
 const blueTeam = document.querySelector('#blue')
 const redTeam = document.querySelector('#red')
-let showNicknames = false
+let showNicknames
 
 function getPlayerId(id) {
   if (id > 4) return id - 5
