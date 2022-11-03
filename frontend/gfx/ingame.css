@@ -193,6 +193,42 @@ body {
   color: var(--text-color);
 }
 
+#inhibDiv.both {
+  padding: 30px 20px 0 20px;
+}
+
+#inhibDiv.both #blueSide,
+#inhibDiv.both #redSide {
+  opacity: 1;
+  width: 40%;
+  padding: 0px;
+}
+#inhibDiv.both #blueSide {
+  left: 20px;
+}
+#inhibDiv.both #blueSide::after {
+  content: '';
+  height: 135%;
+  width: 2px;
+  position: absolute;
+  right: -10px;
+  top: 0;
+  background-color: var(--text-color);
+}
+#inhibDiv.both #redSide {
+  right: 20px;
+}
+
+#inhibDiv.both .inhibitor,
+#inhibDiv.both .inhibitor svg {
+  width: 25px;
+  height: 25px;
+}
+
+#inhibDiv.both .inhibitors h3 {
+  font-size: 20px;
+}
+
 .inhibitors {
   transform: scale(1);
   width: 100%;
@@ -260,7 +296,8 @@ body {
   color: var(--red-team);
 }
 
-.hide {
+#inhibDiv.hide,
+#inhibDiv .hide {
   opacity: 0 !important;
 }
 

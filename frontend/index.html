@@ -13,7 +13,7 @@
 <h2>Embed</h2>
 <input style="width: 100%" readonly id="ingame-embed" class="mb-5" />
 
-<div class="d-flex mb-5">
+<div class="d-flex mb-3">
   <div class="btn-group mr-3">
     <button type="button" class="btn btn-primary" onclick="showInhibs(100)">Show Blue Inhibitors</button>
     <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,6 +33,15 @@
       <button class="dropdown-item" onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/hide-inhibs`)">Copy Action-Link</button>
     </div>
   </div>
+  <div class="btn-group mr-3">
+    <button type="button" class="btn btn-secondary" onclick="showInhibs(300)">Show Both Inhibitors</button>
+    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button class="dropdown-item" onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/show-inhibs?side=300`)">Copy Action-Link</button>
+    </div>
+  </div>
 
   <div class="btn-group mr-3">
     <button type="button" class="btn btn-danger" onclick="showInhibs(200)">Show Red Inhibitors</button>
@@ -43,7 +52,9 @@
       <button class="dropdown-item" onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/show-inhibs?side=200`)">Copy Action-Link</button>
     </div>
   </div>
+</div>
 
+<div class="d-flex mb-5">
   <div class="btn-group mr-3">
     <button type="button" class="btn btn-secondary" onclick="showPlatings()">Show Platings</button>
     <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

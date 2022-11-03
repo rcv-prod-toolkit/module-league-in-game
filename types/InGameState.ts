@@ -10,7 +10,7 @@ export interface InGameState {
     100: PlatingState
     200: PlatingState
   }
-  showInhibitors: 100 | 200 | null
+  showInhibitors: 100 | 200 | 300 | null
   inhibitors: {
     100: InhibitorState
     200: InhibitorState

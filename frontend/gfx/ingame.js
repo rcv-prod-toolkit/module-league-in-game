@@ -448,10 +448,16 @@ LPTE.onready(async () => {
     inhibDiv.classList.remove('hide')
 
     if (parseInt(e.side) === 100) {
+      inhibDiv.classList.remove('both')
       blueSide.classList.remove('hide')
       redSide.classList.add('hide')
-    } else {
+    } else if (e.side === 200) {
+      inhibDiv.classList.remove('both')
       blueSide.classList.add('hide')
+      redSide.classList.remove('hide')
+    } else {
+      inhibDiv.classList.add('both')
+      blueSide.classList.remove('hide')
       redSide.classList.remove('hide')
     }
   })
@@ -461,8 +467,11 @@ LPTE.onready(async () => {
 
   LPTE.on('module-league-in-game', 'hide-inhibs', () => {
     inhibDiv.classList.add('hide')
-    blueSide.classList.add('hide')
-    redSide.classList.add('hide')
+    setTimeout(() => {
+      inhibDiv.classList.remove('both')
+      blueSide.classList.add('hide')
+      redSide.classList.add('hide')
+    }, 1000)
   })
   LPTE.on('module-league-in-game', 'hide-platings', () => {
     platingDiv.classList.add('hide')
