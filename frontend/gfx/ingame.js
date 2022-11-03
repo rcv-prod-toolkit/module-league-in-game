@@ -351,7 +351,7 @@ function emitEvent(e) {
     eventDiv.classList.remove('show')
   }, 5000)
   setTimeout(() => {
-    eventDiv.classList.remove(e.name.toLowerCase())
+    eventDiv.classList.remove(e.type.toLowerCase())
     hasEvent = false
   }, 6500)
 }
