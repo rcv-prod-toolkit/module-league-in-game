@@ -128,8 +128,13 @@ function platingsUpdate(e) {
   }
 }
 
+const baron = document.querySelector('#baron')
+const elder = document.querySelector('#elder')
 function setGameState(e) {
   const state = e.state
+
+  baron.classList.add('hide')
+  elder.classList.add('hide')
 
   for (const [i, player] of Object.entries(state.player)) {
     const id = parseInt(i)
@@ -190,8 +195,6 @@ function setGameState(e) {
   }
 }
 
-const baron = document.querySelector('#baron')
-const elder = document.querySelector('#elder')
 function ppUpdate(e) {
   const typeDiv = e.type === 'Baron' ? baron : elder
   const div = typeDiv.querySelector('.pp-bar')
