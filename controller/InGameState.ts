@@ -4,6 +4,7 @@ import { Config } from '../types/Config'
 import { ItemEpicness } from '../types/Items'
 import { InGameState as InGameStateType } from '../types/InGameState'
 import { EventType, InGameEvent, MobType, TeamType } from '../types/InGameEvent'
+import { randomUUID } from 'crypto'
 
 export class InGameState {
   public gameState: InGameStateType
@@ -213,9 +214,10 @@ export class InGameState {
     if (event.eventname === EventType.StructureKill) return
 
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
-    const time = this.gameData[this.gameData.length - 1].gameData.gameTime
 
     setTimeout(() => {
+      const time = this.gameData[this.gameData.length - 1].gameData.gameTime
+
       if (event.eventname === EventType.TurretPlateDestroyed) {
         const split = event.other.split('_') as string[]
         const lane = split[2] as 'L' | 'C' | 'R'
@@ -296,10 +298,10 @@ export class InGameState {
   }
 
   private baronElderKill(event: InGameEvent): void {
-    const allGameData = this.gameData[this.gameData.length - 1]
+    const cAllGameData = this.gameData[this.gameData.length - 1]
 
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
-    const time = Math.round(allGameData.gameData.gameTime)
+    const time = Math.round(cAllGameData.gameData.gameTime)
     const type = event.eventname === EventType.BaronKill ? 'Baron' : 'Elder'
 
     this.ctx.LPTE.emit({
@@ -321,8 +323,8 @@ export class InGameState {
     const data = {
       time,
       ongoing: true,
-      alive: allGameData.allPlayers.filter(p => !p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')).map(p => p.summonerName),
-      dead: allGameData.allPlayers.filter(p => p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')).map(p => p.summonerName),
+      alive: cAllGameData.allPlayers.filter(p => !p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')).map(p => p.summonerName),
+      dead: cAllGameData.allPlayers.filter(p => p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')).map(p => p.summonerName),
       team,
       respawnAt: respawnAt,
       respawnIn: 60 * 3,
@@ -343,7 +345,7 @@ export class InGameState {
       respawnAt: data.respawnAt
     })
 
-    this.actions.set(type, (allGameData, i) => {
+    this.actions.set(type+'-'+randomUUID(), (allGameData, i) => {
       const gameState = allGameData.gameData
       const diff = respawnAt - Math.round(gameState.gameTime)
       const percent = Math.round((diff * 100) / (60 * 3))
@@ -364,7 +366,7 @@ export class InGameState {
         respawnIn: diff
       })
 
-      if (diff <= 0 || data.alive.length <= 0 || time > gameState.gameTime) {
+      if (diff <= 0 || data.alive.length <= 0 || time > gameState.gameTime + (this.config.delay / 1000)) {
         data.ongoing = false
         this.ctx.LPTE.emit({
           meta: {
