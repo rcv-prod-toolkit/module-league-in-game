@@ -181,15 +181,20 @@ function setGameState(e) {
 
   if (state.showInhibitors !== null) {
     inhibDiv.classList.remove('hide')
-    if (state.showInhibitors === 100) {
-      blueSide.classList.remove('hide')
+    if (parseInt(e.side) === 100) {
+      inhibDiv.classList.remove('both')
       redSide.classList.add('hide')
-    } else {
+    } else if (parseInt(e.side) === 200) {
+      inhibDiv.classList.remove('both')
       blueSide.classList.add('hide')
+      redSide.classList.remove('hide')
+    } else {
+      inhibDiv.classList.add('both')
       redSide.classList.remove('hide')
     }
   } else {
     inhibDiv.classList.add('hide')
+    inhibDiv.classList.remove('both')
     blueSide.classList.add('hide')
     redSide.classList.add('hide')
   }
@@ -451,7 +456,7 @@ LPTE.onready(async () => {
       inhibDiv.classList.remove('both')
       blueSide.classList.remove('hide')
       redSide.classList.add('hide')
-    } else if (e.side === 200) {
+    } else if (parseInt(e.side) === 200) {
       inhibDiv.classList.remove('both')
       blueSide.classList.add('hide')
       redSide.classList.remove('hide')
