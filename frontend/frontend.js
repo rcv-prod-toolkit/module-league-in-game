@@ -1,6 +1,5 @@
 document.querySelector('#settings').addEventListener('submit', (e) => {
   e.preventDefault()
-  console.log()
 
   LPTE.emit({
     meta: {
