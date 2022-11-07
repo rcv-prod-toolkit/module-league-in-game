@@ -469,7 +469,7 @@ export class InGameState {
       }
 
       if (!this.itemEpicness.includes(itemBinFind.epicness)) continue
-      if (item.consumable) continue
+      if (itemBinFind.epicness !== 7 && item.consumable) continue
 
       this.gameState.player[id].items.add(itemID)
       this.updateState()
