@@ -102,10 +102,6 @@ module.exports = async (ctx: PluginContext) => {
     ctx.LPTE.on('module-league-state', 'lcu-champ-select-create', () => {
       inGameState = new InGameState(namespace, ctx, config, state, statics)
     })
-    ctx.LPTE.on('lcu', 'lcu-end-of-game-create', () => {
-      inGameState.updateState()
-      inGameState = new InGameState(namespace, ctx, config, state, statics)
-    })
 
     ctx.LPTE.on(namespace, 'allgamedata', (e) => {
       if (inGameState === undefined) {
