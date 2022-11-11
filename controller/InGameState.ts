@@ -171,8 +171,20 @@ export class InGameState {
         type: 'update',
         version: 1
       },
-      state: this.gameState
+      state: this.convertGameState()
     })
+  }
+
+  private convertGameState () {
+    return {
+      ...this.gameState,
+      player: Object.values(this.gameState.player).map(p => {
+        return {
+          ...p,
+          items: [...p.items.values()]
+        }
+      })
+    }
   }
 
   public updateState () {
@@ -182,7 +194,7 @@ export class InGameState {
         type: 'save-live-game-stats',
         version: 1
       },
-      gameState: this.gameState
+      gameState: this.convertGameState()
     })
   }
 
@@ -398,12 +410,11 @@ export class InGameState {
   }
 
   private checkNameUpdate(currentPlayerState: Player, id: number) {
-    if (this.gameState.player[id].summonerName !== currentPlayerState.summonerName) {
-      this.gameState.player[id].summonerName = currentPlayerState.summonerName
-      const member = this.state.lcu.lobby?.members?.find((m: any) => m.summonerName === currentPlayerState.summonerName)
-      this.gameState.player[id].nickname = member?.nickname ?? currentPlayerState.summonerName
-    }
+    if (this.gameState.player[id].summonerName === currentPlayerState.summonerName) return
 
+    this.gameState.player[id].summonerName = currentPlayerState.summonerName
+    const member = this.state.lcu.lobby?.members?.find((m: any) => m.summonerName === currentPlayerState.summonerName)
+    this.gameState.player[id].nickname = member?.nickname ?? currentPlayerState.summonerName
     this.updateState()
 
     this.ctx.LPTE.emit({
