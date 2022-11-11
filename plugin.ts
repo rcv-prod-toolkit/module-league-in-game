@@ -99,7 +99,7 @@ module.exports = async (ctx: PluginContext) => {
     })
     const state = stateRes?.state
 
-    ctx.LPTE.on('module-league-state', 'lcu-champ-select-create', () => {
+    ctx.LPTE.on('lcu', 'lcu-champ-select-create', () => {
       inGameState = new InGameState(namespace, ctx, config, state, statics)
     })
 
