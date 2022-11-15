@@ -1,18 +1,20 @@
-export type InGameEvent = {
-    eventname: EventType
-    other: MobType,
-    otherTeam: TeamType.Neutral
-    source: string
-    sourceID: number
-    sourceTeam: TeamType
-} | {
-  eventname: EventType.StructureKill | EventType.TurretPlateDestroyed
-  other: StructureType
-  otherTeam: TeamType
-  source: string
-  sourceID: number
-  sourceTeam: TeamType
-}
+export type InGameEvent =
+  | {
+      eventname: EventType
+      other: MobType
+      otherTeam: TeamType.Neutral
+      source: string
+      sourceID: number
+      sourceTeam: TeamType
+    }
+  | {
+      eventname: EventType.StructureKill | EventType.TurretPlateDestroyed
+      other: StructureType
+      otherTeam: TeamType
+      source: string
+      sourceID: number
+      sourceTeam: TeamType
+    }
 
 export const enum EventType {
   DragonKill = 'OnKillDragon_Spectator',

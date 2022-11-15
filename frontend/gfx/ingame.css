@@ -360,7 +360,11 @@ body {
   height: 100%;
   left: 0;
   top: 0;
-  background: linear-gradient(45deg, var(--blue-team) -25%, rgba(0,0,0,0) 75%);
+  background: linear-gradient(
+    45deg,
+    var(--blue-team) -25%,
+    rgba(0, 0, 0, 0) 75%
+  );
   z-index: 0;
 }
 
@@ -437,7 +441,11 @@ body {
 }
 
 #red .event::after {
-  background: linear-gradient(-45deg, var(--red-team) -25%, rgba(0,0,0,0) 75%);
+  background: linear-gradient(
+    -45deg,
+    var(--red-team) -25%,
+    rgba(0, 0, 0, 0) 75%
+  );
 }
 
 #red .event-img {
@@ -461,7 +469,7 @@ body {
 }
 
 .kill {
-  --team: var(--blue-team)
+  --team: var(--blue-team);
 
   height: 60px;
   width: 170px;
@@ -489,7 +497,12 @@ body {
   right: 0;
   top: 0;
   z-index: -1;
-  background: linear-gradient(to right, transparent, var(--background-color) 50%, var(--team));
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--background-color) 50%,
+    var(--team)
+  );
 }
 
 .other,
@@ -550,7 +563,7 @@ body {
 
 #platings.hide {
   opacity: 1 !important;
-  transform: translate(-50%,-100%);
+  transform: translate(-50%, -100%);
 }
 
 .team-plates {
@@ -637,7 +650,7 @@ body {
   bottom: 0;
   left: 30%;
   height: 30px;
-  width: calc(calc(70 * calc(var(--percent) / 100))* 1%);
+  width: calc(calc(70 * calc(var(--percent) / 100)) * 1%);
   transition: width 0.3s ease;
 }
 

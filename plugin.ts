@@ -16,15 +16,18 @@ module.exports = async (ctx: PluginContext) => {
   if (configRes === undefined) {
     ctx.log.warn('config could not be loaded')
   }
-  let config: Config = Object.assign({
-    items: [],
-    level: [],
-    events: [],
-    killfeed: false,
-    ppTimer: false,
-    showNicknames: false,
-    delay: 0
-  }, configRes?.config)
+  let config: Config = Object.assign(
+    {
+      items: [],
+      level: [],
+      events: [],
+      killfeed: false,
+      ppTimer: false,
+      showNicknames: false,
+      delay: 0
+    },
+    configRes?.config
+  )
 
   ctx.LPTE.on(namespace, 'set-settings', (e) => {
     config.items = e.items
@@ -119,7 +122,7 @@ module.exports = async (ctx: PluginContext) => {
 
       e.data.forEach((event: any) => {
         inGameState.handelEvent(event)
-      });
+      })
     })
 
     ctx.LPTE.on(namespace, 'request', (e) => {

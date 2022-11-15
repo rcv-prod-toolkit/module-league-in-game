@@ -421,16 +421,16 @@ function addKill(event) {
   }, 5000)
 }
 
-function updateSettings (e) {
+function updateSettings(e) {
   if (e.showNicknames === showNicknames) return
 
   showNicknames = e.showNicknames
   if (!e.showNicknames) {
-    document.querySelectorAll('.nickname').forEach(n => {
+    document.querySelectorAll('.nickname').forEach((n) => {
       n.style.display = 'none'
     })
   } else {
-    document.querySelectorAll('.nickname').forEach(n => {
+    document.querySelectorAll('.nickname').forEach((n) => {
       n.style.display = 'block'
     })
   }

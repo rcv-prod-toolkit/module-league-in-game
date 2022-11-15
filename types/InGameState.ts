@@ -30,8 +30,8 @@ export interface InGameState {
 }
 
 export interface Objective {
-  type: EventType,
-  mob: MobType,
+  type: EventType
+  mob: MobType
   time: number
 }
 

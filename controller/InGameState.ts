@@ -11,7 +11,8 @@ export class InGameState {
   public gameData: AllGameData[] = []
   public itemEpicness: number[]
 
-  public actions: Map<string, (allGameData: AllGameData, id: string) => void> = new Map()
+  public actions: Map<string, (allGameData: AllGameData, id: string) => void> =
+    new Map()
 
   constructor(
     private namespace: string,
@@ -161,7 +162,7 @@ export class InGameState {
       },
       objectives: {
         100: [],
-        200: [],
+        200: []
       }
     }
 
@@ -175,10 +176,10 @@ export class InGameState {
     })
   }
 
-  private convertGameState () {
+  private convertGameState() {
     return {
       ...this.gameState,
-      player: Object.values(this.gameState.player).map(p => {
+      player: Object.values(this.gameState.player).map((p) => {
         return {
           ...p,
           items: [...p.items.values()]
@@ -187,7 +188,7 @@ export class InGameState {
     }
   }
 
-  public updateState () {
+  public updateState() {
     this.ctx.LPTE.emit({
       meta: {
         namespace: 'module-league-state',
@@ -203,7 +204,9 @@ export class InGameState {
       let previousGameData = this.gameData[this.gameData.length - 1]
 
       if (allGameData.gameData.gameTime < previousGameData.gameData.gameTime) {
-        this.gameData = this.gameData.filter(gd => gd.gameData.gameTime < allGameData.gameData.gameTime)
+        this.gameData = this.gameData.filter(
+          (gd) => gd.gameData.gameTime < allGameData.gameData.gameTime
+        )
 
         if (this.gameData.length <= 0) return
         previousGameData = this.gameData[this.gameData.length - 1]
@@ -245,7 +248,7 @@ export class InGameState {
         })
         return
       }
-      
+
       this.gameState.objectives[team].push({
         type: event.eventname,
         mob: event.other as MobType,
@@ -254,7 +257,10 @@ export class InGameState {
 
       this.updateState()
 
-      if (event.eventname === EventType.DragonKill && this.config.events?.includes('Dragons')) {
+      if (
+        event.eventname === EventType.DragonKill &&
+        this.config.events?.includes('Dragons')
+      ) {
         if (this.convertDragon(event.other) === 'Elder') {
           this.baronElderKill(event)
         } else {
@@ -270,9 +276,15 @@ export class InGameState {
             time
           })
         }
-      } else if (event.eventname === EventType.BaronKill && this.config.events?.includes('Barons')) {
+      } else if (
+        event.eventname === EventType.BaronKill &&
+        this.config.events?.includes('Barons')
+      ) {
         this.baronElderKill(event)
-      } else if (event.eventname === EventType.HeraldKill && this.config.events?.includes('Heralds')) {
+      } else if (
+        event.eventname === EventType.HeraldKill &&
+        this.config.events?.includes('Heralds')
+      ) {
         this.ctx.LPTE.emit({
           meta: {
             namespace: this.namespace,
@@ -335,8 +347,19 @@ export class InGameState {
     const data = {
       time,
       ongoing: true,
-      alive: cAllGameData.allPlayers.filter(p => !p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')).map(p => p.summonerName),
-      dead: cAllGameData.allPlayers.filter(p => p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')).map(p => p.summonerName),
+      alive: cAllGameData.allPlayers
+        .filter(
+          (p) =>
+            !p.isDead &&
+            (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
+        )
+        .map((p) => p.summonerName),
+      dead: cAllGameData.allPlayers
+        .filter(
+          (p) =>
+            p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
+        )
+        .map((p) => p.summonerName),
       team,
       respawnAt: respawnAt,
       respawnIn: 60 * 3,
@@ -357,13 +380,29 @@ export class InGameState {
       respawnAt: data.respawnAt
     })
 
-    this.actions.set(type+'-'+randomUUID(), (allGameData, i) => {
+    this.actions.set(type + '-' + randomUUID(), (allGameData, i) => {
       const gameState = allGameData.gameData
       const diff = respawnAt - Math.round(gameState.gameTime)
       const percent = Math.round((diff * 100) / (60 * 3))
 
-      data.alive = allGameData.allPlayers.filter(p => !p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS') && !data.dead.includes(p.summonerName)).map(p => p.summonerName)
-      data.dead = [...data.dead, ...allGameData.allPlayers.filter(p => p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')).map(p => p.summonerName)]
+      data.alive = allGameData.allPlayers
+        .filter(
+          (p) =>
+            !p.isDead &&
+            (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS') &&
+            !data.dead.includes(p.summonerName)
+        )
+        .map((p) => p.summonerName)
+      data.dead = [
+        ...data.dead,
+        ...allGameData.allPlayers
+          .filter(
+            (p) =>
+              p.isDead &&
+              (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
+          )
+          .map((p) => p.summonerName)
+      ]
 
       this.ctx.LPTE.emit({
         meta: {
@@ -378,7 +417,11 @@ export class InGameState {
         respawnIn: diff
       })
 
-      if (diff <= 0 || data.alive.length <= 0 || time > gameState.gameTime + (this.config.delay / 1000)) {
+      if (
+        diff <= 0 ||
+        data.alive.length <= 0 ||
+        time > gameState.gameTime + this.config.delay / 1000
+      ) {
         data.ongoing = false
         this.ctx.LPTE.emit({
           meta: {
@@ -410,11 +453,17 @@ export class InGameState {
   }
 
   private checkNameUpdate(currentPlayerState: Player, id: number) {
-    if (this.gameState.player[id].summonerName === currentPlayerState.summonerName) return
+    if (
+      this.gameState.player[id].summonerName === currentPlayerState.summonerName
+    )
+      return
 
     this.gameState.player[id].summonerName = currentPlayerState.summonerName
-    const member = this.state.lcu.lobby?.members?.find((m: any) => m.summonerName === currentPlayerState.summonerName)
-    this.gameState.player[id].nickname = member?.nickname ?? currentPlayerState.summonerName
+    const member = this.state.lcu.lobby?.members?.find(
+      (m: any) => m.summonerName === currentPlayerState.summonerName
+    )
+    this.gameState.player[id].nickname =
+      member?.nickname ?? currentPlayerState.summonerName
     this.updateState()
 
     this.ctx.LPTE.emit({
@@ -452,7 +501,7 @@ export class InGameState {
     const previousItems = this.gameState.player[id].items
 
     if (previousItems.has(3513)) {
-      if (!currentPlayerState.items.find(i => i.itemID === 3513)) {
+      if (!currentPlayerState.items.find((i) => i.itemID === 3513)) {
         previousItems.delete(3513)
       }
     }
@@ -473,7 +522,10 @@ export class InGameState {
           otherTeam: TeamType.Neutral,
           source: currentPlayerState.summonerName,
           sourceID: id,
-          sourceTeam: currentPlayerState.team === 'CHAOS' ? TeamType.Chaos : TeamType.Order
+          sourceTeam:
+            currentPlayerState.team === 'CHAOS'
+              ? TeamType.Chaos
+              : TeamType.Order
         })
         this.gameState.player[id].items.add(itemID)
         return
@@ -502,10 +554,7 @@ export class InGameState {
     allGameData: AllGameData,
     previousGameData: AllGameData
   ) {
-    if (
-      allGameData.events.Events.length === 0
-    )
-      return
+    if (allGameData.events.Events.length === 0) return
 
     const newEvents = allGameData.events.Events.slice(
       previousGameData.events.Events.length || 0
@@ -587,14 +636,20 @@ export class InGameState {
           version: 1
         },
         assists: event.Assisters.map((a: string) => {
-          return allGameData.allPlayers.find(p => {
-            return p.summonerName === a
-          })?.rawChampionName.split('_')[3]
+          return allGameData.allPlayers
+            .find((p) => {
+              return p.summonerName === a
+            })
+            ?.rawChampionName.split('_')[3]
         }),
         other: 'Inhib',
-        source: event.KillerName.startsWith('Minion') ? 'Minion' : allGameData.allPlayers.find(p => {
-          return p.summonerName === event.KillerName
-        })?.rawChampionName.split('_')[3],
+        source: event.KillerName.startsWith('Minion')
+          ? 'Minion'
+          : allGameData.allPlayers
+              .find((p) => {
+                return p.summonerName === event.KillerName
+              })
+              ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
       })
     }
@@ -616,14 +671,20 @@ export class InGameState {
           version: 1
         },
         assists: event.Assisters.map((a: string) => {
-          return allGameData.allPlayers.find(p => {
-            return p.summonerName === a
-          })?.rawChampionName.split('_')[3]
+          return allGameData.allPlayers
+            .find((p) => {
+              return p.summonerName === a
+            })
+            ?.rawChampionName.split('_')[3]
         }),
         other: 'Turret',
-        source: event.KillerName.startsWith('Minion') ? 'Minion' : allGameData.allPlayers.find(p => {
-          return p.summonerName === event.KillerName
-        })?.rawChampionName.split('_')[3],
+        source: event.KillerName.startsWith('Minion')
+          ? 'Minion'
+          : allGameData.allPlayers
+              .find((p) => {
+                return p.summonerName === event.KillerName
+              })
+              ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
       })
     }
@@ -655,19 +716,32 @@ export class InGameState {
         version: 1
       },
       assists: event.Assisters.map((a: string) => {
-        return allGameData.allPlayers.find(p => {
-          return p.summonerName === a
-        })?.rawChampionName.split('_')[3]
+        return allGameData.allPlayers
+          .find((p) => {
+            return p.summonerName === a
+          })
+          ?.rawChampionName.split('_')[3]
       }),
-      other: allGameData.allPlayers.find(p => {
-        return p.summonerName === event.VictimName
-      })?.rawChampionName.split('_')[3],
-      source: event.KillerName.startsWith('Minion') ? 'Minion' : event.KillerName.startsWith('Turret') ? 'Turret' : allGameData.allPlayers.find(p => {
-        return p.summonerName === event.KillerName
-      })?.rawChampionName.split('_')[3],
-      team: allGameData.allPlayers.find(p => {
-        return p.summonerName === event.VictimName
-      })?.team === 'CHAOS' ? 100 : 200
+      other: allGameData.allPlayers
+        .find((p) => {
+          return p.summonerName === event.VictimName
+        })
+        ?.rawChampionName.split('_')[3],
+      source: event.KillerName.startsWith('Minion')
+        ? 'Minion'
+        : event.KillerName.startsWith('Turret')
+        ? 'Turret'
+        : allGameData.allPlayers
+            .find((p) => {
+              return p.summonerName === event.KillerName
+            })
+            ?.rawChampionName.split('_')[3],
+      team:
+        allGameData.allPlayers.find((p) => {
+          return p.summonerName === event.VictimName
+        })?.team === 'CHAOS'
+          ? 100
+          : 200
     })
   }
 }

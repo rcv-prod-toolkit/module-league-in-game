@@ -7,9 +7,15 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
       type: 'set-settings',
       version: 1
     },
-    items: Array.from(document.querySelector('#items').options).filter(el => el.selected).map(el => el.value),
-    level: Array.from(document.querySelector('#level').options).filter(el => el.selected).map(el => el.value),
-    events: Array.from(document.querySelector('#events').options).filter(el => el.selected).map(el => el.value),
+    items: Array.from(document.querySelector('#items').options)
+      .filter((el) => el.selected)
+      .map((el) => el.value),
+    level: Array.from(document.querySelector('#level').options)
+      .filter((el) => el.selected)
+      .map((el) => el.value),
+    events: Array.from(document.querySelector('#events').options)
+      .filter((el) => el.selected)
+      .map((el) => el.value),
     killfeed: document.querySelector('#killfeed').checked,
     ppTimer: document.querySelector('#ppTimer').checked,
     delay: parseInt(document.querySelector('#delay').value),
@@ -85,7 +91,10 @@ function testEvent(team) {
       version: 1
     },
     team,
-    event: document.getElementById('events-test').options[document.getElementById('events-test').selectedIndex].text
+    event:
+      document.getElementById('events-test').options[
+        document.getElementById('events-test').selectedIndex
+      ].text
   })
 }
 function testKillfeed(team) {
@@ -96,7 +105,10 @@ function testKillfeed(team) {
       version: 1
     },
     team,
-    event: document.getElementById('killfeed-test').options[document.getElementById('killfeed-test').selectedIndex].text
+    event:
+      document.getElementById('killfeed-test').options[
+        document.getElementById('killfeed-test').selectedIndex
+      ].text
   })
 }
 
@@ -142,8 +154,12 @@ LPTE.onready(async () => {
 
   const apiKey = await window.constants.getApiKey()
 
-  document.querySelector('#ingame-embed').value = `${location}/ingame.html${apiKey !== null ? '?apikey=' + apiKey: ''}`
-  document.querySelector('#ingame-gfx').src = `${location}/ingame.html${apiKey !== null ? '?apikey=' + apiKey: ''}`
+  document.querySelector('#ingame-embed').value = `${location}/ingame.html${
+    apiKey !== null ? '?apikey=' + apiKey : ''
+  }`
+  document.querySelector('#ingame-gfx').src = `${location}/ingame.html${
+    apiKey !== null ? '?apikey=' + apiKey : ''
+  }`
 
   const settings = await LPTE.request({
     meta: {
