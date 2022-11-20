@@ -174,6 +174,8 @@ export class InGameState {
       },
       state: this.convertGameState()
     })
+
+    this.updateState()
   }
 
   private convertGameState() {
