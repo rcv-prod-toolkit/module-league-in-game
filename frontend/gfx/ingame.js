@@ -385,12 +385,6 @@ function addKill(event) {
     other.src = './img/tower.png'
   } else if (event.other === 'Inhib') {
     other.src = './img/inhib.png'
-  } else if (event.other === 'Baron') {
-    other.src = './img/baron-icon.png'
-  } else if (event.other === 'Herald') {
-    other.src = './img/herald-icon.png'
-  } else if (event.other === 'Dragon') {
-    other.src = './img/dragon-icon.png'
   } else {
     other.src = `/serve/module-league-static/img/champion/tiles/${event.other}_0.jpg`
   }
@@ -401,12 +395,18 @@ function addKill(event) {
 
   const source = document.createElement('img')
   source.classList.add('source')
-  if (event.source === 'Minion') {
-    source.src = './img/minion.png'
+  if (typeof event.source === 'number') {
+    source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
   } else if (event.source === 'Turret') {
     source.src = './img/tower.png'
+  } else if (event.other === 'Baron') {
+    other.src = './img/baron-icon.png'
+  } else if (event.other === 'Herald') {
+    other.src = './img/herald-icon.png'
+  } else if (event.other === 'Dragon') {
+    other.src = './img/dragon-icon.png'
   } else {
-    source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
+    source.src = './img/minion.png'
   }
 
   killDiv.appendChild(other)
