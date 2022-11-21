@@ -399,11 +399,11 @@ function addKill(event) {
     source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
   } else if (event.source === 'Turret') {
     source.src = './img/tower.png'
-  } else if (event.other === 'Baron') {
+  } else if (event.source === 'Baron') {
     other.src = './img/baron-icon.png'
-  } else if (event.other === 'Herald') {
+  } else if (event.source === 'Herald') {
     other.src = './img/herald-icon.png'
-  } else if (event.other === 'Dragon') {
+  } else if (event.source === 'Dragon') {
     other.src = './img/dragon-icon.png'
   } else {
     source.src = './img/minion.png'
