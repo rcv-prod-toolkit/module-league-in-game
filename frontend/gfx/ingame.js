@@ -385,6 +385,12 @@ function addKill(event) {
     other.src = './img/tower.png'
   } else if (event.other === 'Inhib') {
     other.src = './img/inhib.png'
+  } else if (event.other === 'Baron') {
+    other.src = './img/baron-icon.png'
+  } else if (event.other === 'Herald') {
+    other.src = './img/herald-icon.png'
+  } else if (event.other === 'Dragon') {
+    other.src = './img/dragon-icon.png'
   } else {
     other.src = `/serve/module-league-static/img/champion/tiles/${event.other}_0.jpg`
   }

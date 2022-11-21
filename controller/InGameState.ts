@@ -733,6 +733,12 @@ export class InGameState {
         ? 'Minion'
         : event.KillerName.startsWith('Turret')
         ? 'Turret'
+        : event.KillerName.startsWith('SRU_Baron')
+        ? 'Baron'
+        : event.KillerName.startsWith('SRU_Herald')
+        ? 'Herald'
+        : event.KillerName.startsWith('SRU_Dragon')
+        ? 'Dragon'
         : allGameData.allPlayers
             .find((p) => {
               return p.summonerName === event.KillerName
