@@ -395,8 +395,9 @@ function addKill(event) {
 
   const source = document.createElement('img')
   source.classList.add('source')
-  if (typeof event.source === 'number') {
-    source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
+
+  if (event.source === 'Minion') {
+    source.src = './img/minion.png'
   } else if (event.source === 'Turret') {
     source.src = './img/tower.png'
   } else if (event.source === 'Baron') {
@@ -406,7 +407,7 @@ function addKill(event) {
   } else if (event.source === 'Dragon') {
     source.src = './img/dragon-icon.png'
   } else {
-    source.src = './img/minion.png'
+    source.src = `/serve/module-league-static/img/champion/tiles/${event.source}_0.jpg`
   }
 
   killDiv.appendChild(other)

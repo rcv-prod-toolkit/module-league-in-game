@@ -739,6 +739,9 @@ export class InGameState {
         ? 'Herald'
         : event.KillerName.startsWith('SRU_Dragon')
         ? 'Dragon'
+        // TODO Thats for all other creeps for now until we have some better icons for them
+        : event.KillerName.startsWith('SRU')
+        ? 'Minion'
         : allGameData.allPlayers
             .find((p) => {
               return p.summonerName === event.KillerName
