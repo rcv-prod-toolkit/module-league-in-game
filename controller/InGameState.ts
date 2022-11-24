@@ -233,7 +233,7 @@ export class InGameState {
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
 
     setTimeout(() => {
-      const time = this.gameData[this.gameData.length - 1].gameData.gameTime
+      const time = this.gameData[this.gameData.length - 1]?.gameData.gameTime ?? 0
 
       if (event.eventname === EventType.TurretPlateDestroyed) {
         const split = event.other.split('_') as string[]
