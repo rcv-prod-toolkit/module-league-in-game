@@ -175,6 +175,30 @@ export class InGameState {
       state: this.convertGameState()
     })
 
+    this.ctx.LPTE.emit({
+      meta: {
+        namespace: this.namespace,
+        type: 'pp-update',
+        version: 1
+      },
+      type: 'Baron',
+      ongoing: false,
+      percent: 0,
+      respawnIn: 0,
+    })
+
+    this.ctx.LPTE.emit({
+      meta: {
+        namespace: this.namespace,
+        type: 'pp-update',
+        version: 1
+      },
+      type: 'Dragon',
+      ongoing: false,
+      percent: 0,
+      respawnIn: 0,
+    })
+
     this.updateState()
   }
 
