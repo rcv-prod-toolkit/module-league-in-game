@@ -16,7 +16,7 @@ export type InGameEvent =
       sourceTeam: TeamType
     }
 
-export const enum EventType {
+export enum EventType {
   DragonKill = 'OnKillDragon_Spectator',
   HeraldKill = 'OnKillRiftHerald_Spectator',
   BaronKill = 'OnKillWorm_Spectator',
@@ -25,7 +25,7 @@ export const enum EventType {
   HeraldSummon = 'OnSummonRiftHerald'
 }
 
-export const enum MobType {
+export enum MobType {
   HextechDragon = 'SRU_Dragon_Hextech',
   ChemtechDragon = 'SRU_Dragon_Chemtech',
   CloudDragon = 'SRU_Dragon_Air',
@@ -37,13 +37,13 @@ export const enum MobType {
   Baron = 'SRU_Baron'
 }
 
-export const enum StructureType {
+export enum StructureType {
   Turret_T2_R_03_A = 'Turret_T2_R_03_A',
   Turret_T2_C_03_A = 'Turret_T2_C_03_A',
   Turret_T2_L_03_A = 'Turret_T2_L_03_A'
 }
 
-export const enum TeamType {
+export enum TeamType {
   Neutral = 'Neutral',
   Order = 'Order',
   Chaos = 'Chaos'
