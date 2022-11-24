@@ -228,11 +228,11 @@ export class InGameState {
   }
 
   public handelEvent(event: InGameEvent): void {
+    if (!Object.values(EventType).includes(event.eventname)) return
     if (event.eventname === EventType.StructureKill) return
 
-    const team = event.sourceTeam === TeamType.Order ? 100 : 200
-
     setTimeout(() => {
+      const team = event.sourceTeam === TeamType.Order ? 100 : 200
       const time = this.gameData[this.gameData.length - 1]?.gameData.gameTime ?? 0
 
       if (event.eventname === EventType.TurretPlateDestroyed) {
