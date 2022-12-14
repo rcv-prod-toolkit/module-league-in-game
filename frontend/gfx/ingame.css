@@ -688,3 +688,40 @@ body {
   right: unset;
   left: 10px;
 }
+
+#tab {
+  position: absolute;
+  bottom: 5px;
+  left: 605px;
+  width: 724px;
+  height: 226px;
+  display: flex;
+}
+
+.players {
+  width: 50%;
+  height: 100%;
+}
+
+.players .player {
+  width: 100%;
+  height: 46px;
+  margin: 0;
+  transition: background-color 0.3s ease,
+  border 0.3s ease;
+}
+
+.players .player.highlight {
+  border: 3px solid var(--accent-color);
+}
+
+.player.dark {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#bluePlayers .player {
+  border-color: var(--blue-team);
+}
+#redPlayers .player {
+  border-color: var(--red-team);
+}

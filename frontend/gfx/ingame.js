@@ -443,6 +443,26 @@ function updateSettings(e) {
   }
 }
 
+const players = document.querySelectorAll('#tab .player')
+const bluePlayers = document.querySelector('#bluePlayers')
+const redPlayers = document.querySelector('#redPlayers')
+function highlightPlayer (e) {
+  const team = e.teamId === 100 ? bluePlayers : redPlayers
+
+  if (team.children[e.playerId].classList.contains('highlight')) {
+    for (const player of players) {
+      player.classList.remove('highlight', 'dark')
+    }
+  } else {
+    for (const player of players) {
+      player.classList.add('dark')
+      player.classList.remove('highlight')
+    }
+    team.children[e.playerId].classList.add('highlight')
+    team.children[e.playerId].classList.remove('dark')
+  }
+}
+
 LPTE.onready(async () => {
   LPTE.on('module-league-in-game', 'level-update', levelUpdate)
   LPTE.on('module-league-in-game', 'item-update', itemUpdate)
@@ -455,6 +475,7 @@ LPTE.onready(async () => {
   LPTE.on('module-league-in-game', 'pp-update', ppUpdate)
   LPTE.on('module-league-in-game', 'name-update', nameUpdate)
   LPTE.on('module-league-in-game', 'set-settings', updateSettings)
+  LPTE.on('module-league-in-game', 'highlight-player', highlightPlayer)
 
   LPTE.on('module-league-in-game', 'show-inhibs', (e) => {
     inhibDiv.classList.remove('hide')
