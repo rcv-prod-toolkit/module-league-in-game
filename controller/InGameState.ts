@@ -351,7 +351,7 @@ export class InGameState {
     const cAllGameData = this.gameData[this.gameData.length - 1]
 
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
-    const time = Math.round(cAllGameData.gameData.gameTime)
+    const time = Math.round(cAllGameData?.gameData?.gameTime || 0)
     const type = event.eventname === EventType.BaronKill ? 'Baron' : 'Elder'
 
     this.ctx.LPTE.emit({
