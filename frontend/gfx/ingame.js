@@ -348,9 +348,9 @@ function emitEvent(e) {
       : redTeam.querySelector('.event')
 
   eventDiv.querySelector('.event-name').innerText = e.name
-  eventDiv.querySelector('.event-time').innerText = `AT ${convertSecsToTime(
+  /* eventDiv.querySelector('.event-time').innerText = `AT ${convertSecsToTime(
     e.time
-  )}`
+  )}` */
   eventDiv.querySelector('.event-img').src = `img/${e.type.toLowerCase()}.png`
 
   eventDiv.classList.add(e.type.toLowerCase(), 'show')
