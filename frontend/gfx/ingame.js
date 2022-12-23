@@ -446,7 +446,7 @@ function updateSettings(e) {
 const players = document.querySelectorAll('#tab .player')
 const bluePlayers = document.querySelector('#bluePlayers')
 const redPlayers = document.querySelector('#redPlayers')
-function highlightPlayer (e) {
+function highlightPlayer(e) {
   const team = e.teamId === 100 ? bluePlayers : redPlayers
 
   if (team.children[e.playerId].classList.contains('highlight')) {

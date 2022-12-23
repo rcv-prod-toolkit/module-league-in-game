@@ -184,7 +184,7 @@ export class InGameState {
       type: 'Baron',
       ongoing: false,
       percent: 0,
-      respawnIn: 0,
+      respawnIn: 0
     })
 
     this.ctx.LPTE.emit({
@@ -196,7 +196,7 @@ export class InGameState {
       type: 'Dragon',
       ongoing: false,
       percent: 0,
-      respawnIn: 0,
+      respawnIn: 0
     })
 
     this.updateState()
@@ -257,7 +257,8 @@ export class InGameState {
 
     setTimeout(() => {
       const team = event.sourceTeam === TeamType.Order ? 100 : 200
-      const time = this.gameData[this.gameData.length - 1]?.gameData.gameTime ?? 0
+      const time =
+        this.gameData[this.gameData.length - 1]?.gameData.gameTime ?? 0
 
       if (event.eventname === EventType.TurretPlateDestroyed) {
         const split = event.other.split('_') as string[]
