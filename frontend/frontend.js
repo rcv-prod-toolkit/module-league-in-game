@@ -112,6 +112,23 @@ function testKillfeed(team) {
   })
 }
 
+function testPPTimer(shouldShow) {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'pp-update',
+      version: 1
+    },
+    type: document.getElementById('pp-test').options[
+      document.getElementById('pp-test').selectedIndex
+    ].text,
+    ongoing: shouldShow,
+    percent: 10,
+    respawnIn: 300,
+    respawnAt: 0
+  })
+}
+
 function initSettings(settings) {
   const itemOptions = document.querySelector('#items').options
   for (let i = 0; i < itemOptions.length; i++) {

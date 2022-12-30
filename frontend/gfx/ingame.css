@@ -587,6 +587,12 @@ body {
   margin: 0 100px;
 }
 
+.pp-text {
+  font-family: var(--primary-font-family);
+  font-size: 35px;
+  color: var(--text-color);
+}
+
 .plates,
 .gold {
   display: flex;

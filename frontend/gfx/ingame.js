@@ -203,16 +203,16 @@ function setGameState(e) {
 function ppUpdate(e) {
   const typeDiv = e.type === 'Baron' ? baron : elder
   const div = typeDiv.querySelector('.pp-bar')
-  const timer = typeDiv.querySelector('.timer')
+  // const timer = typeDiv.querySelector('.timer')
 
   if (!e.ongoing) {
     div.style.setProperty('--percent', 100)
-    timer.innerText = convertSecsToTime(0)
+    // timer.innerText = convertSecsToTime(0)
 
     typeDiv.classList.add('hide')
   } else {
     div.style.setProperty('--percent', e.percent)
-    timer.innerText = convertSecsToTime(e.respawnIn)
+    // timer.innerText = convertSecsToTime(e.respawnIn)
 
     if (typeDiv.classList.contains('hide')) {
       setTimeout(() => {
