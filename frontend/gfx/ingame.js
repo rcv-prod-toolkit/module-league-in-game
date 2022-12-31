@@ -347,7 +347,8 @@ function emitEvent(e) {
       ? blueTeam.querySelector('.event')
       : redTeam.querySelector('.event')
 
-  eventDiv.querySelector('.event-name').innerText = e.name
+  const eventName = eventDiv.querySelector('.event-name')
+  eventName.querySelector('span').innerText = e.name
   /* eventDiv.querySelector('.event-time').innerText = `AT ${convertSecsToTime(
     e.time
   )}` */
