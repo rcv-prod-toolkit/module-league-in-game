@@ -405,6 +405,24 @@ body {
   transform: translateX(0);
 }
 
+.event.herald .event-img {
+  top: 26.65% !important;
+}
+.event.chemtech .event-img {
+  top: 30% !important;
+}
+.event.infernal .event-img {
+  top: 30% !important;
+}
+.event.mountain .event-img {
+  top: 26.5% !important;
+}
+.event.ocean .event-img {
+  top: 0% !important;
+}
+.event.baron .event-img {
+  top: 28% !important;
+}
 
 .team {
   position: relative;
