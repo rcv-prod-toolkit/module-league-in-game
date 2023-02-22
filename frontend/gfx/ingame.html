@@ -10,17 +10,92 @@
     <link rel="stylesheet" href="/pages/op-plugin-theming/active/index.css" />
   </head>
   <body class="module-league-in-game">
-    <div id="elder" class="power-play hide">
-      <img class="elder-pp" src="img/elder.png" alt="elder" />
-      <h1 class="pp-text">Elder</h1>
-      <div class="pp-bar"></div>
-      <h2 class="timer">3:00</h2>
-    </div>
-    <div id="baron" class="power-play hide">
-      <img class="baron-pp" src="img/baron.png" alt="baron" />
-      <h1 class="pp-text">Baron</h1>
-      <div class="pp-bar"></div>
-      <h2 class="timer">3:00</h2>
+    <!-- <div class="spawn-timers">
+      <div class="drake">
+        <img src="" alt="drake" class="icon">
+        <p class="time">00:00</p>
+      </div>
+      <div class="baron">
+        <img src="" alt="drake" class="icon">
+        <p class="time">00:00</p>
+      </div>
+    </div> -->
+
+    <div class="scoreboard">
+      <div class="sb-blue power-play baron hide">
+        <img src="img/baron.png" />
+        <div class="pp-box">
+          <h3 class="pp-text">Baron</h3>
+          <h1>0</h1>
+        </div>
+        <h2 class="timer">3:00</h2>
+      </div>
+
+      <div class="sb-team sb-blue">
+        <div class="sb-team-info">
+          <div class="sb-score sb-score-blue"></div>
+          <h3 class="sb-tag">Tag</h3>
+          <h4 class="sb-standing">0-0</h4>
+        </div>
+
+        <div class="sb-stat sb-baron">
+          <img src="img/baron-sb-icon.png" alt="Baron" class="sb-icon" />
+          <p class="sb-baron-blue">0</p>
+        </div>
+        <div class="sb-stat sb-herald">
+          <img src="img/herald-sb-icon.png" alt="Herald" class="sb-icon" />
+          <p class="sb-herald-blue">0</p>
+        </div>
+        <div class="sb-stat sb-tower">
+          <img src="img/tower-sb-icon.png" alt="Tower" class="sb-icon" />
+          <p class="sb-tower-blue">0</p>
+        </div>
+        <div class="sb-stat sb-gold">
+          <img src="img/gold-sb-icon.png" alt="Gold" class="sb-icon" />
+          <p class="sb-gold-blue">0</p>
+        </div>
+      </div>
+      <div class="sb-middle">
+        <div class="sb-kills">
+          <h1 class="sb-kills-blue">0</h1>
+          <div class="sb-kills-icon"></div>
+          <h1 class="sb-kills-red">0</h1>
+        </div>
+        <h2 class="sb-time">00:00</h2>
+      </div>
+      <div class="sb-team sb-red">
+        <div class="sb-team-info">
+          <div class="sb-score sb-score-red"></div>
+          <h3 class="sb-tag">Tag</h3>
+          <h4 class="sb-standing">0-0</h4>
+        </div>
+
+        <div class="sb-stat sb-baron">
+          <img src="img/baron-sb-icon.png" alt="Baron" class="sb-icon" />
+          <p class="sb-baron-red">0</p>
+        </div>
+        <div class="sb-stat sb-herald">
+          <img src="img/herald-sb-icon.png" alt="Herald" class="sb-icon" />
+          <p class="sb-herald-red">0</p>
+        </div>
+        <div class="sb-stat sb-tower">
+          <img src="img/tower-sb-icon.png" alt="Tower" class="sb-icon" />
+          <p class="sb-tower-red">0</p>
+        </div>
+        <div class="sb-stat sb-gold">
+          <img src="img/gold-sb-icon.png" alt="Gold" class="sb-icon" />
+          <p class="sb-gold-red">0</p>
+        </div>
+      </div>
+
+      <div class="sb-red power-play baron hide">
+        <img src="img/baron.png" />
+        <div class="pp-box">
+          <h3 class="pp-text">Baron</h3>
+          <h1>0</h1>
+        </div>
+        <h2 class="timer">3:00</h2>
+      </div>
     </div>
 
     <div id="platings" class="hide">
@@ -62,16 +137,6 @@
         </div>
       </div>
     </div>
-    <!-- <div id="turrets">
-    <div id="blueTurrets" class="turrets">
-      <img src="./img/turret.png" alt="" class="turret">
-      <div class="value">0</div>
-    </div>
-    <div id="redTurrets" class="turrets">
-      <img src="./img/turret.png" alt="" class="turret">
-      <div class="value">0</div>
-    </div>
-  </div> -->
 
     <div class="team" id="blue">
       <div class="player">

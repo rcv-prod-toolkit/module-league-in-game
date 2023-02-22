@@ -124,8 +124,10 @@ function testPPTimer(shouldShow) {
     ].text,
     ongoing: shouldShow,
     percent: 10,
+    goldDiff: 11525,
     respawnIn: 300,
-    respawnAt: 0
+    respawnAt: 0,
+    team: 100
   })
 }
 

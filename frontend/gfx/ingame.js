@@ -92,9 +92,11 @@ const redPlates = platingDiv.querySelector('.team-plates.red')
 function calcK(amount) {
   switch (true) {
     case amount > 1000:
-      return `${(amount / 1000).toFixed(2)} K`
+      return `${(amount / 1000).toFixed(1)} K`
+    case amount < -1000:
+      return `${(amount / 1000).toFixed(1)} K`
     default:
-      return amount
+      return amount.toFixed(0)
   }
 }
 
@@ -128,13 +130,34 @@ function platingsUpdate(e) {
   }
 }
 
-const baron = document.querySelector('#baron')
-const elder = document.querySelector('#elder')
+const scoreboard = document.querySelector('.scoreboard')
+const sbTime = scoreboard.querySelector('.sb-time')
+const sbBlue = scoreboard.querySelector('.sb-team.sb-blue')
+const sbRed = scoreboard.querySelector('.sb-team.sb-red')
+
+const sbBluePP = document.querySelector('.sb-blue.power-play')
+const sbRedPP = document.querySelector('.sb-red.power-play')
+
+const sbBlueTag = sbBlue.querySelector('.sb-tag')
+const sbBlueStanding = sbBlue.querySelector('.sb-standing')
+const sbRedTag = sbRed.querySelector('.sb-tag')
+const sbRedStanding = sbRed.querySelector('.sb-standing')
+
+const sbBlueKills = scoreboard.querySelector('.sb-kills-blue')
+const sbRedKills = scoreboard.querySelector('.sb-kills-red')
+
+const sbBlueBaron = sbBlue.querySelector('.sb-baron-blue')
+const sbBlueHerald = sbBlue.querySelector('.sb-herald-blue')
+const sbBlueTower = sbBlue.querySelector('.sb-tower-blue')
+const sbBlueGold = sbBlue.querySelector('.sb-gold-blue')
+
+const sbRedBaron = sbRed.querySelector('.sb-baron-red')
+const sbRedHerald = sbRed.querySelector('.sb-herald-red')
+const sbRedTower = sbRed.querySelector('.sb-tower-red')
+const sbRedGold = sbRed.querySelector('.sb-gold-red')
+
 function setGameState(e) {
   const state = e.state
-
-  baron.classList.add('hide')
-  elder.classList.add('hide')
 
   for (const [i, player] of Object.entries(state.player)) {
     const id = parseInt(i)
@@ -145,10 +168,23 @@ function setGameState(e) {
     playerDiv.innerText = player.nickname
   }
 
-  /* for (const [teamId, team] of Object.entries(state.towers)) {
+  sbBlueGold.innerText = calcK(state.gold[100])
+  sbRedGold.innerText = calcK(state.gold[200])
+
+  sbBlueKills.innerText = state.kills[100]
+  sbRedKills.innerText = state.kills[200]
+
+  sbTime.innerText = convertSecsToTime(state.gameTime)
+
+  sbBlueBaron.innerText = state.objectives[100].filter(o => o.type === 'OnKillWorm_Spectator').length
+  sbRedBaron.innerText = state.objectives[200].filter(o => o.type === 'OnKillWorm_Spectator').length
+
+  sbBlueHerald.innerText = state.objectives[100].filter(o => o.type === 'OnKillRiftHerald_Spectator').length
+  sbRedHerald.innerText = state.objectives[200].filter(o => o.type === 'OnKillRiftHerald_Spectator').length
+
+  for (const [teamId, team] of Object.entries(state.towers)) {
     for (const lane of Object.values(team)) {
-      const teamDiv = teamId === '100' ? redTurrets : blueTurrets
-      const value = teamDiv.querySelector('.value')
+      const value = teamId === '100' ? sbRedTower : sbBlueTower
       let newValue = 0
 
       for (const alive of Object.values(lane)) {
@@ -160,7 +196,7 @@ function setGameState(e) {
 
       value.textContent = (Number(value.innerText) || 0)
     }
-  } */
+  }
 
   platingsUpdate(e)
 
@@ -201,22 +237,33 @@ function setGameState(e) {
 }
 
 function ppUpdate(e) {
-  const typeDiv = e.type === 'Baron' ? baron : elder
-  const div = typeDiv.querySelector('.pp-bar')
-  const timer = typeDiv.querySelector('.timer')
+  const teamDiv = e.team === 100 ? sbBluePP : sbRedPP
+  const title = teamDiv.querySelector('.pp-text')
+  const timer = teamDiv.querySelector('.timer')
+  const gold = teamDiv.querySelector('h1')
 
   if (!e.ongoing) {
-    div.style.setProperty('--percent', 100)
+    title.innerText = e.type
     timer.innerText = convertSecsToTime(0)
+    gold.innerText = calcK(e.goldDiff)
 
-    typeDiv.classList.add('hide')
+    teamDiv.classList.add('hide')
   } else {
-    div.style.setProperty('--percent', e.percent)
+    title.innerText = e.type
     timer.innerText = convertSecsToTime(e.respawnIn)
+    gold.innerText = e.goldDiff < 0 ? calcK(e.goldDiff) : '+' + calcK(e.goldDiff)
 
-    if (typeDiv.classList.contains('hide')) {
+    console.log(e)
+    if (e.team === 100) {
+      teamDiv.style.background = `linear-gradient(to right, var(--blue-team) ${e.percent}%, var(--background-light-color) ${e.percent + 3}%)`
+    }
+    if (e.team === 200) {
+      sbRedPP.style.backgroundImage  = `linear-gradient(to right, var(--red-team) ${e.percent}%, var(--background-light-color) ${e.percent + 3}%)`
+    }
+
+    if (teamDiv.classList.contains('hide')) {
       setTimeout(() => {
-        typeDiv.classList.remove('hide')
+        teamDiv.classList.remove('hide')
       }, 5000)
     }
   }
@@ -282,7 +329,35 @@ function changeColor(color) {
   return brightness < 150 ? '--text-color' : '--text-color-dark'
 }
 
+const sbBlueScore = scoreboard.querySelector('.sb-score-blue')
+const sbRedScore = scoreboard.querySelector('.sb-score-red')
+
 function changeColors(e) {
+  sbBlueTag.innerText = e.teams.blueTeam.tag
+  sbRedTag.innerText = e.teams.redTeam.tag
+  sbBlueStanding.innerText = e.teams.blueTeam.standing
+  sbRedStanding.innerText = e.teams.redTeam.standing
+
+  sbBlueScore.innerHTML = ""
+  sbRedScore.innerHTML = ""
+
+  for (let i = 0; i < Math.ceil(e.bestOf / 2); i++) {    
+    const bluePoint = document.createElement('div')
+    bluePoint.classList.add('sb-score-point')
+    const redPoint = document.createElement('div')
+    redPoint.classList.add('sb-score-point')
+
+    if (e.teams.blueTeam.score === i+1) {
+      bluePoint.classList.add('sb-score-point-win')
+    }
+    if (e.teams.redTeam.score === i+1) {
+      redPoint.classList.add('sb-score-point-win')
+    }
+
+    sbBlueScore.appendChild(bluePoint)
+    sbRedScore.appendChild(redPoint)
+  }
+
   if (e.teams.blueTeam?.color && e.teams.blueTeam?.color !== '#000000') {
     document
       .querySelector(':root')

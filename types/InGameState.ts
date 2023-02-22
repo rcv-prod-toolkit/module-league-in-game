@@ -1,6 +1,7 @@
 import { EventType, MobType } from './InGameEvent'
 
 export interface InGameState {
+  gameTime: number
   towers: {
     100: TowerState
     200: TowerState
@@ -20,8 +21,22 @@ export interface InGameState {
       summonerName: string
       nickname: string
       level: number
+      experience: number
+      currentGold: number
+      totalGold: number
       items: Set<number>
     }
+  }
+  gold: {
+    100: number
+    200: number
+  }
+  kills: {
+    100: number
+    200: number
+  }
+  goldGraph: {
+    [t: number]: number
   }
   objectives: {
     100: Objective[]

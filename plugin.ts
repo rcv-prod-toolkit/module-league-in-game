@@ -2,6 +2,7 @@ import type { PluginContext } from '@rcv-prod-toolkit/types'
 import { InGameState } from './controller/InGameState'
 import type { AllGameData } from './types/AllGameData'
 import type { Config } from './types/Config'
+import { FarsightData } from './types/FarsightData'
 
 module.exports = async (ctx: PluginContext) => {
   const namespace = ctx.plugin.module.getName()
@@ -113,6 +114,15 @@ module.exports = async (ctx: PluginContext) => {
 
       const data = e.data as AllGameData
       inGameState.handelData(data)
+    })
+
+    ctx.LPTE.on(namespace, 'farsight-data', (e) => {
+      if (inGameState === undefined) {
+        inGameState = new InGameState(namespace, ctx, config, state, statics)
+      }
+
+      const data = e.data as FarsightData
+      inGameState.handelFarsightData(data)
     })
 
     ctx.LPTE.on(namespace, 'live-events', (e) => {

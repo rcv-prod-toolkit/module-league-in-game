@@ -5,10 +5,12 @@ import { ItemEpicness } from '../types/Items'
 import { InGameState as InGameStateType } from '../types/InGameState'
 import { EventType, InGameEvent, MobType, TeamType } from '../types/InGameEvent'
 import { randomUUID } from 'crypto'
+import { FarsightData } from '../types/FarsightData'
 
 export class InGameState {
   public gameState: InGameStateType
   public gameData: AllGameData[] = []
+  public farsightDataArray: FarsightData[] = []
   public itemEpicness: number[]
 
   public actions: Map<string, (allGameData: AllGameData, id: string) => void> =
@@ -24,6 +26,7 @@ export class InGameState {
     this.itemEpicness = this.config.items?.map((i) => ItemEpicness[i])
 
     this.gameState = {
+      gameTime: 0,
       towers: {
         100: {
           L: {},
@@ -103,63 +106,102 @@ export class InGameState {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         1: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         2: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         3: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         4: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         5: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         6: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         7: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         8: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         },
         9: {
           summonerName: '',
           nickname: '',
           level: 0,
+          experience: 0,
+          currentGold: 0,
+          totalGold: 0,
           items: new Set()
         }
       },
+      gold: {
+        100: 0,
+        200: 0
+      },
+      kills: {
+        100: 0,
+        200: 0
+      },
+      goldGraph: {},
       objectives: {
         100: [],
         200: []
@@ -238,6 +280,8 @@ export class InGameState {
         previousGameData = this.gameData[this.gameData.length - 1]
       }
 
+      this.gameState.gameTime = allGameData.gameData.gameTime
+
       setTimeout(() => {
         this.checkPlayerUpdate(allGameData)
         this.checkEventUpdate(allGameData, previousGameData)
@@ -249,6 +293,60 @@ export class InGameState {
     }
 
     this.gameData.push(allGameData)
+  }
+
+  public handelFarsightData(farsightData: FarsightData): void {
+    if (this.gameData.length > 0) {
+      let previousGameData = this.farsightDataArray[this.farsightDataArray.length - 1]
+
+      if (farsightData.gameTime < previousGameData?.gameTime) {
+        this.gameData = this.gameData.filter(
+          (gd) => gd.gameData.gameTime < farsightData.gameTime
+        )
+
+        if (this.gameData.length <= 0) return
+        previousGameData = this.farsightDataArray[this.farsightDataArray.length - 1]
+      }
+
+      const state = this.convertGameState()
+
+      setTimeout(() => {
+        let gold100 = 0
+        let gold200 = 0
+
+        for (const champion of farsightData.champions) {
+          for (const player in this.gameState.player) {
+            if (this.gameState.player[player].summonerName !== champion.displayName) continue
+
+            this.gameState.player[player].level = champion.level
+            this.gameState.player[player].experience = champion.experience
+            this.gameState.player[player].currentGold = champion.currentGold
+            this.gameState.player[player].totalGold = champion.totalGold
+          }
+
+          if (champion.team === 100) {
+            gold100 += champion.totalGold
+          } else if (champion.team === 200) {
+            gold200 += champion.totalGold
+          }
+        }
+
+        this.gameState.goldGraph[Math.round(farsightData.gameTime)] = gold100 - gold200
+        this.gameState.gold[100] = gold100
+        this.gameState.gold[200] = gold200
+
+        this.ctx.LPTE.emit({
+          meta: {
+            namespace: this.namespace,
+            type: 'update',
+            version: 1
+          },
+          state
+        })
+      }, this.config.delay / 2)
+    }
+
+    this.farsightDataArray.push(farsightData)
   }
 
   public handelEvent(event: InGameEvent): void {
@@ -288,26 +386,22 @@ export class InGameState {
         event.eventname === EventType.DragonKill &&
         this.config.events?.includes('Dragons')
       ) {
-        if (this.convertDragon(event.other) === 'Elder') {
-          this.baronElderKill(event)
-        } else {
-          this.ctx.LPTE.emit({
-            meta: {
-              namespace: this.namespace,
-              type: 'event',
-              version: 1
-            },
-            name: 'Dragon',
-            type: this.convertDragon(event.other),
-            team,
-            time
-          })
-        }
+        this.ctx.LPTE.emit({
+          meta: {
+            namespace: this.namespace,
+            type: 'event',
+            version: 1
+          },
+          name: 'Dragon',
+          type: this.convertDragon(event.other),
+          team,
+          time
+        })
       } else if (
         event.eventname === EventType.BaronKill &&
         this.config.events?.includes('Barons')
       ) {
-        this.baronElderKill(event)
+        this.baronKill(event)
       } else if (
         event.eventname === EventType.HeraldKill &&
         this.config.events?.includes('Heralds')
@@ -348,12 +442,12 @@ export class InGameState {
     }
   }
 
-  private baronElderKill(event: InGameEvent): void {
+  private baronKill(event: InGameEvent): void {
     const cAllGameData = this.gameData[this.gameData.length - 1]
 
     const team = event.sourceTeam === TeamType.Order ? 100 : 200
     const time = Math.round(cAllGameData?.gameData?.gameTime || 0)
-    const type = event.eventname === EventType.BaronKill ? 'Baron' : 'Elder'
+    const type = 'Baron'
 
     this.ctx.LPTE.emit({
       meta: {
@@ -361,7 +455,7 @@ export class InGameState {
         type: 'event',
         version: 1
       },
-      name: event.eventname === EventType.BaronKill ? 'Baron' : 'Dragon',
+      name: 'Baron',
       type,
       team,
       time
@@ -374,6 +468,9 @@ export class InGameState {
     const data = {
       time,
       ongoing: true,
+      goldDiff: 0,
+      goldBaseBlue: this.gameState.gold[100],
+      goldBaseRed: this.gameState.gold[200],
       alive: cAllGameData.allPlayers
         .filter(
           (p) =>
@@ -401,6 +498,7 @@ export class InGameState {
       },
       type,
       team,
+      goldDiff: data.goldDiff,
       ongoing: data.ongoing,
       percent: data.percent,
       respawnIn: data.respawnIn,
@@ -411,6 +509,11 @@ export class InGameState {
       const gameState = allGameData.gameData
       const diff = respawnAt - Math.round(gameState.gameTime)
       const percent = Math.round((diff * 100) / (60 * 3))
+
+      const goldDifBlue = this.gameState.gold[100] - data.goldBaseBlue
+      const goldDifRed = this.gameState.gold[200] - data.goldBaseRed
+
+      const goldDiff = team === 100 ? goldDifBlue - goldDifRed : goldDifRed - goldDifBlue
 
       data.alive = allGameData.allPlayers
         .filter(
@@ -437,8 +540,9 @@ export class InGameState {
           type: 'pp-update',
           version: 1
         },
-        type: event.eventname === EventType.BaronKill ? 'Baron' : 'Elder',
+        type: 'Baron',
         team,
+        goldDiff,
         ongoing: data.ongoing,
         percent,
         respawnIn: diff
@@ -456,8 +560,9 @@ export class InGameState {
             type: 'pp-update',
             version: 1
           },
-          type: event.eventname === EventType.BaronKill ? 'Baron' : 'Elder',
+          type: 'Baron',
           team,
+          goldDiff,
           ongoing: data.ongoing,
           percent: 100,
           respawnIn: 60 * 3
@@ -469,13 +574,15 @@ export class InGameState {
   }
 
   private checkPlayerUpdate(allGameData: AllGameData) {
-    if (this.config.items.length === 0) return
     if (allGameData.allPlayers.length === 0) return
+
+    this.gameState.kills[100] = allGameData.allPlayers.filter(p => p.team === "ORDER").reduce((v, c) => v + c.scores.kills, 0)
+    this.gameState.kills[200] = allGameData.allPlayers.filter(p => p.team === "CHAOS").reduce((v, c) => v + c.scores.kills, 0)
 
     allGameData.allPlayers.forEach((player, i) => {
       this.checkNameUpdate(player, i)
-      this.checkItemUpdate(player, i)
       this.checkLevelUpdate(player, i)
+      this.checkItemUpdate(player, i)
     })
   }
 
