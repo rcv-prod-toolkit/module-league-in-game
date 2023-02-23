@@ -74,17 +74,6 @@ function inhibUpdate(e) {
   inhib.querySelector('p').innerText = convertSecsToTime(e.respawnIn)
 }
 
-/* const turretDiv = document.querySelector('#turrets')
-const blueTurrets = turretDiv.querySelector('#blueTurrets')
-const redTurrets = turretDiv.querySelector('#redTurrets')
-
-function towerUpdate (e) {
-  const team = e.team === '100' ? redTurrets : blueTurrets
-  const value = team.querySelector('.value')
-  const newValue = (Number(value.innerText) || 0) + 1
-  value.innerText = newValue
-} */
-
 const platingDiv = document.querySelector('#platings')
 const bluePlates = platingDiv.querySelector('.team-plates.blue')
 const redPlates = platingDiv.querySelector('.team-plates.red')
@@ -168,8 +157,8 @@ function setGameState(e) {
     playerDiv.innerText = player.nickname
   }
 
-  sbBlueGold.innerText = calcK(state.gold[100])
-  sbRedGold.innerText = calcK(state.gold[200])
+  sbBlueGold.innerText = calcK(state.gold[100] || 0)
+  sbRedGold.innerText = calcK(state.gold[200] || 0)
 
   sbBlueKills.innerText = state.kills[100]
   sbRedKills.innerText = state.kills[200]
@@ -183,19 +172,18 @@ function setGameState(e) {
   sbRedHerald.innerText = state.objectives[200].filter(o => o.type === 'OnKillRiftHerald_Spectator').length
 
   for (const [teamId, team] of Object.entries(state.towers)) {
-    for (const lane of Object.values(team)) {
-      const value = teamId === '100' ? sbRedTower : sbBlueTower
-      let newValue = 0
+    const value = teamId === '100' ? sbRedTower : sbBlueTower
+    let newValue = 0
 
+    for (const lane of Object.values(team)) {
       for (const alive of Object.values(lane)) {
         if (alive) continue
 
         newValue += 1
-        value.textContent = newValue + 1
       }
-
-      value.textContent = (Number(value.innerText) || 0)
     }
+
+    value.textContent = newValue
   }
 
   platingsUpdate(e)
@@ -253,9 +241,8 @@ function ppUpdate(e) {
     timer.innerText = convertSecsToTime(e.respawnIn)
     gold.innerText = e.goldDiff < 0 ? calcK(e.goldDiff) : '+' + calcK(e.goldDiff)
 
-    console.log(e)
     if (e.team === 100) {
-      teamDiv.style.background = `linear-gradient(to right, var(--blue-team) ${e.percent}%, var(--background-light-color) ${e.percent + 3}%)`
+      teamDiv.style.background = `linear-gradient(to left, var(--blue-team) ${e.percent}%, var(--background-light-color) ${e.percent + 3}%)`
     }
     if (e.team === 200) {
       sbRedPP.style.backgroundImage  = `linear-gradient(to right, var(--red-team) ${e.percent}%, var(--background-light-color) ${e.percent + 3}%)`

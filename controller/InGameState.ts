@@ -247,6 +247,7 @@ export class InGameState {
   private convertGameState() {
     return {
       ...this.gameState,
+      gameTime: this.gameState.gameTime + (this.config.delay / 1000),
       player: Object.values(this.gameState.player).map((p) => {
         return {
           ...p,
@@ -468,7 +469,7 @@ export class InGameState {
     const data = {
       time,
       ongoing: true,
-      goldDiff: 0,
+      goldDiff: 1500,
       goldBaseBlue: this.gameState.gold[100],
       goldBaseRed: this.gameState.gold[200],
       alive: cAllGameData.allPlayers
@@ -513,7 +514,7 @@ export class InGameState {
       const goldDifBlue = this.gameState.gold[100] - data.goldBaseBlue
       const goldDifRed = this.gameState.gold[200] - data.goldBaseRed
 
-      const goldDiff = team === 100 ? goldDifBlue - goldDifRed : goldDifRed - goldDifBlue
+      const goldDiff = team === 100 ? 1500 + goldDifBlue - goldDifRed : 1500 + goldDifRed - goldDifBlue
 
       data.alive = allGameData.allPlayers
         .filter(

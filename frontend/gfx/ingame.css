@@ -756,7 +756,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
   transition: left 0.3s ease;
-  display: none;
 }
 
 .sb-score-blue {
@@ -810,7 +809,7 @@ body {
   height: 15px;
 }
 
-.sb-blue.power-play.hide + .sb-blue.sb-team .sb-score {
+.sb-blue.power-play.hide ~ .sb-blue.sb-team .sb-score {
   left: -25px;
 }
 
@@ -829,17 +828,20 @@ body {
   color: var(--text-color);
   transform: scaleX(100%);
   transition: transform 0.3s ease;
+  position: absolute;
 }
 
 .sb-blue.power-play {
   background: var(--blue-team);
   transform-origin: right;
+  left: -250px;
   padding-right: 20px;
 }
 
 .sb-red.power-play {
   flex-direction: row-reverse;
   transform-origin: left;
+  right: -250px;
   background: var(--red-team);
   padding-left: 20px;
 }
