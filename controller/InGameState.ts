@@ -297,57 +297,59 @@ export class InGameState {
   }
 
   public handelFarsightData(farsightData: FarsightData): void {
-    if (this.gameData.length > 0) {
-      let previousGameData = this.farsightDataArray[this.farsightDataArray.length - 1]
+    if (farsightData.champions === undefined || typeof farsightData.champions[Symbol.iterator] !== 'function') return
 
-      if (farsightData.gameTime < previousGameData?.gameTime) {
-        this.gameData = this.gameData.filter(
-          (gd) => gd.gameData.gameTime < farsightData.gameTime
+    if (this.farsightDataArray.length > 0) {
+      let previousFarsightData = this.farsightDataArray[this.farsightDataArray.length - 1]
+
+      if (farsightData.gameTime < previousFarsightData?.gameTime) {
+        this.farsightDataArray = this.farsightDataArray.filter(
+          (gd) => gd.gameTime < farsightData.gameTime
         )
 
-        if (this.gameData.length <= 0) return
-        previousGameData = this.farsightDataArray[this.farsightDataArray.length - 1]
+        if (this.farsightDataArray.length <= 0) return
+        previousFarsightData = this.farsightDataArray[this.farsightDataArray.length - 1]
       }
-
-      const state = this.convertGameState()
-
-      setTimeout(() => {
-        let gold100 = 0
-        let gold200 = 0
-
-        for (const champion of farsightData.champions) {
-          for (const player in this.gameState.player) {
-            if (this.gameState.player[player].summonerName !== champion.displayName) continue
-
-            this.gameState.player[player].level = champion.level
-            this.gameState.player[player].experience = champion.experience
-            this.gameState.player[player].currentGold = champion.currentGold
-            this.gameState.player[player].totalGold = champion.totalGold
-          }
-
-          if (champion.team === 100) {
-            gold100 += champion.totalGold
-          } else if (champion.team === 200) {
-            gold200 += champion.totalGold
-          }
-        }
-
-        this.gameState.goldGraph[Math.round(farsightData.gameTime)] = gold100 - gold200
-        this.gameState.gold[100] = gold100
-        this.gameState.gold[200] = gold200
-
-        this.ctx.LPTE.emit({
-          meta: {
-            namespace: this.namespace,
-            type: 'update',
-            version: 1
-          },
-          state
-        })
-      }, this.config.delay / 2)
     }
 
     this.farsightDataArray.push(farsightData)
+
+    let gold100 = 0
+    let gold200 = 0
+
+    for (const champion of farsightData.champions) {
+      for (const player in this.gameState.player) {
+        if (this.gameState.player[player].summonerName !== champion.displayName) continue
+
+        this.gameState.player[player].level = champion.level
+        this.gameState.player[player].experience = champion.experience
+        this.gameState.player[player].currentGold = champion.currentGold
+        this.gameState.player[player].totalGold = champion.totalGold
+      }
+
+      if (champion.team === 100) {
+        gold100 += champion.totalGold
+      } else if (champion.team === 200) {
+        gold200 += champion.totalGold
+      }
+    }
+
+    this.gameState.goldGraph[Math.round(farsightData.gameTime)] = gold100 - gold200
+    this.gameState.gold[100] = gold100
+    this.gameState.gold[200] = gold200
+
+    const state = this.convertGameState()
+
+    setTimeout(() => {
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'update',
+          version: 1
+        },
+        state
+      })
+    }, this.config.delay / 2)
   }
 
   public handelEvent(event: InGameEvent): void {
@@ -781,10 +783,10 @@ export class InGameState {
         source: event.KillerName.startsWith('Minion')
           ? 'Minion'
           : allGameData.allPlayers
-              .find((p) => {
-                return p.summonerName === event.KillerName
-              })
-              ?.rawChampionName.split('_')[3],
+            .find((p) => {
+              return p.summonerName === event.KillerName
+            })
+            ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
       })
     }
@@ -816,10 +818,10 @@ export class InGameState {
         source: event.KillerName.startsWith('Minion')
           ? 'Minion'
           : allGameData.allPlayers
-              .find((p) => {
-                return p.summonerName === event.KillerName
-              })
-              ?.rawChampionName.split('_')[3],
+            .find((p) => {
+              return p.summonerName === event.KillerName
+            })
+            ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
       })
     }
@@ -865,21 +867,21 @@ export class InGameState {
       source: event.KillerName.startsWith('Minion')
         ? 'Minion'
         : event.KillerName.startsWith('Turret')
-        ? 'Turret'
-        : event.KillerName.startsWith('SRU_Baron')
-        ? 'Baron'
-        : event.KillerName.startsWith('SRU_Herald')
-        ? 'Herald'
-        : event.KillerName.startsWith('SRU_Dragon')
-        ? 'Dragon'
-        : // TODO Thats for all other creeps for now until we have some better icons for them
-        event.KillerName.startsWith('SRU')
-        ? 'Minion'
-        : allGameData.allPlayers
-            .find((p) => {
-              return p.summonerName === event.KillerName
-            })
-            ?.rawChampionName.split('_')[3],
+          ? 'Turret'
+          : event.KillerName.startsWith('SRU_Baron')
+            ? 'Baron'
+            : event.KillerName.startsWith('SRU_Herald')
+              ? 'Herald'
+              : event.KillerName.startsWith('SRU_Dragon')
+                ? 'Dragon'
+                : // TODO Thats for all other creeps for now until we have some better icons for them
+                event.KillerName.startsWith('SRU')
+                  ? 'Minion'
+                  : allGameData.allPlayers
+                    .find((p) => {
+                      return p.summonerName === event.KillerName
+                    })
+                    ?.rawChampionName.split('_')[3],
       team:
         allGameData.allPlayers.find((p) => {
           return p.summonerName === event.VictimName
