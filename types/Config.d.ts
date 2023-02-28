@@ -6,4 +6,13 @@ export interface Config {
   ppTimer: boolean
   delay: number
   showNicknames: boolean
+  scoreboard: {
+    active: boolean
+    score: boolean
+    tags: boolean
+    standings: boolean
+    barons: boolean
+    heralds: boolean
+    tower: boolean
+  }
 }

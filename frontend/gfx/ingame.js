@@ -233,7 +233,7 @@ function ppUpdate(e) {
   if (!e.ongoing) {
     title.innerText = e.type
     timer.innerText = convertSecsToTime(0)
-    gold.innerText = calcK(e.goldDiff)
+    gold.innerText = calcK(e.goldDiff || 0)
 
     teamDiv.classList.add('hide')
   } else {
@@ -502,6 +502,76 @@ function updateSettings(e) {
   } else {
     document.querySelectorAll('.nickname').forEach((n) => {
       n.style.display = 'block'
+    })
+  }
+
+  if (!e.scoreboard.active) {
+    document.querySelectorAll('.scoreboard').forEach((n) => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.scoreboard').forEach((n) => {
+      n.style.display = 'flex'
+    })
+  }
+
+  if (!e.scoreboard.score) {
+    document.querySelectorAll('.sb-score').forEach((n) => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.sb-score').forEach((n) => {
+      n.style.display = 'flex'
+    })
+  }
+
+  if (!e.scoreboard.tags) {
+    document.querySelectorAll('.sb-tag').forEach((n) => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.sb-tag').forEach((n) => {
+      n.style.display = 'block'
+    })
+  }
+
+  if (!e.scoreboard.standings) {
+    document.querySelectorAll('.sb-standing').forEach((n) => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.sb-standing').forEach((n) => {
+      n.style.display = 'block'
+    })
+  }
+
+  if (!e.scoreboard.barons) {
+    document.querySelectorAll('.sb-baron').forEach((n) => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.sb-baron').forEach((n) => {
+      n.style.display = 'flex'
+    })
+  }
+
+  if (!e.scoreboard.heralds) {
+    document.querySelectorAll('.sb-herald').forEach((n) => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.sb-herald').forEach((n) => {
+      n.style.display = 'flex'
+    })
+  }
+
+  if (!e.scoreboard.tower) {
+    document.querySelectorAll('.sb-tower').forEach((n) => {
+      n.style.display = 'none'
+    })
+  } else {
+    document.querySelectorAll('.sb-tower').forEach((n) => {
+      n.style.display = 'flex'
     })
   }
 }

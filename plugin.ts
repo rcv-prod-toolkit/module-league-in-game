@@ -25,8 +25,17 @@ module.exports = async (ctx: PluginContext) => {
       killfeed: false,
       ppTimer: false,
       showNicknames: false,
-      delay: 0
-    },
+      delay: 0,
+      scoreboard: {
+        active: true,
+        barons: true,
+        heralds: true,
+        score: true,
+        standings: true,
+        tags: true,
+        tower: true
+      }
+    } as Config,
     configRes?.config
   )
 
@@ -38,6 +47,7 @@ module.exports = async (ctx: PluginContext) => {
     config.ppTimer = e.ppTimer
     config.delay = e.delay
     config.showNicknames = e.showNicknames
+    config.scoreboard = e.scoreboard
 
     ctx.LPTE.emit({
       meta: {
@@ -45,15 +55,7 @@ module.exports = async (ctx: PluginContext) => {
         namespace: 'plugin-config',
         version: 1
       },
-      config: {
-        items: e.items,
-        level: e.level,
-        events: e.events,
-        killfeed: e.killfeed,
-        ppTimer: e.ppTimer,
-        delay: e.delay,
-        showNicknames: e.showNicknames
-      }
+      config
     })
   })
 
@@ -64,13 +66,7 @@ module.exports = async (ctx: PluginContext) => {
         namespace: 'reply',
         version: 1
       },
-      items: config.items,
-      level: config.level,
-      events: config.events,
-      killfeed: config.killfeed,
-      ppTimer: config.ppTimer,
-      delay: config.delay,
-      showNicknames: config.showNicknames
+      ...config
     })
   })
 

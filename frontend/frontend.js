@@ -19,7 +19,16 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
     killfeed: document.querySelector('#killfeed').checked,
     ppTimer: document.querySelector('#ppTimer').checked,
     delay: parseInt(document.querySelector('#delay').value),
-    showNicknames: document.querySelector('#showNicknames').checked
+    showNicknames: document.querySelector('#showNicknames').checked,
+    scoreboard: {
+      active: document.querySelector('#scoreboard-active').checked,
+      score: document.querySelector('#scoreboard-score').checked,
+      tags: document.querySelector('#scoreboard-tags').checked,
+      standings: document.querySelector('#scoreboard-standings').checked,
+      barons: document.querySelector('#scoreboard-barons').checked,
+      heralds: document.querySelector('#scoreboard-heralds').checked,
+      tower: document.querySelector('#scoreboard-tower').checked
+    }
   })
 })
 
@@ -163,6 +172,14 @@ function initSettings(settings) {
   document.querySelector('#ppTimer').checked = settings.ppTimer
   document.querySelector('#delay').value = settings.delay
   document.querySelector('#showNicknames').checked = settings.showNicknames
+
+  document.querySelector('#scoreboard-active').checked = settings.scoreboard.active
+  document.querySelector('#scoreboard-score').checked = settings.scoreboard.score
+  document.querySelector('#scoreboard-tags').checked = settings.scoreboard.tags
+  document.querySelector('#scoreboard-standings').checked = settings.scoreboard.standings
+  document.querySelector('#scoreboard-barons').checked = settings.scoreboard.barons
+  document.querySelector('#scoreboard-heralds').checked = settings.scoreboard.heralds
+  document.querySelector('#scoreboard-tower').checked = settings.scoreboard.tower
 }
 
 let server = ''
