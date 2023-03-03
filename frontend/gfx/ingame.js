@@ -334,10 +334,10 @@ function changeColors(e) {
     const redPoint = document.createElement('div')
     redPoint.classList.add('sb-score-point')
 
-    if (e.teams.blueTeam.score === i+1) {
+    if (e.teams.blueTeam.score >= i+1) {
       bluePoint.classList.add('sb-score-point-win')
     }
-    if (e.teams.redTeam.score === i+1) {
+    if (e.teams.redTeam.score >= i+1) {
       redPoint.classList.add('sb-score-point-win')
     }
 
@@ -602,7 +602,6 @@ LPTE.onready(async () => {
   LPTE.on('module-league-in-game', 'inhib-update', inhibUpdate)
   LPTE.on('module-league-in-game', 'kill-update', addKill)
   LPTE.on('module-league-in-game', 'platings-update', platingsUpdate)
-  /* LPTE.on(namespace, 'tower-update', towerUpdate) */
   LPTE.on('module-league-in-game', 'update', setGameState)
   LPTE.on('module-league-in-game', 'event', emitEvent)
   LPTE.on('module-league-in-game', 'pp-update', ppUpdate)
