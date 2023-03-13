@@ -205,10 +205,12 @@ function setGameState(e) {
 
   if (state.showInhibitors !== null) {
     inhibDiv.classList.remove('hide')
-    if (parseInt(e.side) === 100) {
+
+    if (parseInt(state.showInhibitors) === 100) {
       inhibDiv.classList.remove('both')
+      blueSide.classList.remove('hide')
       redSide.classList.add('hide')
-    } else if (parseInt(e.side) === 200) {
+    } else if (parseInt(state.showInhibitors) === 200) {
       inhibDiv.classList.remove('both')
       blueSide.classList.add('hide')
       redSide.classList.remove('hide')
