@@ -217,6 +217,7 @@ function setGameState(e) {
     } else {
       inhibDiv.classList.add('both')
       redSide.classList.remove('hide')
+      blueSide.classList.remove('hide')
     }
   } else {
     inhibDiv.classList.add('hide')
@@ -322,10 +323,10 @@ const sbBlueScore = scoreboard.querySelector('.sb-score-blue')
 const sbRedScore = scoreboard.querySelector('.sb-score-red')
 
 function changeColors(e) {
-  sbBlueTag.innerText = e.teams.blueTeam.tag
-  sbRedTag.innerText = e.teams.redTeam.tag
-  sbBlueStanding.innerText = e.teams.blueTeam.standing
-  sbRedStanding.innerText = e.teams.redTeam.standing
+  sbBlueTag.innerText = e.teams.blueTeam?.tag || 'Tag'
+  sbRedTag.innerText = e.teams.redTeam?.tag  || 'Tag'
+  sbBlueStanding.innerText = e.teams.blueTeam?.standing || ''
+  sbRedStanding.innerText = e.teams.redTeam?.standing || ''
 
   sbBlueScore.innerHTML = ""
   sbRedScore.innerHTML = ""
@@ -336,10 +337,10 @@ function changeColors(e) {
     const redPoint = document.createElement('div')
     redPoint.classList.add('sb-score-point')
 
-    if (e.teams.blueTeam.score >= i+1) {
+    if (e.teams.blueTeam?.score >= i+1) {
       bluePoint.classList.add('sb-score-point-win')
     }
-    if (e.teams.redTeam.score >= i+1) {
+    if (e.teams.redTeam?.score >= i+1) {
       redPoint.classList.add('sb-score-point-win')
     }
 
