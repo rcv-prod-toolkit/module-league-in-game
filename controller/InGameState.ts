@@ -782,11 +782,16 @@ export class InGameState {
         other: 'Inhib',
         source: event.KillerName.startsWith('Minion')
           ? 'Minion'
-          : allGameData.allPlayers
-            .find((p) => {
-              return p.summonerName === event.KillerName
-            })
-            ?.rawChampionName.split('_')[3],
+          : event.KillerName.startsWith('SRU_Herald')
+            ? 'Herald'
+            : // TODO Thats for all other creeps for now until we have some better icons for them
+            event.KillerName.startsWith('SRU')
+              ? 'Minion'
+              : allGameData.allPlayers
+                .find((p) => {
+                  return p.summonerName === event.KillerName
+                })
+                ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
       })
     }
@@ -817,11 +822,16 @@ export class InGameState {
         other: 'Turret',
         source: event.KillerName.startsWith('Minion')
           ? 'Minion'
-          : allGameData.allPlayers
-            .find((p) => {
-              return p.summonerName === event.KillerName
-            })
-            ?.rawChampionName.split('_')[3],
+          : event.KillerName.startsWith('SRU_Herald')
+            ? 'Herald'
+            : // TODO Thats for all other creeps for now until we have some better icons for them
+            event.KillerName.startsWith('SRU')
+              ? 'Minion'
+              : allGameData.allPlayers
+                .find((p) => {
+                  return p.summonerName === event.KillerName
+                })
+                ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
       })
     }
