@@ -297,7 +297,7 @@ export class InGameState {
   }
 
   public handelFarsightData(farsightData: FarsightData): void {
-    if (farsightData.champions === undefined || typeof farsightData.champions[Symbol.iterator] !== 'function') return
+    if (farsightData.champions === undefined || !Array.isArray(farsightData.champions) || farsightData.champions.length <= 0) return
 
     if (this.farsightDataArray.length > 0) {
       let previousFarsightData = this.farsightDataArray[this.farsightDataArray.length - 1]
@@ -616,7 +616,7 @@ export class InGameState {
   }
 
   private checkLevelUpdate(currentPlayerState: Player, id: number) {
-    if (currentPlayerState.level === this.gameState.player[id].level) return
+    if (currentPlayerState.level <= this.gameState.player[id].level) return
     if (!this.config.level.includes(currentPlayerState.level.toString())) return
 
     this.gameState.player[id].level = currentPlayerState.level
