@@ -608,7 +608,7 @@ body {
 
 .players .player {
   width: 100%;
-  height: 46px;
+  height: 46px !important;
   margin: 0;
   transition: background-color 0.3s ease, border 0.3s ease;
 }
