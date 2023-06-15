@@ -317,7 +317,11 @@ export class InGameState {
     let gold100 = 0
     let gold200 = 0
 
-    for (const champion of farsightData.champions) {
+    const champions = farsightData.champions.filter((c, i, a) => {
+      return a.findIndex(ci => ci.displayName === c.displayName) === i
+    })
+
+    for (const champion of champions) {
       for (const player in this.gameState.player) {
         if (this.gameState.player[player].summonerName !== champion.displayName) continue
 
