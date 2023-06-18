@@ -826,7 +826,7 @@ body {
   padding-top: 5.5px;
   overflow: hidden;
   color: var(--text-color);
-  transform: scaleX(100%);
+  transform: scale(1, 1);
   transition: transform 0.3s ease;
   position: absolute;
 }
@@ -847,7 +847,7 @@ body {
 }
 
 .power-play.hide {
-  transform: scaleX(0%);
+  transform: scale(0, 1);
 }
 
 .sb-blue img {
