@@ -2,6 +2,7 @@ import { EventType, MobType } from './InGameEvent'
 
 export interface InGameState {
   gameTime: number
+  showLeaderBoard: 'xp' | 'gold' | false
   towers: {
     100: TowerState
     200: TowerState
@@ -16,17 +17,7 @@ export interface InGameState {
     100: InhibitorState
     200: InhibitorState
   }
-  player: {
-    [id: number]: {
-      summonerName: string
-      nickname: string
-      level: number
-      experience: number
-      currentGold: number
-      totalGold: number
-      items: Set<number>
-    }
-  }
+  player: PlayerType[]
   gold: {
     100: number
     200: number
@@ -42,6 +33,20 @@ export interface InGameState {
     100: Objective[]
     200: Objective[]
   }
+}
+
+export interface PlayerType {
+  summonerName: string
+  nickname: string
+  level: number
+  experience: number
+  currentGold: number
+  totalGold: number
+  items: Set<number>
+  championName: string
+  championId: string
+  championKey: number
+  team: 100 | 200
 }
 
 export interface Objective {

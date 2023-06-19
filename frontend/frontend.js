@@ -42,6 +42,16 @@ function showInhibs(side) {
     side
   })
 }
+function showLeaderBoard(leaderboard) {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'show-leader-board',
+      version: 1
+    },
+    leaderboard
+  })
+}
 function showPlatings() {
   LPTE.emit({
     meta: {
@@ -57,6 +67,15 @@ function hideInhibs() {
     meta: {
       namespace: 'module-league-in-game',
       type: 'hide-inhibs',
+      version: 1
+    }
+  })
+}
+function hideLeaderBoard() {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'hide-leader-board',
       version: 1
     }
   })

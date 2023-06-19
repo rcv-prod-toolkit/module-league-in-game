@@ -895,3 +895,94 @@ body {
   font-weight: 900;
   letter-spacing: 1.5px;
 }
+
+/* --------------------------------- */
+
+.leader-board {
+  position: absolute;
+  top: 10%;
+  transform: translate(-100%, 0);
+  width: 300px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 15px 0px 0px;
+  z-index: 50;
+  height: 63%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.leader-board.show {
+  transform: translate(0, 0);
+}
+
+.lb-heading {
+  text-align: center;
+}
+
+.lb-item {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 0.5fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 5px;
+  padding: 10px 20px 5px;
+  transition: transform 0.5s ease-in-out;
+  position: absolute;
+  top: 55px;
+  width: 100%;
+}
+
+.lb-champion {
+  grid-area: 1 / 1 / 3 / 2;
+  object-fit: contain;
+  height: 42px;
+}
+
+.lb-name {
+  grid-area: 1 / 2 / 2 / 3;
+}
+
+.lb-name,
+.lb-count {
+  margin-bottom: 0px;
+  line-height: 1;
+}
+
+.lb-count {
+  grid-area: 1 / 3 / 2 / 4;
+  text-align: right;
+}
+
+.lb-count thin {
+  opacity: 0.5;
+}
+
+.lb-meter {
+  grid-area: 2 / 2 / 3 / 4;
+  width: 100%;
+  height: 16px;
+}
+
+.lb-meter::-webkit-meter-bar {
+  background: var(--background-light-color);
+  border-radius: 0px;
+  border: none;
+  outline: none;
+}
+
+.lb-meter::-webkit-meter-optimum-value,
+.lb-meter::-webkit-meter-suboptimum-value,
+.lb-meter::-webkit-meter-even-less-good-value {
+  border-radius: 0px;
+}
+
+.blue .lb-meter::-webkit-meter-optimum-value,
+.blue .lb-meter::-webkit-meter-suboptimum-value,
+.blue .lb-meter::-webkit-meter-even-less-good-value  {
+  background: var(--blue-team);
+}
+.red .lb-meter::-webkit-meter-optimum-value,
+.red .lb-meter::-webkit-meter-suboptimum-value,
+.red .lb-meter::-webkit-meter-even-less-good-value  {
+  background: var(--red-team);
+}

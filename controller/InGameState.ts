@@ -6,6 +6,7 @@ import { InGameState as InGameStateType } from '../types/InGameState'
 import { EventType, InGameEvent, MobType, TeamType } from '../types/InGameEvent'
 import { randomUUID } from 'crypto'
 import { FarsightData } from '../types/FarsightData'
+import { Player as PlayerClass } from './Player'
 
 export class InGameState {
   public gameState: InGameStateType
@@ -27,6 +28,7 @@ export class InGameState {
 
     this.gameState = {
       gameTime: 0,
+      showLeaderBoard: false,
       towers: {
         100: {
           L: {},
@@ -101,98 +103,7 @@ export class InGameState {
           }
         }
       },
-      player: {
-        0: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        1: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        2: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        3: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        4: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        5: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        6: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        7: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        8: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        },
-        9: {
-          summonerName: '',
-          nickname: '',
-          level: 0,
-          experience: 0,
-          currentGold: 0,
-          totalGold: 0,
-          items: new Set()
-        }
-      },
+      player: [],
       gold: {
         100: 0,
         200: 0
@@ -291,6 +202,17 @@ export class InGameState {
           func(allGameData, id)
         }
       }, this.config.delay / 2)
+    } else {
+      allGameData.allPlayers.forEach((p) => {
+        const champ = this.statics.champions.find((c: any) => c.name === p.championName)
+        this.gameState.player.push(new PlayerClass(
+          p.summonerName,
+          p.team,
+          p.championName,
+          champ.id,
+          champ.key
+        ))
+      })
     }
 
     this.gameData.push(allGameData)

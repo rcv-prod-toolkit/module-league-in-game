@@ -106,7 +106,7 @@
   </div>
 </div>
 
-<div class="d-flex mb-5">
+<div class="d-flex mb-3">
   <div class="btn-group mr-3">
     <button type="button" class="btn btn-secondary" onclick="showPlatings()">
       Show Platings
@@ -146,6 +146,75 @@
       <button
         class="dropdown-item"
         onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/hide-platings`)"
+      >
+        Copy Action-Link
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex mb-5">
+  <div class="btn-group mr-3">
+    <button type="button" class="btn btn-warning" onclick="showLeaderBoard('gold')">
+      Show Gold Leader-Board
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button
+        class="dropdown-item"
+        onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/show-leader-board?leaderboard=gold`)"
+      >
+        Copy Action-Link
+      </button>
+    </div>
+  </div>
+  <div class="btn-group mr-3">
+    <button type="button" class="btn btn-info" onclick="showLeaderBoard('xp')">
+      Show Level + XP Leader-Board
+    </button>
+    <button
+      type="button"
+      class="btn btn-info dropdown-toggle dropdown-toggle-split"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button
+        class="dropdown-item"
+        onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/show-leader-board?leaderboard=xp`)"
+      >
+        Copy Action-Link
+      </button>
+    </div>
+  </div>
+  <div class="btn-group">
+    <button type="button" class="btn btn-secondary" onclick="hideLeaderBoard()">
+      Hide Leader-Board
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button
+        class="dropdown-item"
+        onclick="navigator.clipboard.writeText(`http://${server}/api/events/shortcut/ingest/module-league-in-game/hide-leader-board`)"
       >
         Copy Action-Link
       </button>

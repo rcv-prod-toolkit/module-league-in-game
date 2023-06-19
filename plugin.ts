@@ -152,6 +152,11 @@ module.exports = async (ctx: PluginContext) => {
     const side = parseInt(e.side) as any
     inGameState.gameState.showInhibitors = side
   })
+  ctx.LPTE.on(namespace, 'show-leader-board', (e) => {
+    if (inGameState === undefined) return
+    const leaderboard = e.leaderboard
+    inGameState.gameState.showLeaderBoard = leaderboard
+  })
   ctx.LPTE.on(namespace, 'show-platings', (e) => {
     if (inGameState === undefined) return
     inGameState.gameState.platings.showPlatings = true
@@ -164,6 +169,10 @@ module.exports = async (ctx: PluginContext) => {
   ctx.LPTE.on(namespace, 'hide-platings', (e) => {
     if (inGameState === undefined) return
     inGameState.gameState.platings.showPlatings = false
+  })
+  ctx.LPTE.on(namespace, 'hide-leader-board', (e) => {
+    if (inGameState === undefined) return
+    inGameState.gameState.showLeaderBoard = false
   })
 
   // Emit event that we're ready to operate
