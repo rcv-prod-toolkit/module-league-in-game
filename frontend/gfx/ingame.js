@@ -251,15 +251,9 @@ function updateGameState(e) {
 
   if (showLeaderBoard === 'gold') {
     const maxGold = Math.max(...state.player.map((p) => p.totalGold))
-    const sortedForGold = [
-      ...state.player.sort((a, b) => {
-        return a.totalGold < b.totalGold
-          ? 1
-          : a.totalGold > b.totalGold
-          ? -1
-          : 0
-      })
-    ]
+    const sortedForGold = [...state.player].sort((a, b) => {
+      return a.totalGold < b.totalGold ? 1 : a.totalGold > b.totalGold ? -1 : 0
+    })
 
     for (const player in state.player) {
       const playerGoldDiv = goldLeaderBoard.children[parseInt(player) + 1]
@@ -282,15 +276,14 @@ function updateGameState(e) {
 
   if (showLeaderBoard === 'xp') {
     const maxXP = Math.max(...state.player.map((p) => p.experience))
-    const sortedForXP = [
-      ...state.player.sort((a, b) => {
-        return a.experience < b.experience
-          ? 1
-          : a.experience > b.experience
-          ? -1
-          : 0
-      })
-    ]
+    const sortedForXP = [...state.player].sort((a, b) => {
+      return a.experience < b.experience
+        ? 1
+        : a.experience > b.experience
+        ? -1
+        : 0
+    })
+
     for (const player in state.player) {
       const playerXPDiv = xpLeaderBoard.children[parseInt(player) + 1]
       playerXPDiv.children[2].innerHTML = `${
