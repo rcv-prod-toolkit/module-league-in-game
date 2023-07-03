@@ -641,11 +641,11 @@ function updateSettings(e) {
   if (tags !== e.scoreboard.tags) {
     tags = e.scoreboard.tags
     if (!e.scoreboard.tags) {
-      document.querySelectorAll('.sb-tags').forEach((n) => {
+      document.querySelectorAll('.sb-tag').forEach((n) => {
         n.style.display = 'none'
       })
     } else {
-      document.querySelectorAll('.sb-tags').forEach((n) => {
+      document.querySelectorAll('.sb-tag').forEach((n) => {
         n.style.display = 'block'
       })
     }
