@@ -103,6 +103,10 @@ module.exports = async (ctx: PluginContext) => {
       inGameState = new InGameState(namespace, ctx, config, state, statics)
     })
 
+    ctx.LPTE.on(namespace, 'reset-game', () => {
+      inGameState = new InGameState(namespace, ctx, config, state, statics)
+    })
+
     ctx.LPTE.on(namespace, 'allgamedata', (e) => {
       if (inGameState === undefined) {
         inGameState = new InGameState(namespace, ctx, config, state, statics)
