@@ -90,6 +90,16 @@ function hidePlatings() {
   })
 }
 
+function resetGame() {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'reset-game',
+      version: 1
+    }
+  })
+}
+
 function testLvl(team) {
   LPTE.emit({
     meta: {
@@ -192,13 +202,19 @@ function initSettings(settings) {
   document.querySelector('#delay').value = settings.delay
   document.querySelector('#showNicknames').checked = settings.showNicknames
 
-  document.querySelector('#scoreboard-active').checked = settings.scoreboard.active
-  document.querySelector('#scoreboard-score').checked = settings.scoreboard.score
+  document.querySelector('#scoreboard-active').checked =
+    settings.scoreboard.active
+  document.querySelector('#scoreboard-score').checked =
+    settings.scoreboard.score
   document.querySelector('#scoreboard-tags').checked = settings.scoreboard.tags
-  document.querySelector('#scoreboard-standings').checked = settings.scoreboard.standings
-  document.querySelector('#scoreboard-barons').checked = settings.scoreboard.barons
-  document.querySelector('#scoreboard-heralds').checked = settings.scoreboard.heralds
-  document.querySelector('#scoreboard-tower').checked = settings.scoreboard.tower
+  document.querySelector('#scoreboard-standings').checked =
+    settings.scoreboard.standings
+  document.querySelector('#scoreboard-barons').checked =
+    settings.scoreboard.barons
+  document.querySelector('#scoreboard-heralds').checked =
+    settings.scoreboard.heralds
+  document.querySelector('#scoreboard-tower').checked =
+    settings.scoreboard.tower
 }
 
 let server = ''
