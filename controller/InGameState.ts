@@ -517,7 +517,7 @@ export class InGameState {
 
   private checkNameUpdate(currentPlayerState: Player, id: number) {
     if (
-      this.gameState.player[id].summonerName === currentPlayerState.summonerName
+      this.gameState.player[id] === undefined || this.gameState.player[id]?.summonerName === currentPlayerState.summonerName
     )
       return
 
@@ -542,7 +542,7 @@ export class InGameState {
   }
 
   private checkLevelUpdate(currentPlayerState: Player, id: number) {
-    if (currentPlayerState.level <= this.gameState.player[id].level) return
+    if (this.gameState.player[id] === undefined || currentPlayerState.level <= this.gameState.player[id]?.level) return
     if (!this.config.level.includes(currentPlayerState.level.toString())) return
 
     this.gameState.player[id].level = currentPlayerState.level
@@ -561,6 +561,8 @@ export class InGameState {
   }
 
   private checkItemUpdate(currentPlayerState: Player, id: number) {
+    if (this.gameState.player[id] === undefined) return
+
     const previousItems = this.gameState.player[id].items
 
     if (previousItems.has(3513)) {
