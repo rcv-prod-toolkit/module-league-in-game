@@ -104,6 +104,7 @@ module.exports = async (ctx: PluginContext) => {
     })
 
     ctx.LPTE.on(namespace, 'reset-game', () => {
+      ctx.log.info('Resetting in game data')
       inGameState = new InGameState(namespace, ctx, config, state, statics)
     })
 
