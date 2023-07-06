@@ -651,7 +651,7 @@ body {
   height: 70px;
   background-color: var(--background-light-color);
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   border-width: 0 2px;
   border-color: var(--background-color);
@@ -661,21 +661,27 @@ body {
   font-family: var(--primary-font-family);
 }
 
+.sb-kills h1 {
+  flex: 1;
+  margin: 0 5px;
+}
+
 .sb-kills-blue {
   color: var(--blue-team);
+  text-align: right;
 }
 
 .sb-kills-icon {
   background-image: url(./img/mask-icon-offense.png);
   background-size: contain;
   background-position: top center;
-  margin-top: -5px;
   width: 23px;
   height: 23px;
 }
 
 .sb-kills-red {
   color: var(--red-team);
+  text-align: left;
 }
 
 .sb-time {
