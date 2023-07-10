@@ -651,7 +651,7 @@ body {
   height: 70px;
   background-color: var(--background-light-color);
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   border-width: 0 2px;
   border-color: var(--background-color);
@@ -661,21 +661,27 @@ body {
   font-family: var(--primary-font-family);
 }
 
+.sb-kills h1 {
+  flex: 1;
+  margin: 0 5px;
+}
+
 .sb-kills-blue {
   color: var(--blue-team);
+  text-align: right;
 }
 
 .sb-kills-icon {
   background-image: url(./img/mask-icon-offense.png);
   background-size: contain;
   background-position: top center;
-  margin-top: -5px;
   width: 23px;
   height: 23px;
 }
 
 .sb-kills-red {
   color: var(--red-team);
+  text-align: left;
 }
 
 .sb-time {
@@ -905,7 +911,7 @@ body {
   width: 300px;
   background-color: var(--background-color);
   color: var(--text-color);
-  padding: 15px 0px 0px;
+  padding: 15px 0px;
   z-index: 50;
   height: 63%;
   transition: transform 0.5s ease-in-out;
@@ -921,10 +927,8 @@ body {
 
 .lb-item {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 0.5fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 5px;
+  grid-template-columns: 2fr 4fr 3fr;
+  grid-template-rows: 1fr 1fr;
   padding: 10px 20px 5px;
   transition: transform 0.5s ease-in-out;
   position: absolute;
@@ -933,24 +937,27 @@ body {
 }
 
 .lb-champion {
-  grid-area: 1 / 1 / 3 / 2;
+  grid-area: 1 / 1 / span 2 / span 1;
   object-fit: contain;
-  height: 42px;
+  height: 46px;
 }
 
 .lb-name {
   grid-area: 1 / 2 / 2 / 3;
+  font-size: 12px;
 }
 
 .lb-name,
 .lb-count {
   margin-bottom: 0px;
   line-height: 1;
+  text-align: start;
 }
 
 .lb-count {
   grid-area: 1 / 3 / 2 / 4;
   text-align: right;
+  font-size :15px;
 }
 
 .lb-count thin {
@@ -961,6 +968,8 @@ body {
   grid-area: 2 / 2 / 3 / 4;
   width: 100%;
   height: 16px;
+  position: absolute;
+  bottom: 0;
 }
 
 .lb-meter::-webkit-meter-bar {
