@@ -221,7 +221,7 @@ let server = ''
 
 LPTE.onready(async () => {
   server = await window.constants.getWebServerPort()
-  const location = `http://${server}/pages/op-module-league-in-game/gfx`
+  const location = `${window.location.protocol}//${server}/pages/op-module-league-in-game/gfx`
 
   const apiKey = await window.constants.getApiKey()
 
