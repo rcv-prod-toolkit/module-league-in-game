@@ -226,7 +226,16 @@ body {
 }
 
 #inhibDiv.both .inhibitors h3 {
-  font-size: 20px;
+  margin-top: 5px;
+  font-size: 10px;
+}
+
+#inhibDiv.both .inhibitor p {
+  font-size: 10px;
+}
+
+#inhibDiv.both .inhibitor {
+  margin-bottom: 10px;
 }
 
 .inhibitors {
