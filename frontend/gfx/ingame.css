@@ -652,6 +652,7 @@ body {
   background-color: var(--background-light-color);
   display: flex;
   justify-content: center;
+  gap: 5px;
   align-items: center;
   border-width: 0 2px;
   border-color: var(--background-color);
@@ -659,6 +660,7 @@ body {
   font-size: 25px;
   padding-top: 5px;
   font-family: var(--primary-font-family);
+  white-space: nowrap;
 }
 
 .sb-kills h1 {
@@ -699,11 +701,11 @@ body {
 
 
 .sb-team {
-  width: 450px;
+  width: 500px;
   height: 62px;
   font-size: 25px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   position: relative;
   box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
@@ -730,6 +732,10 @@ body {
   justify-content: center;
   align-items: center;
   justify-self: baseline;
+}
+
+.sb-standing {
+  white-space: nowrap;
 }
 
 .sb-blue .sb-team-info {
@@ -793,6 +799,7 @@ body {
   align-items: center;
   padding: 0 10px;
   height: 100%;
+  white-space: nowrap;
 }
 
 .sb-stat p {
@@ -854,10 +861,6 @@ body {
 
 .power-play.hide {
   transform: scale(0, 1);
-}
-
-.sb-blue img {
-  margin-left: -25px;
 }
 
 .sb-red.power-play img {
