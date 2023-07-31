@@ -160,6 +160,12 @@ const sbRedGold = sbRed.querySelector('.sb-gold-red')
 const xpLeaderBoard = document.querySelector('#xp')
 const goldLeaderBoard = document.querySelector('#gold')
 
+const tab = document.querySelector('#tab')
+const goldDiffs = document.querySelector('#tab .gold-diffs')
+const players = document.querySelector('#tab .player')
+const bluePlayers = document.querySelector('#bluePlayers')
+const redPlayers = document.querySelector('#redPlayers')
+
 function setGameState(e) {
   const state = e.state
 
@@ -167,15 +173,38 @@ function setGameState(e) {
     const id = parseInt(i)
     const playerId = getPlayerId(id)
 
-    const team = id > 4 ? blueTeam : redTeam
-    const playerDiv = team.children[playerId].querySelector('.nickname')
-    playerDiv.innerText = state.player[i].nickname
+    const nickTeam = id > 4 ? blueTeam : redTeam
+    const nickDiv = nickTeam.children[playerId].querySelector('.nickname')
+    nickDiv.innerText = state.player[i].nickname
 
     const xpLbItem = createLeaderBoardItem(state.player[i], 0, 'xp')
     const goldLbItem = createLeaderBoardItem(state.player[i], 0, 'gold')
 
     xpLeaderBoard.appendChild(xpLbItem)
     goldLeaderBoard.appendChild(goldLbItem)
+
+    const team = id < 5 ? bluePlayers : redPlayers
+    const playerDiv = team.children[playerId]
+
+    if (id < 5) {
+      const diff = state.player[id].totalGold - state.player[id + 5].totalGold
+      
+      if (diff > 0) {
+        goldDiffs.children[id].innerText = '◂' + calcK(Math.abs(diff))
+        goldDiffs.children[id].style.color = 'var(--blue-team)'
+      } else if (diff < 0) {
+        goldDiffs.children[id].innerText = calcK(Math.abs(diff)) + '▸'
+        goldDiffs.children[id].style.color = 'var(--red-team)'
+      } else {
+        goldDiffs.children[id].innerText = 0
+        goldDiffs.children[id].style.color = 'var(--text-color)'
+      }
+    }
+
+    playerDiv.style.setProperty('--champion', `url(/serve/module-league-static/img/champion/tiles/${state.player[i].championName}_0.jpg)`)
+
+    playerDiv.querySelector('.kda').innerText = `${state.player[i].kills} / ${state.player[i].assists} / ${state.player[i].deaths}`
+    playerDiv.querySelector('.creeps').innerText = state.player[i].creepScore
   }
 
   showLeaderBoard = e.state.showLeaderBoard
@@ -200,6 +229,32 @@ function updateGameState(e) {
 
   sbBlueKills.innerText = state.kills[100]
   sbRedKills.innerText = state.kills[200]
+
+  for (const i in state.player) {
+    const id = parseInt(i)
+    const playerId = getPlayerId(id)
+
+    const team = id < 5 ? bluePlayers : redPlayers
+    const playerDiv = team.children[playerId]
+
+    if (id < 5) {
+      const diff = state.player[id].totalGold - state.player[id + 5].totalGold
+      
+      if (diff > 0) {
+        goldDiffs.children[id].innerText = '◂' + calcK(Math.abs(diff))
+        goldDiffs.children[id].style.color = 'var(--blue-team)'
+      } else if (diff < 0) {
+        goldDiffs.children[id].innerText = calcK(Math.abs(diff)) + '▸'
+        goldDiffs.children[id].style.color = 'var(--red-team)'
+      } else {
+        goldDiffs.children[id].innerText = 0
+        goldDiffs.children[id].style.color = 'var(--text-color)'
+      }
+    }
+
+    playerDiv.querySelector('.kda').innerText = `${state.player[i].kills} / ${state.player[i].assists} / ${state.player[i].deaths}`
+    playerDiv.querySelector('.creeps').innerText = state.player[i].creepScore
+  }
 
   sbTime.innerText = convertSecsToTime(state.gameTime)
 
@@ -263,9 +318,6 @@ function updateGameState(e) {
       playerGoldDiv.children[3].max = maxGold
       playerGoldDiv.children[3].value = state.player[player].totalGold
 
-      const index = sortedForGold.findIndex(
-        (gp) => gp.summonerName === state.player[player].summonerName
-      )
       playerGoldDiv.style.transform = `translate(0, ${
         sortedForGold.findIndex(
           (gp) => gp.summonerName === state.player[player].summonerName
@@ -704,9 +756,6 @@ function updateSettings(e) {
   }
 }
 
-const players = document.querySelectorAll('#tab .player')
-const bluePlayers = document.querySelector('#bluePlayers')
-const redPlayers = document.querySelector('#redPlayers')
 function highlightPlayer(e) {
   const team = e.teamId === 100 ? bluePlayers : redPlayers
 

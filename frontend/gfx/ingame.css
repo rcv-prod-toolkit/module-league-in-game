@@ -604,37 +604,126 @@ body {
 #tab {
   position: absolute;
   bottom: 5px;
-  left: 605px;
-  width: 724px;
-  height: 226px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 825px;
+  background-color: var(--background-color);
   display: flex;
+  color: var(--text-color);
 }
 
-.players {
+#tab h2 {
+  font-size: 1em;
+}
+
+#tab .players {
   width: 50%;
   height: 100%;
 }
 
-.players .player {
+#tab .gold-diffs {
+  width: 75px;
+  height: 100%;
+}
+
+#tab .gold-diffs .gold-diff {
+  width: 50px;
+  height: 100%;
   width: 100%;
-  height: 46px !important;
+  height: 40px !important;
   margin: 0;
-  transition: background-color 0.3s ease, border 0.3s ease;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
 }
 
-.players .player.highlight {
-  border: 3px solid var(--accent-color);
+#tab .players .player {
+  --champion: url();
+
+  width: 100%;
+  height: 40px !important;
+  margin: 0;
+  transition: border 0.3s ease;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 50px;
 }
 
-.player.dark {
-  background-color: rgba(0, 0, 0, 0.6);
+#tab #redPlayers .player {
+  flex-direction: row-reverse;
+  padding-right: 0px;
+  padding-left: 50px;
 }
 
-#bluePlayers .player {
+#tab .players .player .items {
+  display: flex;
+  gap: 10px;
+}
+
+#tab .players .player .items .item {
+  display: block;
+  height: 20px;
+  width: 20px;
+  transform: translateY(0);
+}
+
+#tab .players .player:not(:last-child) {
+  border-bottom: 1px solid var(--background-light-color);
+}
+
+#tab .players .player.highlight {
+  border: 3px solid;
+}
+
+#tab #bluePlayers .player.highlight {
   border-color: var(--blue-team);
 }
-#redPlayers .player {
+#tab #redPlayers .player.highlight {
   border-color: var(--red-team);
+}
+
+#tab .player::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  width: 20%;
+  background-image: var(--champion);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 1;
+  transform: scale(-1, 1);
+  -webkit-mask-image: linear-gradient(to left, transparent 25%, black 65%);
+  mask-image: linear-gradient(to left, transparent 25%, black 65%);
+}
+
+#tab #redPlayers .player::after {
+  right: unset;
+  left: 0;
+  transform: scale(1, 1);
+}
+
+#tab .player::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#tab .player.dark::before {
+  opacity: 1;
 }
 
 /* --------------------------------- */
@@ -658,7 +747,7 @@ body {
 .sb-kills {
   width: 158px;
   height: 70px;
-  background-color: var(--background-light-color);
+  background-color: var(--background-color);
   display: flex;
   justify-content: center;
   gap: 5px;
@@ -698,7 +787,7 @@ body {
 .sb-time {
   width: 158px;
   height: 30px;
-  background-color: var(--background-color);
+  background-color: var(--background-light-color);
   color: var(--text-color);
   display: flex;
   justify-content: center;
@@ -723,15 +812,15 @@ body {
 
 .sb-team.sb-blue {
   padding-right: 20px;
-  background-color: var(--background-light-color);
-  background: linear-gradient(to right, var(--blue-team), var(--background-light-color) 30%);
+  background-color: var(--background-color);
+  background: linear-gradient(to right, var(--blue-team), var(--background-color) 30%);
 }
 
 .sb-team.sb-red {
   padding-left: 20px;
   flex-direction: row-reverse;
-  background-color: var(--background-light-color);
-  background: linear-gradient(to left, var(--red-team), var(--background-light-color) 30%);
+  background-color: var(--background-color);
+  background: linear-gradient(to left, var(--red-team), var(--background-color) 30%);
 }
 
 .sb-team-info {
@@ -790,7 +879,7 @@ body {
 .sb-score-point {
   height: 100%;
   width: 10px;
-  background-color: var(--background-light-color);
+  background-color: var(--background-color);
   box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
 }
 

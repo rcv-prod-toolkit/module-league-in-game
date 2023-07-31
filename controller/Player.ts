@@ -4,6 +4,10 @@ export class Player implements PlayerType {
   summonerName: string
   nickname: string = ''
   level: number = 0
+  kills: number = 0
+  deaths: number = 0
+  assists: number = 0
+  creepScore: number = 0
   experience: number = 0
   currentGold: number = 0
   totalGold: number = 0

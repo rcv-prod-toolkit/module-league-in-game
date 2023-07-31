@@ -512,7 +512,20 @@ export class InGameState {
       this.checkNameUpdate(player, i)
       this.checkLevelUpdate(player, i)
       this.checkItemUpdate(player, i)
+      this.checkStatsUpdate(player, i)
     })
+  }
+
+  private checkStatsUpdate(currentPlayerState: Player, id: number) {
+    if (
+      this.gameState.player[id] === undefined
+    )
+      return
+
+    this.gameState.player[id].kills = currentPlayerState.scores.kills
+    this.gameState.player[id].deaths = currentPlayerState.scores.deaths
+    this.gameState.player[id].assists = currentPlayerState.scores.assists
+    this.gameState.player[id].creepScore = currentPlayerState.scores.creepScore
   }
 
   private checkNameUpdate(currentPlayerState: Player, id: number) {

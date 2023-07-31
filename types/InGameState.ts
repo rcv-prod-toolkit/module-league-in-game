@@ -39,6 +39,10 @@ export interface PlayerType {
   summonerName: string
   nickname: string
   level: number
+  kills: number
+  deaths: number
+  assists: number
+  creepScore: number
   experience: number
   currentGold: number
   totalGold: number
