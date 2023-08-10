@@ -202,6 +202,12 @@ function setGameState(e) {
     const team = id < half ? bluePlayers : redPlayers
     const playerDiv = team.children[playerId]
 
+    if (!state.player[id].alive) {
+      playerDiv.classList.add('dead')
+    } else {
+      playerDiv.classList.remove('dead')
+    }
+
     if (id < half) {
       const diff = state.player[id].totalGold - state.player[id + half]?.totalGold ?? 0
       
@@ -217,7 +223,7 @@ function setGameState(e) {
       }
     }
 
-    playerDiv.style.setProperty('--champion', `url(/serve/module-league-static/img/champion/tiles/${state.player[i].championName}_0.jpg)`)
+    playerDiv.style.setProperty('--champion', `url(/serve/module-league-static/img/champion/centered/${state.player[i].championName}_0.jpg)`)
 
     playerDiv.querySelector('.kda').innerText = `${state.player[i].kills} / ${state.player[i].assists} / ${state.player[i].deaths}`
     playerDiv.querySelector('.creeps').innerText = state.player[i].creepScore
@@ -252,6 +258,12 @@ function updateGameState(e) {
 
     const team = id < half ? bluePlayers : redPlayers
     const playerDiv = team.children[playerId]
+
+    if (!state.player[id].alive) {
+      playerDiv.classList.add('dead')
+    } else {
+      playerDiv.classList.remove('dead')
+    }
 
     if (id < half) {
       const diff = state.player[id].totalGold - state.player[id + half]?.totalGold ?? 0

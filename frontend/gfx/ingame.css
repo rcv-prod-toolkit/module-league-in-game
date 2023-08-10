@@ -607,8 +607,8 @@ body {
   left: 50%;
   transform: translate(-50%, 0);
   width: 825px;
-  background-color: var(--background-color);
   display: flex;
+  background-color: var(--background-color);
   color: var(--text-color);
 }
 
@@ -641,6 +641,8 @@ body {
 #tab .players .player {
   --champion: url();
 
+  background-color: var(--background-color);
+  color: var(--text-color);
   width: 100%;
   height: 40px !important;
   margin: 0;
@@ -658,6 +660,10 @@ body {
   padding-left: 50px;
 }
 
+#tab .player.dead {
+  filter: grayscale(0.75);
+}
+
 #tab .players .player .items {
   display: flex;
   gap: 10px;
@@ -670,7 +676,8 @@ body {
   transform: translateY(0);
 }
 
-#tab .players .player:not(:last-child) {
+#tab .players .player:not(:last-child),
+#tab .gold-diffs .gold-diff:not(:last-child) {
   border-bottom: 1px solid var(--background-light-color);
 }
 
@@ -694,19 +701,18 @@ body {
   z-index: -1;
   width: 20%;
   background-image: var(--champion);
-  background-position: center center;
-  background-size: cover;
+  background-position: top 75%;
+  background-size: 150%;
   background-repeat: no-repeat;
   opacity: 1;
-  transform: scale(-1, 1);
-  -webkit-mask-image: linear-gradient(to left, transparent 25%, black 65%);
-  mask-image: linear-gradient(to left, transparent 25%, black 65%);
+  -webkit-mask-image: linear-gradient(to right, transparent 25%, black 65%);
+  mask-image: linear-gradient(to right, transparent 25%, black 65%);
 }
 
 #tab #redPlayers .player::after {
   right: unset;
   left: 0;
-  transform: scale(1, 1);
+  transform: scale(-1, 1);
 }
 
 #tab .player::before {
