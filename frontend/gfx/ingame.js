@@ -8,10 +8,12 @@ let showNicknames,
   standings,
   barons,
   heralds,
-  tower
+  tower,
+  size,
+  half
 
 function getPlayerId(id) {
-  if (id > 4) return id - 5
+  if (id > half - 1) return id - half
   else return id
 }
 
@@ -169,11 +171,25 @@ const redPlayers = document.querySelector('#redPlayers')
 function setGameState(e) {
   const state = e.state
 
+  size = state.player.length
+  half = Math.floor(size / 2)
+
+  const bluePlayersArray = Array.from(bluePlayers.children)
+  const redPlayersArray = Array.from(redPlayers.children)
+  const goldDiffsArray = Array.from(goldDiffs.children)
+  const blueTeamArray = Array.from(blueTeam.children)
+  const redTeamArray = Array.from(redTeam.children)
+  bluePlayersArray.slice(half).forEach(e => e.style.display = 'none')
+  redPlayersArray.slice(half).forEach(e => e.style.display = 'none')
+  goldDiffsArray.slice(half).forEach(e => e.style.display = 'none')
+  blueTeamArray.slice(half).forEach(e => e.style.display = 'none')
+  redTeamArray.slice(half).forEach(e => e.style.display = 'none')
+
   for (const i in state.player) {
     const id = parseInt(i)
     const playerId = getPlayerId(id)
 
-    const nickTeam = id > 4 ? blueTeam : redTeam
+    const nickTeam = id < half ? blueTeam : redTeam
     const nickDiv = nickTeam.children[playerId].querySelector('.nickname')
     nickDiv.innerText = state.player[i].nickname
 
@@ -183,11 +199,11 @@ function setGameState(e) {
     xpLeaderBoard.appendChild(xpLbItem)
     goldLeaderBoard.appendChild(goldLbItem)
 
-    const team = id < 5 ? bluePlayers : redPlayers
+    const team = id < half ? bluePlayers : redPlayers
     const playerDiv = team.children[playerId]
 
-    if (id < 5) {
-      const diff = state.player[id].totalGold - state.player[id + 5].totalGold
+    if (id < half) {
+      const diff = state.player[id].totalGold - state.player[id + half]?.totalGold ?? 0
       
       if (diff > 0) {
         goldDiffs.children[id].innerText = '◂' + calcK(Math.abs(diff))
@@ -234,11 +250,11 @@ function updateGameState(e) {
     const id = parseInt(i)
     const playerId = getPlayerId(id)
 
-    const team = id < 5 ? bluePlayers : redPlayers
+    const team = id < half ? bluePlayers : redPlayers
     const playerDiv = team.children[playerId]
 
-    if (id < 5) {
-      const diff = state.player[id].totalGold - state.player[id + 5].totalGold
+    if (id < half) {
+      const diff = state.player[id].totalGold - state.player[id + half]?.totalGold ?? 0
       
       if (diff > 0) {
         goldDiffs.children[id].innerText = '◂' + calcK(Math.abs(diff))
