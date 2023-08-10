@@ -15,6 +15,7 @@ export class Player implements PlayerType {
   championName: string
   championId: string
   championKey: number
+  alive: boolean = true
   team: 100 | 200
 
   constructor(summonerName: string, team: 'ORDER' | 'CHAOS', championName: string, championId: string, championKey: number) {

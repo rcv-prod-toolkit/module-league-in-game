@@ -50,6 +50,7 @@ export interface PlayerType {
   championName: string
   championId: string
   championKey: number
+  alive: boolean
   team: 100 | 200
 }
 
