@@ -768,6 +768,19 @@ body {
   margin-left: 25px;
 }
 
+.sb-logo {
+  width: 50px;
+  aspect-ratio: 1;
+  visibility: hidden;
+}
+
+.sb-blue .sb-logo {
+  margin-right: 25px;
+}
+.sb-red .sb-logo {
+  margin-left: 25px;
+}
+
 .sb-score {
   position: absolute;
   top: 0;
