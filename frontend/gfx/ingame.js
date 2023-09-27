@@ -1,6 +1,7 @@
 const blueTeam = document.querySelector('#blue')
 const redTeam = document.querySelector('#red')
 let showNicknames,
+  showTournament,
   showLeaderBoard,
   showScoreBoard,
   score,
@@ -635,6 +636,10 @@ function updateSettings(e) {
         n.style.display = 'block'
       })
     }
+  }
+  if (e.showTournament !== showTournament) {
+    showTournament = e.showTournament
+    document.querySelector('#tournament').style.display = e.showTournament ? 'block' : 'none'
   }
 
   if (showScoreBoard !== e.scoreboard.active) {

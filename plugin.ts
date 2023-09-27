@@ -25,6 +25,7 @@ module.exports = async (ctx: PluginContext) => {
       killfeed: false,
       ppTimer: false,
       showNicknames: false,
+      showTournament: true,
       delay: 0,
       scoreboard: {
         active: true,
@@ -47,6 +48,7 @@ module.exports = async (ctx: PluginContext) => {
     config.ppTimer = e.ppTimer
     config.delay = e.delay
     config.showNicknames = e.showNicknames
+    config.showTournament = e.showTournament
     config.scoreboard = e.scoreboard
 
     ctx.LPTE.emit({
