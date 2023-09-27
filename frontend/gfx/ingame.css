@@ -330,6 +330,7 @@ body {
   background: -webkit-linear-gradient(#978867, #464030);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  white-space: nowrap;
 }
 
 #tournament .phase {

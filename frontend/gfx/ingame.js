@@ -639,7 +639,7 @@ function updateSettings(e) {
   }
   if (e.showTournament !== showTournament) {
     showTournament = e.showTournament
-    document.querySelector('#tournament').style.display = e.showTournament ? 'block' : 'none'
+    document.querySelector('#tournament').style.display = e.showTournament ? 'flex' : 'none'
   }
 
   if (showScoreBoard !== e.scoreboard.active) {
