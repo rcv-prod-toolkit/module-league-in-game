@@ -425,6 +425,16 @@ function changeColor(color) {
 
 const sbBlueScore = scoreboard.querySelector('.sb-score-blue')
 const sbRedScore = scoreboard.querySelector('.sb-score-red')
+const tournamentDiv = document.querySelector('#tournament')
+const roundOfSpan = tournamentDiv.querySelector('.phase')
+const nameSpan = tournamentDiv.querySelector('.name')
+const roundOfMap = {
+  0: 'Upper Bracket Final',
+  1: 'Upper Bracket Final',
+  2: 'Finals',
+  4: 'Semi Finals',
+  8: 'Quarter Finals'
+}
 
 function changeColors(e) {
   sbBlueTag.innerText = e.teams.blueTeam?.tag || 'Tag'
@@ -441,6 +451,9 @@ function changeColors(e) {
     sbRedLogo.src = `/pages/op-module-teams/img/${e.teams.redTeam.logo}`
     sbRedLogo.style.visibility = 'visible'
   }
+  roundOfSpan.textContent = e.roundOf <= 8 ? roundOfMap[e.roundOf] : `Round of ${e.roundOf}`
+  nameSpan.textContent = e.tournamentName
+  resizeText(tournamentDiv)
 
   sbBlueScore.innerHTML = ''
   sbRedScore.innerHTML = ''
@@ -777,6 +790,22 @@ function createLeaderBoardItem(player, max, type = 'xp') {
   lbItem.appendChild(lbMeter)
 
   return lbItem
+}
+
+const isOverflown = ({ clientHeight, scrollHeight, clientWidth, scrollWidth }) => (scrollHeight > clientHeight || scrollWidth > clientWidth)
+
+const resizeText = (parent) => {
+  let i = 20
+  let overflow = false
+  const maxSize = 50
+
+  while (!overflow && i < maxSize) {
+    parent.style.fontSize = `${i}px`
+    overflow = isOverflown(parent)
+    if (!overflow) i++
+  }
+
+  parent.style.fontSize = `${i - 1}px`
 }
 
 LPTE.onready(async () => {

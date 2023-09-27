@@ -310,6 +310,32 @@ body {
   opacity: 0 !important;
 }
 
+#tournament {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  position: absolute;
+  bottom: 235px;
+  left: 605px;
+  right: 590px;
+  height: 65px;
+  padding: 5px;
+  background: var(--background-color);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 0 0 1px #3f3321, 0 0 0 3px #524b2d, 0 0 0 4px #716441;
+}
+
+#tournament .content {
+  background: -webkit-linear-gradient(#978867, #464030);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#tournament .phase {
+  text-transform: uppercase;
+}
+
 .event {
   position: absolute;
   left: -2px;
