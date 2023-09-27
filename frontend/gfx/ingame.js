@@ -800,7 +800,7 @@ function createLeaderBoardItem(player, max, type = 'xp') {
 const isOverflown = ({ clientHeight, scrollHeight, clientWidth, scrollWidth }) => (scrollHeight > clientHeight || scrollWidth > clientWidth)
 
 const resizeText = (parent) => {
-  let i = 20
+  let i = 10
   let overflow = false
   const maxSize = 50
 
