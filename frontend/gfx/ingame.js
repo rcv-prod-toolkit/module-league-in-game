@@ -440,21 +440,23 @@ const roundOfMap = {
 function changeColors(e) {
   sbBlueTag.innerText = e.teams.blueTeam?.tag || 'Tag'
   sbRedTag.innerText = e.teams.redTeam?.tag || 'Tag'
-  sbBlueLogo.style.visibility = `hidden`
-  sbRedLogo.style.visibility = `hidden`
+  sbBlueLogo.style.display = `none`
+  sbRedLogo.style.display = `none`
   sbBlueStanding.innerText = e.teams.blueTeam?.standing || ''
   sbRedStanding.innerText = e.teams.redTeam?.standing || ''
-  if(e.teams.blueTeam?.logo) {
-    sbBlueLogo.src = `/pages/op-module-teams/img/${e.teams.blueTeam.logo}`
-    sbBlueLogo.style.visibility = 'visible'
-  }
-  if(e.teams.redTeam?.logo) {
-    sbRedLogo.src = `/pages/op-module-teams/img/${e.teams.redTeam.logo}`
-    sbRedLogo.style.visibility = 'visible'
-  }
+
   roundOfSpan.textContent = e.roundOf <= 8 ? roundOfMap[e.roundOf] : `Round of ${e.roundOf}`
   nameSpan.textContent = e.tournamentName
   resizeText(tournamentDiv)
+
+  if(e.teams.blueTeam?.logo !== undefined && e.teams.blueTeam?.logo !== '') {
+    sbBlueLogo.src = `/pages/op-module-teams/img/${e.teams.blueTeam.logo}`
+    sbBlueLogo.style.display = 'block'
+  }
+  if(e.teams.redTeam?.logo !== undefined && e.teams.redTeam?.logo !== '') {
+    sbRedLogo.src = `/pages/op-module-teams/img/${e.teams.redTeam.logo}`
+    sbRedLogo.style.display = 'block'
+  }
 
   sbBlueScore.innerHTML = ''
   sbRedScore.innerHTML = ''

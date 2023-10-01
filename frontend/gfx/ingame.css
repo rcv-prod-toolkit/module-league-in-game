@@ -798,14 +798,19 @@ body {
 .sb-logo {
   width: 50px;
   aspect-ratio: 1;
-  visibility: hidden;
+  object-fit: contain;
+  display: none;
 }
 
 .sb-blue .sb-logo {
-  margin-right: 25px;
+  margin-top: -5px;
+  margin-left: 15px;
+  margin-right: 20px;
 }
 .sb-red .sb-logo {
-  margin-left: 25px;
+  margin-left: 20px;
+  margin-top: -5px;
+  margin-right: 15px;
 }
 
 .sb-score {
