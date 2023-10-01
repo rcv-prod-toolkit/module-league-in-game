@@ -140,8 +140,10 @@ const sbBluePP = document.querySelector('.sb-blue.power-play')
 const sbRedPP = document.querySelector('.sb-red.power-play')
 
 const sbBlueTag = sbBlue.querySelector('.sb-tag')
+const sbBlueLogo = sbBlue.querySelector('.sb-logo')
 const sbBlueStanding = sbBlue.querySelector('.sb-standing')
 const sbRedTag = sbRed.querySelector('.sb-tag')
+const sbRedLogo = sbRed.querySelector('.sb-logo')
 const sbRedStanding = sbRed.querySelector('.sb-standing')
 
 const sbBlueKills = scoreboard.querySelector('.sb-kills-blue')
@@ -427,8 +429,18 @@ const sbRedScore = scoreboard.querySelector('.sb-score-red')
 function changeColors(e) {
   sbBlueTag.innerText = e.teams.blueTeam?.tag || 'Tag'
   sbRedTag.innerText = e.teams.redTeam?.tag || 'Tag'
+  sbBlueLogo.style.visibility = `hidden`
+  sbRedLogo.style.visibility = `hidden`
   sbBlueStanding.innerText = e.teams.blueTeam?.standing || ''
   sbRedStanding.innerText = e.teams.redTeam?.standing || ''
+  if(e.teams.blueTeam?.logo) {
+    sbBlueLogo.src = `/pages/op-module-teams/img/${e.teams.blueTeam.logo}`
+    sbBlueLogo.style.visibility = 'visible'
+  }
+  if(e.teams.redTeam?.logo) {
+    sbRedLogo.src = `/pages/op-module-teams/img/${e.teams.redTeam.logo}`
+    sbRedLogo.style.visibility = 'visible'
+  }
 
   sbBlueScore.innerHTML = ''
   sbRedScore.innerHTML = ''
