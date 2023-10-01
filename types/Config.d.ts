@@ -6,6 +6,7 @@ export interface Config {
   ppTimer: boolean
   delay: number
   showNicknames: boolean
+  showTournament: boolean
   scoreboard: {
     active: boolean
     score: boolean

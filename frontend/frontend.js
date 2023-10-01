@@ -20,6 +20,7 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
     ppTimer: document.querySelector('#ppTimer').checked,
     delay: parseInt(document.querySelector('#delay').value),
     showNicknames: document.querySelector('#showNicknames').checked,
+    showTournament: document.querySelector('#showTournament').checked,
     scoreboard: {
       active: document.querySelector('#scoreboard-active').checked,
       score: document.querySelector('#scoreboard-score').checked,
@@ -201,6 +202,7 @@ function initSettings(settings) {
   document.querySelector('#ppTimer').checked = settings.ppTimer
   document.querySelector('#delay').value = settings.delay
   document.querySelector('#showNicknames').checked = settings.showNicknames
+  document.querySelector('#showTournament').checked = settings.showTournament
 
   document.querySelector('#scoreboard-active').checked =
     settings.scoreboard.active

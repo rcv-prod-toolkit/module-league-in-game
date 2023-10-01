@@ -1,6 +1,7 @@
 const blueTeam = document.querySelector('#blue')
 const redTeam = document.querySelector('#red')
 let showNicknames,
+  showTournament,
   showLeaderBoard,
   showScoreBoard,
   score,
@@ -425,6 +426,16 @@ function changeColor(color) {
 
 const sbBlueScore = scoreboard.querySelector('.sb-score-blue')
 const sbRedScore = scoreboard.querySelector('.sb-score-red')
+const tournamentDiv = document.querySelector('#tournament')
+const roundOfSpan = tournamentDiv.querySelector('.phase')
+const nameSpan = tournamentDiv.querySelector('.name')
+const roundOfMap = {
+  0: 'Upper Bracket Final',
+  1: 'Upper Bracket Final',
+  2: 'Finals',
+  4: 'Semi Finals',
+  8: 'Quarter Finals'
+}
 
 function changeColors(e) {
   sbBlueTag.innerText = e.teams.blueTeam?.tag || 'Tag'
@@ -433,6 +444,10 @@ function changeColors(e) {
   sbRedLogo.style.display = `none`
   sbBlueStanding.innerText = e.teams.blueTeam?.standing || ''
   sbRedStanding.innerText = e.teams.redTeam?.standing || ''
+
+  roundOfSpan.textContent = e.roundOf <= 8 ? roundOfMap[e.roundOf] : `Round of ${e.roundOf}`
+  nameSpan.textContent = e.tournamentName
+  resizeText(tournamentDiv)
 
   if(e.teams.blueTeam?.logo !== undefined && e.teams.blueTeam?.logo !== '') {
     sbBlueLogo.src = `/pages/op-module-teams/img/${e.teams.blueTeam.logo}`
@@ -624,6 +639,10 @@ function updateSettings(e) {
       })
     }
   }
+  if (e.showTournament !== showTournament) {
+    showTournament = e.showTournament
+    document.querySelector('#tournament').style.display = e.showTournament ? 'flex' : 'none'
+  }
 
   if (showScoreBoard !== e.scoreboard.active) {
     showScoreBoard = e.scoreboard.active
@@ -778,6 +797,22 @@ function createLeaderBoardItem(player, max, type = 'xp') {
   lbItem.appendChild(lbMeter)
 
   return lbItem
+}
+
+const isOverflown = ({ clientHeight, scrollHeight, clientWidth, scrollWidth }) => (scrollHeight > clientHeight || scrollWidth > clientWidth)
+
+const resizeText = (parent) => {
+  let i = 10
+  let overflow = false
+  const maxSize = 50
+
+  while (!overflow && i < maxSize) {
+    parent.style.fontSize = `${i}px`
+    overflow = isOverflown(parent)
+    if (!overflow) i++
+  }
+
+  parent.style.fontSize = `${i - 1}px`
 }
 
 LPTE.onready(async () => {
