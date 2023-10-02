@@ -93,9 +93,9 @@ function calcK(amount) {
     case amount === undefined:
       return 0
     case amount > 1000:
-      return `${(amount / 1000).toFixed(1)} K`
+      return `${(amount / 1000).toFixed(1)}K`
     case amount < -1000:
-      return `${(amount / 1000).toFixed(1)} K`
+      return `${(amount / 1000).toFixed(1)}K`
     default:
       return amount.toFixed(0)
   }
@@ -329,6 +329,7 @@ function ppUpdate(e) {
   const title = teamDiv.querySelector('.pp-text')
   const timer = teamDiv.querySelector('.timer')
   const gold = teamDiv.querySelector('h1')
+  const image = teamDiv.querySelector('img')
 
   if (!e.ongoing) {
     title.innerText = e.type
@@ -351,6 +352,11 @@ function ppUpdate(e) {
       sbRedPP.style.backgroundImage = `linear-gradient(to right, var(--red-team) ${
         e.percent
       }%, var(--background-light-color) ${e.percent + 3}%)`
+    }
+    if(e.type === 'Dragon') {
+      image.src = 'img/elder.png'
+    } else {
+      image.src = 'img/baron.png'
     }
 
     if (teamDiv.classList.contains('hide')) {
