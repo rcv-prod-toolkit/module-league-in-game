@@ -130,10 +130,13 @@ function testEvent(team) {
       version: 1
     },
     team,
-    event:
-      document.getElementById('events-test').options[
-        document.getElementById('events-test').selectedIndex
-      ].text
+    event: document.getElementById('events-test').selectedIndex === 0
+      ? document.getElementById('dragons-test').options[
+          document.getElementById('dragons-test').selectedIndex
+        ].text
+      : document.getElementById('events-test').options[
+          document.getElementById('events-test').selectedIndex
+        ].text
   })
 }
 function testKillfeed(team) {
@@ -217,6 +220,9 @@ function initSettings(settings) {
     settings.scoreboard.heralds
   document.querySelector('#scoreboard-tower').checked =
     settings.scoreboard.tower
+  document.querySelector('#events-test').addEventListener('change', (e) => {
+    document.querySelector('#dragons-test').style.display = e.target.value === 'Dragon' ? 'block' : 'none'
+  })
 }
 
 let server = ''
