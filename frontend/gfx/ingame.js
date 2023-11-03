@@ -925,21 +925,12 @@ LPTE.onready(async () => {
     }
   })
   LPTE.on('module-league-in-game', 'test-event', (e) => {
-    if (e.team === 100) {
-      emitEvent({
-        team: 100,
-        name: e.event,
-        time: 160000,
-        type: e.event === 'Dragon' ? 'cloud' : e.event
-      })
-    } else if (e.team === 200) {
-      emitEvent({
-        team: 200,
-        name: e.event,
-        time: 160000,
-        type: e.event === 'Dragon' ? 'cloud' : e.event
-      })
-    }
+    emitEvent({
+      team: e.team,
+      name: e.event,
+      time: 160000,
+      type: e.event
+    })
   })
   LPTE.on('module-league-in-game', 'test-killfeed', (e) => {
     if (e.team === 100) {
