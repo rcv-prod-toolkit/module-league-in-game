@@ -266,9 +266,6 @@ function updateGameState(e) {
       playerGoldDiv.children[3].max = maxGold
       playerGoldDiv.children[3].value = state.player[player].totalGold
 
-      const index = sortedForGold.findIndex(
-        (gp) => gp.summonerName === state.player[player].summonerName
-      )
       playerGoldDiv.style.transform = `translate(0, ${
         sortedForGold.findIndex(
           (gp) => gp.summonerName === state.player[player].summonerName
