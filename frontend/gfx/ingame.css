@@ -876,6 +876,8 @@ body {
   height: 15px;
 }
 
+/* --------------------------------- */
+
 .sb-blue.power-play.hide ~ .sb-blue.sb-team .sb-score {
   left: -25px;
 }
@@ -922,11 +924,16 @@ body {
   margin-right: -25px;
 }
 
-.sb-blue.elder img {
-  margin-right: -25px;
+.sb-blue.dragon img {
+  margin-left: 10px;
 }
-.sb-red.elder img {
-  margin-left: -25px;
+.sb-red.dragon img {
+  margin-right: 10px;
+}
+
+.power-play.dragon img {
+  width: 65px;
+  margin-bottom: 10px;
 }
 
 .power-play img {

@@ -355,8 +355,12 @@ function ppUpdate(e) {
     }
     if(e.type === 'Dragon') {
       image.src = 'img/elder.png'
+      teamDiv.classList.add('dragon')
+      teamDiv.classList.remove('baron')
     } else {
       image.src = 'img/baron.png'
+      teamDiv.classList.remove('dragon')
+      teamDiv.classList.add('baron')
     }
 
     if (teamDiv.classList.contains('hide')) {
