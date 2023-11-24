@@ -180,9 +180,13 @@
   </div>
 </div>
 
-<div class="d-flex mb-5">
+<div class="d-flex mb-3">
   <div class="btn-group mr-3">
-    <button type="button" class="btn btn-warning" onclick="showLeaderBoard('gold')">
+    <button
+      type="button"
+      class="btn btn-warning"
+      onclick="showLeaderBoard('gold')"
+    >
       Show Gold Leader-Board
     </button>
     <button
@@ -264,34 +268,64 @@
   </div>
 </div>
 
+<div class="d-flex mb-5">
+  <div class="btn-group mr-3">
+    <button type="button" class="btn btn-warning" onclick="showGoldGraph()">
+      Toggle Gold-Graph
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+      <button
+        class="dropdown-item"
+        onclick="window.getActionLink(
+        'module-league-in-game',
+        'show-gold-graph'
+      )"
+      >
+        Copy Action-Link
+      </button>
+    </div>
+  </div>
+</div>
+
 <h2>Settings</h2>
 <form id="settings" class="mb-5">
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="scoreboard-active">
-    <label class="form-check-label" for="scoreboard-active">Scoreboard active</label>
+    <input class="form-check-input" type="checkbox" id="scoreboard-active" />
+    <label class="form-check-label" for="scoreboard-active"
+      >Scoreboard active</label
+    >
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="scoreboard-score">
+    <input class="form-check-input" type="checkbox" id="scoreboard-score" />
     <label class="form-check-label" for="scoreboard-score">Score</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="scoreboard-tags">
+    <input class="form-check-input" type="checkbox" id="scoreboard-tags" />
     <label class="form-check-label" for="scoreboard-tags">Tags</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="scoreboard-standings">
+    <input class="form-check-input" type="checkbox" id="scoreboard-standings" />
     <label class="form-check-label" for="scoreboard-standings">Standings</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="scoreboard-barons">
+    <input class="form-check-input" type="checkbox" id="scoreboard-barons" />
     <label class="form-check-label" for="scoreboard-barons">Barons</label>
   </div>
   <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="scoreboard-heralds">
+    <input class="form-check-input" type="checkbox" id="scoreboard-heralds" />
     <label class="form-check-label" for="scoreboard-heralds">Heralds</label>
   </div>
   <div class="form-check form-check-inline mb-3">
-    <input class="form-check-input" type="checkbox" id="scoreboard-tower">
+    <input class="form-check-input" type="checkbox" id="scoreboard-tower" />
     <label class="form-check-label" for="scoreboard-tower">Tower</label>
   </div>
 
@@ -374,7 +408,9 @@
       value=""
       id="showTournament"
     />
-    <label class="form-check-label" for="showTournament"> Show Tournnament Info </label>
+    <label class="form-check-label" for="showTournament">
+      Show Tournnament Info
+    </label>
   </div>
   <div class="form-group">
     <button type="submit" class="btn btn-primary">Save Settings</button>
@@ -382,7 +418,10 @@
 </form>
 
 <h2 class="mb-1">Reset</h2>
-<p class="mb-3">Only use this when really needed, all game data of the current game will be lost!</p>
+<p class="mb-3">
+  Only use this when really needed, all game data of the current game will be
+  lost!
+</p>
 <div class="mb-5">
   <button class="btn btn-danger btn-lg" onclick="resetGame()">
     Reset Game State

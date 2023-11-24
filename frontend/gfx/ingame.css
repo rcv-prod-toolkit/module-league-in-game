@@ -973,7 +973,7 @@ body {
   position: absolute;
   top: 10%;
   transform: translate(-100%, 0);
-  width: 300px;
+  width: 325px;
   background-color: var(--background-color);
   color: var(--text-color);
   padding: 15px 0px;
@@ -1059,4 +1059,22 @@ body {
 .red .lb-meter::-webkit-meter-suboptimum-value,
 .red .lb-meter::-webkit-meter-even-less-good-value  {
   background: var(--red-team);
+}
+
+/* ---------------------- */
+
+#gold-graph {
+  position: absolute;
+  bottom: 5px;
+  left: 605px;
+  width: 724px;
+  height: 226px;
+  display: flex;
+  background-color: var(--background-color);
+  padding: 35px 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+#gold-graph.hide {
+  transform: scale(0, 0);
 }

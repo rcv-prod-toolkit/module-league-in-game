@@ -9,7 +9,8 @@ let showNicknames,
   standings,
   barons,
   heralds,
-  tower
+  tower,
+  gameState
 
 function getPlayerId(id) {
   if (id > 4) return id - 5
@@ -165,6 +166,7 @@ const goldLeaderBoard = document.querySelector('#gold')
 
 function setGameState(e) {
   const state = e.state
+  gameState = state
 
   for (const i in state.player) {
     const id = parseInt(i)
@@ -197,6 +199,7 @@ function setGameState(e) {
 
 function updateGameState(e) {
   const state = e.state
+  gameState = state
 
   sbBlueGold.innerText = calcK(state.gold[100])
   sbRedGold.innerText = calcK(state.gold[200])
@@ -280,8 +283,8 @@ function updateGameState(e) {
       return a.experience < b.experience
         ? 1
         : a.experience > b.experience
-        ? -1
-        : 0
+          ? -1
+          : 0
     })
 
     for (const player in state.player) {
@@ -353,7 +356,7 @@ function ppUpdate(e) {
         e.percent
       }%, var(--background-light-color) ${e.percent + 3}%)`
     }
-    if(e.type === 'Dragon') {
+    if (e.type === 'Dragon') {
       image.src = 'img/elder.png'
       teamDiv.classList.add('dragon')
       teamDiv.classList.remove('baron')
@@ -452,15 +455,16 @@ function changeColors(e) {
   sbBlueStanding.innerText = e.teams.blueTeam?.standing || ''
   sbRedStanding.innerText = e.teams.redTeam?.standing || ''
 
-  roundOfSpan.textContent = e.roundOf <= 8 ? roundOfMap[e.roundOf] : `Round of ${e.roundOf}`
+  roundOfSpan.textContent =
+    e.roundOf <= 8 ? roundOfMap[e.roundOf] : `Round of ${e.roundOf}`
   nameSpan.textContent = e.tournamentName
   resizeText(tournamentDiv)
 
-  if(e.teams.blueTeam?.logo !== undefined && e.teams.blueTeam?.logo !== '') {
+  if (e.teams.blueTeam?.logo !== undefined && e.teams.blueTeam?.logo !== '') {
     sbBlueLogo.src = `/pages/op-module-teams/img/${e.teams.blueTeam.logo}`
     sbBlueLogo.style.display = 'block'
   }
-  if(e.teams.redTeam?.logo !== undefined && e.teams.redTeam?.logo !== '') {
+  if (e.teams.redTeam?.logo !== undefined && e.teams.redTeam?.logo !== '') {
     sbRedLogo.src = `/pages/op-module-teams/img/${e.teams.redTeam.logo}`
     sbRedLogo.style.display = 'block'
   }
@@ -648,7 +652,9 @@ function updateSettings(e) {
   }
   if (e.showTournament !== showTournament) {
     showTournament = e.showTournament
-    document.querySelector('#tournament').style.display = e.showTournament ? 'flex' : 'none'
+    document.querySelector('#tournament').style.display = e.showTournament
+      ? 'flex'
+      : 'none'
   }
 
   if (showScoreBoard !== e.scoreboard.active) {
@@ -806,7 +812,12 @@ function createLeaderBoardItem(player, max, type = 'xp') {
   return lbItem
 }
 
-const isOverflown = ({ clientHeight, scrollHeight, clientWidth, scrollWidth }) => (scrollHeight > clientHeight || scrollWidth > clientWidth)
+const isOverflown = ({
+  clientHeight,
+  scrollHeight,
+  clientWidth,
+  scrollWidth
+}) => scrollHeight > clientHeight || scrollWidth > clientWidth
 
 const resizeText = (parent) => {
   let i = 10
@@ -820,6 +831,141 @@ const resizeText = (parent) => {
   }
 
   parent.style.fontSize = `${i - 1}px`
+}
+
+function secsToMinutesAndSeconds(secs) {
+  const minutes = Math.floor(secs / 60);
+  const seconds = (secs - minutes * 60).toFixed(0);
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+}
+
+/**
+ * 
+ * @param {any[]} array 
+ */
+function shrinkArray (array, sliceSize = 30) {
+  let newArray = []
+
+  if (array.length < sliceSize) {
+    sliceSize = array.length
+  }
+
+  for (i = 0; i < array.length - sliceSize + 1; i += sliceSize) {
+    const sum = array
+      .slice(i, i + sliceSize) //get the range
+      .reduce((a,b) => a + b) //sum up
+      / sliceSize
+    newArray.push(sum)
+  }
+
+  return newArray
+}
+
+const goldGraph = document.getElementById('gold-graph')
+const gg2D = goldGraph.getContext('2d')
+function showGoldGraph(data) {
+  let blue = getComputedStyle(document.body).getPropertyValue('--blue-team')
+  let red = getComputedStyle(document.body).getPropertyValue('--red-team')
+  const white = 'rgba(250,250,250,1)'
+  const whiteTransparent = 'rgba(250,250,250,0.1)'
+
+    // Add new type of chart to chart.js
+    Chart.defaults.NegativeTransparentLine = Chart.helpers.clone(
+      Chart.defaults.line
+    )
+    Chart.controllers.NegativeTransparentLine = Chart.controllers.line.extend({
+      update: function () {
+        // get the min and max values
+        var min = Math.min.apply(null, this.chart.data.datasets[0].data)
+        var max = Math.max.apply(null, this.chart.data.datasets[0].data)
+        var yScale = this.getScaleForId(this.getDataset().yAxisID)
+  
+        // figure out the pixels for these and the value 0
+        var top = yScale.getPixelForValue(max)
+        var zero = yScale.getPixelForValue(0)
+        var bottom = yScale.getPixelForValue(min)
+  
+        // build a gradient that switches color at the 0 point
+        var ctx = this.chart.chart.ctx
+        var gradient = ctx.createLinearGradient(0, top, 0, bottom)
+        var ratio = Math.min((zero - top) / (bottom - top), 1)
+        if (ratio < 0) {
+          ratio = 0
+          gradient.addColorStop(1, red)
+        } else if (ratio == 1) {
+          gradient.addColorStop(1, blue)
+        } else {
+          gradient.addColorStop(0, blue)
+          gradient.addColorStop(ratio, blue)
+          gradient.addColorStop(ratio, red)
+          gradient.addColorStop(1, red)
+        }
+        this.chart.data.datasets[0].backgroundColor = gradient
+  
+        return Chart.controllers.line.prototype.update.apply(this, arguments)
+      }
+    })
+
+  const frames = data.goldGraph
+  const keys = shrinkArray(Object.keys(frames).map(f => parseInt(f)))
+  const values = shrinkArray(Object.values(frames))
+
+  new Chart(gg2D, {
+    type: 'NegativeTransparentLine',
+    data: {
+      labels: keys,
+      datasets: [
+        {
+          yAxisID: 'y-axis-0',
+          strokeColor: white,
+          pointColor: white,
+          pointStrokeColor: white,
+          data: values
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: true,
+      responsive: false,
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              autoskip: true,
+              autoSkipPadding: 50,
+              fontSize: 20,
+              fontColor: white,
+              callback: function (value, index, values) {
+                return value.toFixed(0).replace(/-/g, '')
+              }
+            },
+            gridLines: {
+              color: whiteTransparent
+            }
+          }
+        ],
+        xAxes: [
+          {
+            ticks: {
+              autoskip: true,
+              autoSkipPadding: 30,
+              fontSize: 20,
+              fontColor: white,
+              callback: function (value, index, values) {
+                return secsToMinutesAndSeconds(value)
+              }
+            },
+            gridLines: {
+              color: whiteTransparent
+            }
+          }
+        ]
+      },
+      legend: {
+        display: false
+      }
+    }
+  })
 }
 
 LPTE.onready(async () => {
@@ -867,6 +1013,13 @@ LPTE.onready(async () => {
     platingDiv.classList.remove('hide')
   })
 
+  LPTE.on('module-league-in-game', 'show-gold-graph', (e) => {
+    goldGraph.classList.toggle('hide')
+    if (!goldGraph.classList.contains('hide')) {
+      showGoldGraph(gameState)
+    }
+  })
+
   LPTE.on('module-league-in-game', 'hide-inhibs', () => {
     inhibDiv.classList.add('hide')
     setTimeout(() => {
@@ -897,13 +1050,16 @@ LPTE.onready(async () => {
       }
     } else if (e.team === 200) {
       for (let i = 5; i < 10; i++) {
-        setTimeout(() => {
-          levelUpdate({
-            player: i,
-            level: e.level,
-            team: e.team
-          })
-        }, 2500 * (i - 5))
+        setTimeout(
+          () => {
+            levelUpdate({
+              player: i,
+              level: e.level,
+              team: e.team
+            })
+          },
+          2500 * (i - 5)
+        )
       }
     }
   })
@@ -921,13 +1077,16 @@ LPTE.onready(async () => {
       }
     } else if (e.team === 200) {
       for (let i = 5; i < 10; i++) {
-        setTimeout(() => {
-          itemUpdate({
-            player: i,
-            item: 3006,
-            team: e.team
-          })
-        }, 2500 * (i - 5))
+        setTimeout(
+          () => {
+            itemUpdate({
+              player: i,
+              item: 3006,
+              team: e.team
+            })
+          },
+          2500 * (i - 5)
+        )
       }
     }
   })

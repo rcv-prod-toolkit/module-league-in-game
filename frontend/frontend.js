@@ -91,6 +91,16 @@ function hidePlatings() {
   })
 }
 
+function showGoldGraph() {
+  LPTE.emit({
+    meta: {
+      namespace: 'module-league-in-game',
+      type: 'show-gold-graph',
+      version: 1
+    }
+  })
+}
+
 function resetGame() {
   LPTE.emit({
     meta: {
