@@ -936,7 +936,7 @@ function showGoldGraph(data) {
               autoSkipPadding: 50,
               beginAtZero: true,
               stepSize: 500,
-              fontSize: 20,
+              fontSize: 14,
               fontColor: white,
               callback: function (value, index, values) {
                 return value.toFixed(0).replace(/-/g, '')
@@ -952,7 +952,7 @@ function showGoldGraph(data) {
             ticks: {
               autoskip: true,
               autoSkipPadding: 30,
-              fontSize: 20,
+              fontSize: 14,
               fontColor: white,
               callback: function (value, index, values) {
                 return secsToMinutesAndSeconds(value)
