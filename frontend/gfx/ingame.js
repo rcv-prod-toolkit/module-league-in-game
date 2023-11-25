@@ -861,6 +861,7 @@ function shrinkArray (array, sliceSize = 30) {
   return newArray
 }
 
+const goldGraphContainer = document.getElementById('gold-graph-container')
 const goldGraph = document.getElementById('gold-graph')
 const gg2D = goldGraph.getContext('2d')
 function showGoldGraph(data) {
@@ -876,8 +877,8 @@ function showGoldGraph(data) {
     Chart.controllers.NegativeTransparentLine = Chart.controllers.line.extend({
       update: function () {
         // get the min and max values
-        var min = Math.min.apply(null, this.chart.data.datasets[0].data)
-        var max = Math.max.apply(null, this.chart.data.datasets[0].data)
+        var min = Math.min.apply(null, [...this.chart.data.datasets[0].data, -100])
+        var max = Math.max.apply(null, [...this.chart.data.datasets[0].data, 100])
         var yScale = this.getScaleForId(this.getDataset().yAxisID)
   
         // figure out the pixels for these and the value 0
@@ -910,7 +911,7 @@ function showGoldGraph(data) {
   const keys = shrinkArray(Object.keys(frames).map(f => parseInt(f)))
   const values = shrinkArray(Object.values(frames))
 
-  new Chart(gg2D, {
+  const chart = new Chart(gg2D, {
     type: 'NegativeTransparentLine',
     data: {
       labels: keys,
@@ -925,14 +926,16 @@ function showGoldGraph(data) {
       ]
     },
     options: {
-      maintainAspectRatio: true,
-      responsive: false,
+      maintainAspectRatio: false,
+      responsive: true,
       scales: {
         yAxes: [
           {
             ticks: {
               autoskip: true,
               autoSkipPadding: 50,
+              beginAtZero: true,
+              stepSize: 500,
               fontSize: 20,
               fontColor: white,
               callback: function (value, index, values) {
@@ -966,6 +969,24 @@ function showGoldGraph(data) {
       }
     }
   })
+
+  const interval = setInterval(() => {
+    if (!goldGraphContainer.classList.contains('hide')) {
+      const frames = gameState.goldGraph
+      const keys = shrinkArray(Object.keys(frames).map(f => parseInt(f)))
+      const values = shrinkArray(Object.values(frames))
+      addData(chart, keys, values)
+    } else {
+      clearInterval(interval)
+      return
+    }
+  }, 30_000);
+}
+
+function addData(chart, labels, newData) {
+  chart.data.labels = labels
+  chart.data.datasets[0].data = newData
+  chart.update()
 }
 
 LPTE.onready(async () => {
@@ -1014,8 +1035,8 @@ LPTE.onready(async () => {
   })
 
   LPTE.on('module-league-in-game', 'show-gold-graph', (e) => {
-    goldGraph.classList.toggle('hide')
-    if (!goldGraph.classList.contains('hide')) {
+    goldGraphContainer.classList.toggle('hide')
+    if (!goldGraphContainer.classList.contains('hide')) {
       showGoldGraph(gameState)
     }
   })

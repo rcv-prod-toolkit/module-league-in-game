@@ -1063,18 +1063,26 @@ body {
 
 /* ---------------------- */
 
-#gold-graph {
+#gold-graph-container {
   position: absolute;
   bottom: 5px;
   left: 605px;
   width: 724px;
   height: 226px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: var(--background-color);
-  padding: 35px 20px;
+  color: var(--text-color);
+  padding: 5px 20px;
   transition: transform 0.5s ease-in-out;
 }
 
-#gold-graph.hide {
+#gold-graph-container.hide {
   transform: scale(0, 0);
+}
+
+#gg-holder {
+  width: 100%;
+  height: 100%;
 }
