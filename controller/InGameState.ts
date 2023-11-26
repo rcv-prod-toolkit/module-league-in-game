@@ -194,16 +194,9 @@ export class InGameState {
 
       this.gameState.gameTime = allGameData.gameData.gameTime
 
-      setTimeout(() => {
-        this.checkPlayerUpdate(allGameData)
-        this.checkEventUpdate(allGameData, previousGameData)
-
-        for (const [id, func] of this.actions.entries()) {
-          func(allGameData, id)
-        }
-      }, this.config.delay / 2)
-    } else {
       allGameData.allPlayers.forEach((p) => {
+        if (this.gameState.player.find(pl => pl.summonerName === p.summonerName) !== undefined) return
+
         const champ = this.statics.champions.find((c: any) => c.name === p.championName)
         this.gameState.player.push(new PlayerClass(
           p.summonerName,
@@ -213,6 +206,15 @@ export class InGameState {
           champ.key
         ))
       })
+
+      setTimeout(() => {
+        this.checkPlayerUpdate(allGameData)
+        this.checkEventUpdate(allGameData, previousGameData)
+
+        for (const [id, func] of this.actions.entries()) {
+          func(allGameData, id)
+        }
+      }, this.config.delay / 2)
     }
 
     this.gameData.push(allGameData)
