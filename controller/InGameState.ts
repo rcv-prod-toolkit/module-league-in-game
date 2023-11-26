@@ -194,17 +194,17 @@ export class InGameState {
 
       this.gameState.gameTime = allGameData.gameData.gameTime
 
-      allGameData.allPlayers.forEach((p) => {
+      allGameData.allPlayers.forEach((p, i) => {
         if (this.gameState.player.find(pl => pl.summonerName === p.summonerName) !== undefined) return
 
         const champ = this.statics.champions.find((c: any) => c.name === p.championName)
-        this.gameState.player.push(new PlayerClass(
+        this.gameState.player.splice(i, 0, new PlayerClass(
           p.summonerName,
           p.team,
           p.championName,
           champ.id,
           champ.key
-        ))
+        ));
       })
 
       setTimeout(() => {
