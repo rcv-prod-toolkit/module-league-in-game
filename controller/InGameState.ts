@@ -316,6 +316,10 @@ export class InGameState {
         event.eventname === EventType.DragonKill &&
         this.config.events?.includes('Dragons')
       ) {
+        if (event.other === MobType.ElderDragon) {
+          this.elderKill(event)
+        }
+
         this.ctx.LPTE.emit({
           meta: {
             namespace: this.namespace,
@@ -491,6 +495,137 @@ export class InGameState {
             version: 1
           },
           type: 'Baron',
+          team,
+          goldDiff,
+          ongoing: data.ongoing,
+          percent: 100,
+          respawnIn: 60 * 3
+        })
+
+        this.actions.delete(i)
+      }
+    })
+  }
+
+  private elderKill(event: InGameEvent): void {
+    const cAllGameData = this.gameData[this.gameData.length - 1]
+
+    const team = event.sourceTeam === TeamType.Order ? 100 : 200
+    const time = Math.round(cAllGameData?.gameData?.gameTime || 0)
+    const type = 'Dragon'
+
+    this.ctx.LPTE.emit({
+      meta: {
+        namespace: this.namespace,
+        type: 'event',
+        version: 1
+      },
+      name: 'Elder',
+      type,
+      team,
+      time
+    })
+
+    if (!this.config.ppTimer) return
+
+    const respawnAt = time + 60 * 3
+
+    const data = {
+      time,
+      ongoing: true,
+      goldDiff: 1500,
+      goldBaseBlue: this.gameState.gold[100],
+      goldBaseRed: this.gameState.gold[200],
+      alive: cAllGameData.allPlayers
+        .filter(
+          (p) =>
+            !p.isDead &&
+            (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
+        )
+        .map((p) => p.summonerName),
+      dead: cAllGameData.allPlayers
+        .filter(
+          (p) =>
+            p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
+        )
+        .map((p) => p.summonerName),
+      team,
+      respawnAt: respawnAt,
+      respawnIn: 60 * 3,
+      percent: 100
+    }
+
+    this.ctx.LPTE.emit({
+      meta: {
+        namespace: this.namespace,
+        type: 'pp-update',
+        version: 1
+      },
+      type,
+      team,
+      goldDiff: data.goldDiff,
+      ongoing: data.ongoing,
+      percent: data.percent,
+      respawnIn: data.respawnIn,
+      respawnAt: data.respawnAt
+    })
+
+    this.actions.set(type + '-' + randomUUID(), (allGameData, i) => {
+      const gameState = allGameData.gameData
+      const diff = respawnAt - Math.round(gameState.gameTime)
+      const percent = Math.round((diff * 100) / (60 * 3))
+
+      const goldDifBlue = this.gameState.gold[100] - data.goldBaseBlue
+      const goldDifRed = this.gameState.gold[200] - data.goldBaseRed
+
+      const goldDiff = team === 100 ? 1500 + goldDifBlue - goldDifRed : 1500 + goldDifRed - goldDifBlue
+
+      data.alive = allGameData.allPlayers
+        .filter(
+          (p) =>
+            !p.isDead &&
+            (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS') &&
+            !data.dead.includes(p.summonerName)
+        )
+        .map((p) => p.summonerName)
+      data.dead = [
+        ...data.dead,
+        ...allGameData.allPlayers
+          .filter(
+            (p) =>
+              p.isDead &&
+              (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
+          )
+          .map((p) => p.summonerName)
+      ]
+
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'pp-update',
+          version: 1
+        },
+        type: 'Dragon',
+        team,
+        goldDiff,
+        ongoing: data.ongoing,
+        percent,
+        respawnIn: diff
+      })
+
+      if (
+        diff <= 0 ||
+        data.alive.length <= 0 ||
+        time > gameState.gameTime + this.config.delay / 1000
+      ) {
+        data.ongoing = false
+        this.ctx.LPTE.emit({
+          meta: {
+            namespace: this.namespace,
+            type: 'pp-update',
+            version: 1
+          },
+          type: 'Dragon',
           team,
           goldDiff,
           ongoing: data.ongoing,
