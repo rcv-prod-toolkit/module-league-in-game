@@ -267,7 +267,7 @@ body {
 }
 
 .inhibitor {
-  --percent: 0%;
+  --percent: 0;
   position: relative;
   text-align: center;
 }
