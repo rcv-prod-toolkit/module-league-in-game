@@ -240,21 +240,6 @@ function updateGameState(e) {
 
   platingsUpdate(e)
 
-  for (const [teamId, team] of Object.entries(state.inhibitors)) {
-    for (const [lane, data] of Object.entries(team)) {
-      const teamDiv = parseInt(teamId) === 100 ? blueSide : redSide
-      const div = teamDiv.querySelector(`.${lane}`)
-
-      if (data.alive) {
-        div.style.setProperty('--percent', '0')
-        div.querySelector('p').innerText = convertSecsToTime(0)
-      } else {
-        div.style.setProperty('--percent', data.percent)
-        div.querySelector('p').innerText = convertSecsToTime(data.respawnIn)
-      }
-    }
-  }
-
   if (showLeaderBoard === 'gold') {
     const maxGold = Math.max(...state.player.map((p) => p.totalGold))
     const sortedForGold = [...state.player].sort((a, b) => {
