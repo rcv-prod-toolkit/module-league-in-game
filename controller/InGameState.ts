@@ -275,7 +275,7 @@ export class InGameState {
 
     for (const champion of champions) {
       for (const player in this.gameState.player) {
-        if (this.gameState.player[player].summonerName !== champion.displayName && this.gameState.player[player].championName !== champion.name) continue
+        if (this.gameState.player[player].summonerName !== champion.displayName && this.gameState.player[player].championName !== champion.name && this.gameState.player[player].championId !== champion.name) continue
 
         this.gameState.player[player].experience = champion.experience
         this.gameState.player[player].currentGold = champion.currentGold
