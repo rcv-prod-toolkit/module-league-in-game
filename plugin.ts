@@ -138,6 +138,15 @@ module.exports = async (ctx: PluginContext) => {
       })
     })
 
+    ctx.LPTE.on('module-league-replay', 'set-playback', (e) => {
+      if (inGameState === undefined) {
+        inGameState = new InGameState(namespace, ctx, config, state, statics)
+      }
+
+      const data = e.data as any
+      inGameState.handelReplayData(data)
+    })
+
     ctx.LPTE.on(namespace, 'request', (e) => {
       if (inGameState === undefined) {
         inGameState = new InGameState(namespace, ctx, config, state, statics)

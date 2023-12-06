@@ -28,6 +28,7 @@ export class InGameState {
 
     this.gameState = {
       gameTime: 0,
+      currentPlayer: '',
       showLeaderBoard: false,
       towers: {
         100: {
@@ -218,6 +219,33 @@ export class InGameState {
     }
 
     this.gameData.push(allGameData)
+  }
+
+  public handelReplayData(replayData: any): void {
+    if (replayData.selectionName === '' || replayData.selectionName === undefined) return
+
+    setTimeout(() => {
+      if (replayData.selectionName && this.gameState.currentPlayer) return
+
+      this.gameState.currentPlayer = replayData.selectionName
+
+      const playerIndex = this.gameState.player.findIndex(p => p.summonerName === replayData.selectionName)
+
+      if (playerIndex === -1) return
+
+      const secondPlayerIndex = playerIndex < 5 ? playerIndex + 5 : playerIndex - 5
+
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: 'module-atem',
+          type: 'player-change-lol',
+          version: 1
+        },
+        player1: this.gameState.player[playerIndex].summonerName,
+        player2: this.gameState.player[secondPlayerIndex].summonerName,
+      })
+      
+    }, this.config.delay / 2)
   }
 
   public handelFarsightData(farsightData: FarsightData): void {
