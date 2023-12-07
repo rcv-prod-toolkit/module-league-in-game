@@ -233,7 +233,8 @@ export class InGameState {
 
       if (playerIndex === -1) return
 
-      const secondPlayerIndex = playerIndex < 5 ? playerIndex + 5 : playerIndex - 5
+      const firstPlayerIndex = playerIndex < 5 ? playerIndex : playerIndex - 5
+      const secondPlayerIndex = firstPlayerIndex + 5
 
       this.ctx.LPTE.emit({
         meta: {
@@ -241,7 +242,7 @@ export class InGameState {
           type: 'player-change-lol',
           version: 1
         },
-        player1: this.gameState.player[playerIndex].summonerName,
+        player1: this.gameState.player[firstPlayerIndex].summonerName,
         player2: this.gameState.player[secondPlayerIndex].summonerName,
       })
       
