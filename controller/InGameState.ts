@@ -708,10 +708,11 @@ export class InGameState {
 
   private checkLevelUpdate(currentPlayerState: Player, id: number) {
     if (this.gameState.player[id] === undefined || currentPlayerState.level <= this.gameState.player[id]?.level) return
-    if (!this.config.level.includes(currentPlayerState.level.toString())) return
 
     this.gameState.player[id].level = currentPlayerState.level
     this.updateState()
+
+    if (!this.config.level.includes(currentPlayerState.level.toString())) return
 
     this.ctx.LPTE.emit({
       meta: {
