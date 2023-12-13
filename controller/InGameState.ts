@@ -238,8 +238,8 @@ export class InGameState {
 
       this.ctx.LPTE.emit({
         meta: {
-          namespace: 'module-atem',
-          type: 'player-change-lol',
+          namespace: this.namespace,
+          type: 'player-change',
           version: 1
         },
         player1: this.gameState.player[firstPlayerIndex].summonerName,
