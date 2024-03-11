@@ -20,7 +20,7 @@
     },
     "devDependencies": {
         "@rcv-prod-toolkit/types": "github:rcv-prod-toolkit/types",
-        "typescript": "^5.3.3"
+        "typescript": "^5.4.2"
     },
     "scripts": {
         "build": "tsc"
