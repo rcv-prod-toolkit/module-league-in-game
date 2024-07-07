@@ -27,6 +27,9 @@ export interface Player {
   }
   scores: Scores
   skinID: number
+  riotId: string
+  riotIdGameName: string
+  riotIdTagLine: string
   summonerName: string
   summonerSpells: {
     summonerSpellOne: SummonerSpell

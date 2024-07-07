@@ -37,7 +37,7 @@ export interface InGameState {
 }
 
 export interface PlayerType {
-  summonerName: string
+  riotIdGameName: string
   nickname: string
   level: number
   experience: number

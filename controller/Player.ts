@@ -1,7 +1,7 @@
 import { PlayerType } from "../types/InGameState";
 
 export class Player implements PlayerType {
-  summonerName: string
+  riotIdGameName: string
   nickname: string = ''
   level: number = 0
   experience: number = 0
@@ -13,8 +13,8 @@ export class Player implements PlayerType {
   championKey: number
   team: 100 | 200
 
-  constructor(summonerName: string, team: 'ORDER' | 'CHAOS', championName: string, championId: string, championKey: number) {
-    this.summonerName = summonerName
+  constructor(riotIdGameName: string, team: 'ORDER' | 'CHAOS', championName: string, championId: string, championKey: number) {
+    this.riotIdGameName = riotIdGameName
     this.championName = championName
     this.championId = championId
     this.championKey = championKey

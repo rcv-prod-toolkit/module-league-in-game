@@ -196,11 +196,11 @@ export class InGameState {
       this.gameState.gameTime = allGameData.gameData.gameTime
 
       allGameData.allPlayers.forEach((p, i) => {
-        if (this.gameState.player.find(pl => pl.summonerName === p.summonerName) !== undefined) return
+        if (this.gameState.player.find(pl => pl.riotIdGameName === p.riotIdGameName) !== undefined) return
 
         const champ = this.statics.champions.find((c: any) => c.name === p.championName)
         this.gameState.player.splice(i, 0, new PlayerClass(
-          p.summonerName,
+          p.riotIdGameName,
           p.team,
           p.championName,
           champ.id,
@@ -229,7 +229,7 @@ export class InGameState {
 
       this.gameState.currentPlayer = replayData.selectionName
 
-      const playerIndex = this.gameState.player.findIndex(p => p.summonerName === replayData.selectionName)
+      const playerIndex = this.gameState.player.findIndex(p => p.riotIdGameName === replayData.selectionName)
 
       if (playerIndex === -1) return
 
@@ -242,8 +242,8 @@ export class InGameState {
           type: 'player-change',
           version: 1
         },
-        player1: this.gameState.player[firstPlayerIndex].summonerName,
-        player2: this.gameState.player[secondPlayerIndex].summonerName,
+        player1: this.gameState.player[firstPlayerIndex].riotIdGameName,
+        player2: this.gameState.player[secondPlayerIndex].riotIdGameName,
       })
       
     }, this.config.delay / 2)
@@ -276,7 +276,7 @@ export class InGameState {
 
     for (const champion of champions) {
       for (const player in this.gameState.player) {
-        if (this.gameState.player[player].summonerName !== champion.displayName && this.gameState.player[player].championName !== champion.name && this.gameState.player[player].championId !== champion.name) continue
+        if (this.gameState.player[player].riotIdGameName !== champion.displayName && this.gameState.player[player].championName !== champion.name && this.gameState.player[player].championId !== champion.name) continue
 
         this.gameState.player[player].experience = champion.experience
         this.gameState.player[player].currentGold = champion.currentGold
@@ -440,13 +440,13 @@ export class InGameState {
             !p.isDead &&
             (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
         )
-        .map((p) => p.summonerName),
+        .map((p) => p.riotIdGameName),
       dead: cAllGameData.allPlayers
         .filter(
           (p) =>
             p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
         )
-        .map((p) => p.summonerName),
+        .map((p) => p.riotIdGameName),
       team,
       respawnAt: respawnAt,
       respawnIn: 60 * 3,
@@ -483,9 +483,9 @@ export class InGameState {
           (p) =>
             !p.isDead &&
             (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS') &&
-            !data.dead.includes(p.summonerName)
+            !data.dead.includes(p.riotIdGameName)
         )
-        .map((p) => p.summonerName)
+        .map((p) => p.riotIdGameName)
       data.dead = [
         ...data.dead,
         ...allGameData.allPlayers
@@ -494,7 +494,7 @@ export class InGameState {
               p.isDead &&
               (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
           )
-          .map((p) => p.summonerName)
+          .map((p) => p.riotIdGameName)
       ]
 
       this.ctx.LPTE.emit({
@@ -571,13 +571,13 @@ export class InGameState {
             !p.isDead &&
             (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
         )
-        .map((p) => p.summonerName),
+        .map((p) => p.riotIdGameName),
       dead: cAllGameData.allPlayers
         .filter(
           (p) =>
             p.isDead && (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
         )
-        .map((p) => p.summonerName),
+        .map((p) => p.riotIdGameName),
       team,
       respawnAt: respawnAt,
       respawnIn: 60 * 3,
@@ -614,9 +614,9 @@ export class InGameState {
           (p) =>
             !p.isDead &&
             (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS') &&
-            !data.dead.includes(p.summonerName)
+            !data.dead.includes(p.riotIdGameName)
         )
-        .map((p) => p.summonerName)
+        .map((p) => p.riotIdGameName)
       data.dead = [
         ...data.dead,
         ...allGameData.allPlayers
@@ -625,7 +625,7 @@ export class InGameState {
               p.isDead &&
               (team === 100 ? p.team === 'ORDER' : p.team === 'CHAOS')
           )
-          .map((p) => p.summonerName)
+          .map((p) => p.riotIdGameName)
       ]
 
       this.ctx.LPTE.emit({
@@ -682,16 +682,16 @@ export class InGameState {
 
   private checkNameUpdate(currentPlayerState: Player, id: number) {
     if (
-      this.gameState.player[id] === undefined || this.gameState.player[id]?.summonerName === currentPlayerState.summonerName
+      this.gameState.player[id] === undefined || this.gameState.player[id]?.riotIdGameName === currentPlayerState.riotIdGameName
     )
       return
 
-    this.gameState.player[id].summonerName = currentPlayerState.summonerName
+    this.gameState.player[id].riotIdGameName = currentPlayerState.riotIdGameName
     const member = this.state.lcu.lobby?.members?.find(
-      (m: any) => m.summonerName === currentPlayerState.summonerName
+      (m: any) => m.riotIdGameName === currentPlayerState.riotIdGameName
     )
     this.gameState.player[id].nickname =
-      member?.nickname ?? currentPlayerState.summonerName
+      member?.nickname ?? currentPlayerState.riotIdGameName
     this.updateState()
 
     this.ctx.LPTE.emit({
@@ -751,7 +751,7 @@ export class InGameState {
           eventname: EventType.HeraldKill,
           other: MobType.Herald,
           otherTeam: TeamType.Neutral,
-          source: currentPlayerState.summonerName,
+          source: currentPlayerState.riotIdGameName,
           sourceID: id,
           sourceTeam:
             currentPlayerState.team === 'CHAOS'
@@ -869,7 +869,7 @@ export class InGameState {
         assists: event.Assisters.map((a: string) => {
           return allGameData.allPlayers
             .find((p) => {
-              return p.summonerName === a
+              return p.riotIdGameName === a
             })
             ?.rawChampionName.split('_')[3]
         }),
@@ -883,7 +883,7 @@ export class InGameState {
               ? 'Minion'
               : allGameData.allPlayers
                 .find((p) => {
-                  return p.summonerName === event.KillerName
+                  return p.riotIdGameName === event.KillerName
                 })
                 ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
@@ -909,7 +909,7 @@ export class InGameState {
         assists: event.Assisters.map((a: string) => {
           return allGameData.allPlayers
             .find((p) => {
-              return p.summonerName === a
+              return p.riotIdGameName === a
             })
             ?.rawChampionName.split('_')[3]
         }),
@@ -923,7 +923,7 @@ export class InGameState {
               ? 'Minion'
               : allGameData.allPlayers
                 .find((p) => {
-                  return p.summonerName === event.KillerName
+                  return p.riotIdGameName === event.KillerName
                 })
                 ?.rawChampionName.split('_')[3],
         team: team === 100 ? 200 : 100
@@ -959,13 +959,13 @@ export class InGameState {
       assists: event.Assisters.map((a: string) => {
         return allGameData.allPlayers
           .find((p) => {
-            return p.summonerName === a
+            return p.riotIdGameName === a
           })
           ?.rawChampionName.split('_')[3]
       }),
       other: allGameData.allPlayers
         .find((p) => {
-          return p.summonerName === event.VictimName
+          return p.riotIdGameName === event.VictimName
         })
         ?.rawChampionName.split('_')[3],
       source: event.KillerName.startsWith('Minion')
@@ -983,12 +983,12 @@ export class InGameState {
                   ? 'Minion'
                   : allGameData.allPlayers
                     .find((p) => {
-                      return p.summonerName === event.KillerName
+                      return p.riotIdGameName === event.KillerName
                     })
                     ?.rawChampionName.split('_')[3],
       team:
         allGameData.allPlayers.find((p) => {
-          return p.summonerName === event.VictimName
+          return p.riotIdGameName === event.VictimName
         })?.team === 'CHAOS'
           ? 100
           : 200
