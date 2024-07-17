@@ -239,7 +239,7 @@ export class InGameState {
       this.ctx.LPTE.emit({
         meta: {
           namespace: this.namespace,
-          type: 'player-change',
+          type: 'player-change-lol',
           version: 1
         },
         player1: this.gameState.player[firstPlayerIndex].riotIdGameName,
