@@ -21,6 +21,7 @@ document.querySelector('#settings').addEventListener('submit', (e) => {
     delay: parseInt(document.querySelector('#delay').value),
     showNicknames: document.querySelector('#showNicknames').checked,
     showTournament: document.querySelector('#showTournament').checked,
+    autoTargetFrameCover: document.querySelector('#autoTargetFrameCover').checked,
     scoreboard: {
       active: document.querySelector('#scoreboard-active').checked,
       score: document.querySelector('#scoreboard-score').checked,
@@ -216,6 +217,7 @@ function initSettings(settings) {
   document.querySelector('#delay').value = settings.delay
   document.querySelector('#showNicknames').checked = settings.showNicknames
   document.querySelector('#showTournament').checked = settings.showTournament
+  document.querySelector('#autoTargetFrameCover').checked = settings.autoTargetFrameCover
 
   document.querySelector('#scoreboard-active').checked =
     settings.scoreboard.active

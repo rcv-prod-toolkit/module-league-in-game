@@ -4,6 +4,7 @@ export interface InGameState {
   gameTime: number
   currentPlayer: string
   showLeaderBoard: 'xp' | 'gold' | false
+  targetFrameCover: boolean
   towers: {
     100: TowerState
     200: TowerState
@@ -48,6 +49,7 @@ export interface PlayerType {
   championId: string
   championKey: number
   team: 100 | 200
+  isDead: boolean
 }
 
 export interface Objective {

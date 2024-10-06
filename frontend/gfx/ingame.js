@@ -88,6 +88,9 @@ const platingDiv = document.querySelector('#platings')
 const bluePlates = platingDiv.querySelector('.team-plates.blue')
 const redPlates = platingDiv.querySelector('.team-plates.red')
 
+const targetFrameCover = document.querySelector('#target-frame-cover')
+let targetFrameCoolDown = 0
+
 function calcK(amount) {
   switch (true) {
     case amount === 0:
@@ -194,6 +197,11 @@ function setGameState(e) {
   } else if (showLeaderBoard === 'gold') {
     goldLeaderBoard.classList.add('show')
     xpLeaderBoard.classList.remove('show')
+  }
+
+  if (state.targetFrameCover) {
+    targetFrameCover.classList.remove('hide')
+    targetFrameCoolDown = Date.now() + (1000 * 5)
   }
 }
 
@@ -1041,6 +1049,18 @@ LPTE.onready(async () => {
   })
   LPTE.on('module-league-in-game', 'hide-platings', () => {
     platingDiv.classList.add('hide')
+  })
+  LPTE.on('module-league-in-game', 'show-target-frame-cover', () => {
+    targetFrameCover.classList.remove('hide')
+    targetFrameCoolDown = Date.now() + (1000 * 5)
+  })
+  LPTE.on('module-league-in-game', 'hide-target-frame-cover', () => {
+    const cd = targetFrameCoolDown - Date.now()
+
+    setTimeout(() => {
+      targetFrameCover.classList.add('hide')
+      targetFrameCoolDown = 0
+    }, cd)
   })
 
   LPTE.on('module-league-in-game', 'test-level-up', (e) => {

@@ -20,7 +20,7 @@ export class InGameState {
   constructor(
     private namespace: string,
     private ctx: PluginContext,
-    private config: Config,
+    public config: Config,
     private state: any,
     private statics: any
   ) {
@@ -30,6 +30,7 @@ export class InGameState {
       gameTime: 0,
       currentPlayer: '',
       showLeaderBoard: false,
+      targetFrameCover: false,
       towers: {
         100: {
           L: {},
@@ -222,16 +223,57 @@ export class InGameState {
   }
 
   public handelReplayData(replayData: any): void {
-    if (replayData.selectionName === '' || replayData.selectionName === undefined) return
+    if (replayData.selectionName === '' || replayData.selectionName === undefined) {
+      if (this.config.autoTargetFrameCover && !this.gameState.targetFrameCover) {
+        this.gameState.targetFrameCover = true
+
+        this.ctx.LPTE.emit({
+          meta: {
+            namespace: this.namespace,
+            type: 'show-target-frame-cover',
+            version: 1
+          }
+        })
+      }
+
+      return
+    }
 
     setTimeout(() => {
-      if (replayData.selectionName && this.gameState.currentPlayer) return
+      if (replayData.selectionName === this.gameState.currentPlayer) {
+        if (this.config.autoTargetFrameCover && this.gameState.targetFrameCover) {
+          this.gameState.targetFrameCover = false
+
+          this.ctx.LPTE.emit({
+            meta: {
+              namespace: this.namespace,
+              type: 'hide-target-frame-cover',
+              version: 1
+            }
+          })
+        }
+        return
+      }
 
       this.gameState.currentPlayer = replayData.selectionName
 
       const playerIndex = this.gameState.player.findIndex(p => p.riotIdGameName === replayData.selectionName)
 
-      if (playerIndex === -1) return
+      if (playerIndex === -1 || this.gameState.player[playerIndex].isDead) {
+        return
+      }
+
+      if (this.config.autoTargetFrameCover && this.gameState.targetFrameCover) {
+        this.gameState.targetFrameCover = false
+
+        this.ctx.LPTE.emit({
+          meta: {
+            namespace: this.namespace,
+            type: 'hide-target-frame-cover',
+            version: 1
+          }
+        })
+      }
 
       const firstPlayerIndex = playerIndex < 5 ? playerIndex : playerIndex - 5
       const secondPlayerIndex = firstPlayerIndex + 5
@@ -245,7 +287,7 @@ export class InGameState {
         player1: this.gameState.player[firstPlayerIndex].riotIdGameName,
         player2: this.gameState.player[secondPlayerIndex].riotIdGameName,
       })
-      
+
     }, this.config.delay / 2)
   }
 
@@ -677,6 +719,7 @@ export class InGameState {
       this.checkNameUpdate(player, i)
       this.checkLevelUpdate(player, i)
       this.checkItemUpdate(player, i)
+      this.checkAliveUpdate(player, i)
     })
   }
 
@@ -707,6 +750,24 @@ export class InGameState {
   }
 
   private checkLevelUpdate(currentPlayerState: Player, id: number) {
+    if (this.gameState.player[id] === undefined || currentPlayerState.isDead === this.gameState.player[id]?.isDead) return
+
+    this.gameState.player[id].isDead = currentPlayerState.isDead
+    this.updateState()
+
+    this.ctx.LPTE.emit({
+      meta: {
+        type: 'is-dead-update',
+        namespace: this.namespace,
+        version: 1
+      },
+      team: currentPlayerState.team === 'ORDER' ? 100 : 200,
+      player: id,
+      isDead: currentPlayerState.isDead
+    })
+  }
+
+  private checkAliveUpdate(currentPlayerState: Player, id: number) {
     if (this.gameState.player[id] === undefined || currentPlayerState.level <= this.gameState.player[id]?.level) return
 
     this.gameState.player[id].level = currentPlayerState.level

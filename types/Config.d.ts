@@ -7,6 +7,7 @@ export interface Config {
   delay: number
   showNicknames: boolean
   showTournament: boolean
+  autoTargetFrameCover: boolean
   scoreboard: {
     active: boolean
     score: boolean

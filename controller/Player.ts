@@ -12,6 +12,7 @@ export class Player implements PlayerType {
   championId: string
   championKey: number
   team: 100 | 200
+  isDead: boolean = false
 
   constructor(riotIdGameName: string, team: 'ORDER' | 'CHAOS', championName: string, championId: string, championKey: number) {
     this.riotIdGameName = riotIdGameName

@@ -27,6 +27,7 @@ module.exports = async (ctx: PluginContext) => {
       showNicknames: false,
       showTournament: true,
       delay: 0,
+      autoTargetFrameCover: false,
       scoreboard: {
         active: true,
         barons: true,
@@ -47,6 +48,7 @@ module.exports = async (ctx: PluginContext) => {
     config.killfeed = e.killfeed
     config.ppTimer = e.ppTimer
     config.delay = e.delay
+    config.autoTargetFrameCover = e.autoTargetFrameCover
     config.showNicknames = e.showNicknames
     config.showTournament = e.showTournament
     config.scoreboard = e.scoreboard
@@ -59,6 +61,10 @@ module.exports = async (ctx: PluginContext) => {
       },
       config
     })
+
+    if (inGameState !== undefined) {
+      inGameState.config = config
+    }
   })
 
   ctx.LPTE.on(namespace, 'get-settings', (e) => {
