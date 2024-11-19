@@ -1051,10 +1051,12 @@ LPTE.onready(async () => {
     platingDiv.classList.add('hide')
   })
   LPTE.on('module-league-in-game', 'show-target-frame-cover', () => {
+    if (!targetFrameCover.classList.contains('hide')) return
     targetFrameCover.classList.remove('hide')
     targetFrameCoolDown = Date.now() + (1000 * 5)
   })
   LPTE.on('module-league-in-game', 'hide-target-frame-cover', () => {
+    if (targetFrameCover.classList.contains('hide')) return
     const cd = targetFrameCoolDown - Date.now()
 
     setTimeout(() => {

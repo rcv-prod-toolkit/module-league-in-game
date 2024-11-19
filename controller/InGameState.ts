@@ -30,6 +30,7 @@ export class InGameState {
       gameTime: 0,
       currentPlayer: '',
       showLeaderBoard: false,
+      scoreboard: true,
       targetFrameCover: false,
       towers: {
         100: {
@@ -235,12 +236,22 @@ export class InGameState {
           }
         })
       }
+    }
 
-      return
+    if (replayData.interfaceScoreboard !== this.gameState.scoreboard) {
+      this.gameState.scoreboard = replayData.interfaceScoreboard
+      this.ctx.LPTE.emit({
+        meta: {
+          namespace: this.namespace,
+          type: 'player-cams-lol',
+          version: 1
+        },
+        visibilty: replayData.interfaceScoreboard
+      })
     }
 
     setTimeout(() => {
-      if (replayData.selectionName === this.gameState.currentPlayer) {
+      if (replayData.selectionName === this.gameState.currentPlayer && this.gameState.currentPlayer !== '') {
         if (this.config.autoTargetFrameCover && this.gameState.targetFrameCover) {
           this.gameState.targetFrameCover = false
 

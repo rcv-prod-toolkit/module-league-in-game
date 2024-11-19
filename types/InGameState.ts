@@ -4,6 +4,7 @@ export interface InGameState {
   gameTime: number
   currentPlayer: string
   showLeaderBoard: 'xp' | 'gold' | false
+  scoreboard: boolean
   targetFrameCover: boolean
   towers: {
     100: TowerState
