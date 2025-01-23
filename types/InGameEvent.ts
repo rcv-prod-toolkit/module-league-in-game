@@ -38,9 +38,14 @@ export enum MobType {
 }
 
 export enum StructureType {
+  /* Deprecated
   Turret_T2_R_03_A = 'Turret_T2_R_03_A',
   Turret_T2_C_03_A = 'Turret_T2_C_03_A',
   Turret_T2_L_03_A = 'Turret_T2_L_03_A'
+  */
+    Turret_T200_L0_P3_ID = 'Turret_T200_L0_P3_ID',
+    Turret_T200_L1_P3_ID = 'Turret_T200_L1_P3_ID',
+    Turret_T200_L2_P3_ID = 'Turret_T200_L2_P3_ID',
 }
 
 export enum TeamType {

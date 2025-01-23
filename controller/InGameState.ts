@@ -34,32 +34,39 @@ export class InGameState {
       targetFrameCover: false,
       towers: {
         100: {
-          L: {},
-          C: {},
-          R: {}
+          L2: {},
+          L1: {},
+          L0: {}
         },
         200: {
-          L: {},
-          C: {},
-          R: {}
+          L2: {},
+          L1: {},
+          L0: {}
         }
       },
       platings: {
         showPlatings: false,
         100: {
-          L: 0,
-          C: 0,
-          R: 0
+          L2: 0,
+          L1: 0,
+          L0: 0
         },
         200: {
-          L: 0,
-          C: 0,
-          R: 0
+          L2: 0,
+          L1: 0,
+          L0: 0
         }
       },
       showInhibitors: null,
       inhibitors: {
         100: {
+          L2: {
+            alive: true,
+            respawnAt: 0,
+            respawnIn: 0,
+            percent: 0,
+            time: 0
+          },
           L1: {
             alive: true,
             respawnAt: 0,
@@ -67,14 +74,7 @@ export class InGameState {
             percent: 0,
             time: 0
           },
-          C1: {
-            alive: true,
-            respawnAt: 0,
-            respawnIn: 0,
-            percent: 0,
-            time: 0
-          },
-          R1: {
+          L0: {
             alive: true,
             respawnAt: 0,
             respawnIn: 0,
@@ -83,6 +83,13 @@ export class InGameState {
           }
         },
         200: {
+          L2: {
+            alive: true,
+            respawnAt: 0,
+            respawnIn: 0,
+            percent: 0,
+            time: 0
+          },
           L1: {
             alive: true,
             respawnAt: 0,
@@ -90,14 +97,7 @@ export class InGameState {
             percent: 0,
             time: 0
           },
-          C1: {
-            alive: true,
-            respawnAt: 0,
-            respawnIn: 0,
-            percent: 0,
-            time: 0
-          },
-          R1: {
+          L0: {
             alive: true,
             respawnAt: 0,
             respawnIn: 0,
@@ -372,7 +372,7 @@ export class InGameState {
 
       if (event.eventname === EventType.TurretPlateDestroyed) {
         const split = event.other.split('_') as string[]
-        const lane = split[2] as 'L' | 'C' | 'R'
+        const lane = split[2] as 'L2' | 'L1' | 'L0'
         this.gameState.platings[team][lane] += 1
 
         this.ctx.LPTE.emit({
@@ -876,8 +876,8 @@ export class InGameState {
 
   private handleInhibEvent(event: Event, allGameData: AllGameData) {
     const split = event.InhibKilled.split('_') as string[]
-    const team = split[1] === 'T1' ? 100 : 200
-    const lane = split[2] as 'L1' | 'C1' | 'R1'
+    const team = split[1] === 'T100' ? 100 : 200
+    const lane = split[2] as 'L2' | 'L1' | 'L0'
     const respawnAt = Math.round(event.EventTime) + 60 * 5
     const time = event.EventTime
 
@@ -967,8 +967,8 @@ export class InGameState {
     if (event.TurretKilled === 'Obelisk') return
 
     const split = event.TurretKilled.split('_') as string[]
-    const team = split[1] === 'T1' ? 100 : 200
-    const lane = split[2] as 'L' | 'C' | 'R'
+    const team = split[1] === 'T100' ? 100 : 200
+    const lane = split[2] as 'L2' | 'L1' | 'L0'
     const turret = split[3]
 
     if (this.config.killfeed) {

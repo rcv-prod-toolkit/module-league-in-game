@@ -60,24 +60,31 @@ export interface Objective {
 }
 
 export interface TowerState {
-  L: {
+  L2: {
     [turret: string]: boolean
   }
-  C: {
+  L1: {
     [turret: string]: boolean
   }
-  R: {
+  L0: {
     [turret: string]: boolean
   }
 }
 
 export interface PlatingState {
-  L: number
-  C: number
-  R: number
+  L2: number
+  L1: number
+  L0: number
 }
 
 export interface InhibitorState {
+  L2: {
+    alive: boolean
+    respawnIn: number
+    respawnAt: number
+    percent: number
+    time: number
+  }
   L1: {
     alive: boolean
     respawnIn: number
@@ -85,14 +92,7 @@ export interface InhibitorState {
     percent: number
     time: number
   }
-  C1: {
-    alive: boolean
-    respawnIn: number
-    respawnAt: number
-    percent: number
-    time: number
-  }
-  R1: {
+  L0: {
     alive: boolean
     respawnIn: number
     respawnAt: number
