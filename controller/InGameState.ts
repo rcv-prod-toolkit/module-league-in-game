@@ -295,8 +295,8 @@ export class InGameState {
           type: 'player-change-lol',
           version: 1
         },
-        player1: this.gameState.player[firstPlayerIndex].riotIdGameName,
-        player2: this.gameState.player[secondPlayerIndex].riotIdGameName,
+        player1: this.gameState.player[firstPlayerIndex]?.riotIdGameName ?? '',
+        player2: this.gameState.player[secondPlayerIndex]?.riotIdGameName ?? '',
       })
 
     }, this.config.delay / 2)
