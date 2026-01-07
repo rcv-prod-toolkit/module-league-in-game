@@ -272,13 +272,13 @@ body {
   text-align: center;
 }
 
-.inhibitor.L1::before {
+.inhibitor.L2::before {
   content: url(./img/top.svg);
 }
-.inhibitor.C1::before {
+.inhibitor.L1::before {
   content: url(./img/mid.svg);
 }
-.inhibitor.R1::before {
+.inhibitor.L0::before {
   content: url(./img/bottom.svg);
 }
 
