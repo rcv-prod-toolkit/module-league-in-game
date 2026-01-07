@@ -876,7 +876,7 @@ export class InGameState {
 
   private handleInhibEvent(event: Event, allGameData: AllGameData) {
     const split = event.InhibKilled.split('_') as string[]
-    const team = split[1] === 'T100' ? 100 : 200
+    const team = split[1] === 'TOrder' ? 100 : 200
     const lane = split[2] as 'L2' | 'L1' | 'L0'
     const respawnAt = Math.round(event.EventTime) + 60 * 5
     const time = event.EventTime
@@ -967,7 +967,7 @@ export class InGameState {
     if (event.TurretKilled === 'Obelisk') return
 
     const split = event.TurretKilled.split('_') as string[]
-    const team = split[1] === 'T100' ? 100 : 200
+    const team = split[1] === 'TOrder' ? 100 : 200
     const lane = split[2] as 'L2' | 'L1' | 'L0'
     const turret = split[3]
 
