@@ -176,8 +176,8 @@ function setGameState(e) {
     const playerId = getPlayerId(id)
 
     const team = id > 4 ? blueTeam : redTeam
-    const playerDiv = team.children[playerId].querySelector('.nickname')
-    playerDiv.innerText = state.player[i].nickname
+    //const playerDiv = team.children[playerId].querySelector('.nickname')
+    //playerDiv.innerText = state.player[i].nickname
 
     const xpLbItem = createLeaderBoardItem(state.player[i], 0, 'xp')
     const goldLbItem = createLeaderBoardItem(state.player[i], 0, 'gold')
